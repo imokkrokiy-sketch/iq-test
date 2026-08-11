@@ -93,7 +93,5 @@ const CATEGORIES = [
 ];
 
 const SPONSOR_CHANNELS = [
-  { username: "kazakh_uyat", name: "Kazakh Uyat", icon: "ic-megaphone", members: "21K" },
-  { username: "humanoidnotes", name: "Humanoid Notes", icon: "ic-clapper", members: "3.4K" },
-  { username: "estesakta", name: "ESTE SAKTA", icon: "ic-megaphone", members: "21K" }
+  { username: "estesakta_mus", name: "ESTE SAKTA", icon: "ic-megaphone", members: "21K" }
 ];

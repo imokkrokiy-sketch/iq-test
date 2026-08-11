@@ -230,8 +230,12 @@ document.getElementById("btnCheckSub").addEventListener("click", () => {
   };
 
   if (tg && tg.sendData) {
+    errBox.style.display = "block";
+    errBox.style.background = "var(--blue-tint)";
+    errBox.style.color = "var(--blue)";
+    errBox.textContent = t("return_to_chat");
     tg.sendData(JSON.stringify(payload));
-    setTimeout(() => { if (tg.close) tg.close(); }, 300);
+    setTimeout(() => { if (tg.close) tg.close(); }, 1400);
   } else {
     errBox.style.display = "none";
     showLocalResult(payload);
