@@ -1,0 +1,65 @@
+const I18N = {
+  kk: {
+    hero_title: "Ақыл-ойыңды<br><span class=\"accent\">дәл өлше</span>",
+    hero_lede: "Логика, сан, кеңістік, есте сақтау және вербалды қабілеттерді тексеретін кешенді IQ тесті.",
+    stat_passed: "Тапсырды", stat_cats: "Санат", stat_rating: "Баға",
+    cats_label: "Санаттар",
+    dark_title: "Нәтижеңді біл — ", dark_title_accent: "достарыңмен жарыс!",
+    dark_sub: "Нәтижеңді лидерлер рейтингінде көріп, достарыңды шақырып, кімнің ақылы мықты екенін дәлелде.",
+    btn_leaderboard: "Рейтингті қарау →",
+    btn_start: "Тесті бастау →",
+    q_label: "СҰРАҚ",
+    gate_title: "Нәтиже дайын!<br>Оны ашу үшін жазыл",
+    gate_sub: "Серіктес арналарға жазылып, нәтижеңді бірден көр",
+    gate_hint: "💡 Жазылғаннан кейін «Тексеру» батырмасын бас — нәтиже бірден ашылады",
+    btn_check: "✅ Тексеру",
+    btn_join: "Жазылу",
+    joined: "Жазылды",
+    score_label: "IQ ұпайы",
+    avg_label: "Орташа: 100",
+    btn_share: "📤 Бөлісу",
+    btn_again: "Тағы тест",
+    gate_error_text: "Барлық арналарға жазылмадың. Тексеріп, қайта көр.",
+    checking: "Тексерілуде...",
+    locked_soon: "Жақында"
+  },
+  ru: {
+    hero_title: "Измерь свой<br><span class=\"accent\">интеллект точно</span>",
+    hero_lede: "Комплексный IQ-тест на логику, числа, пространство, память и вербальные способности.",
+    stat_passed: "Прошли", stat_cats: "Категорий", stat_rating: "Оценка",
+    cats_label: "Категории",
+    dark_title: "Узнай результат — ", dark_title_accent: "соревнуйся с друзьями!",
+    dark_sub: "Смотри свой результат в рейтинге лидеров, приглашай друзей и докажи, чей интеллект сильнее.",
+    btn_leaderboard: "Смотреть рейтинг →",
+    btn_start: "Начать тест →",
+    q_label: "ВОПРОС",
+    gate_title: "Результат готов!<br>Подпишись, чтобы открыть",
+    gate_sub: "Подпишись на каналы-партнёры и сразу увидь результат",
+    gate_hint: "💡 После подписки нажми «Проверить» — результат откроется сразу",
+    btn_check: "✅ Проверить",
+    btn_join: "Подписаться",
+    joined: "Подписан",
+    score_label: "IQ балл",
+    avg_label: "Среднее: 100",
+    btn_share: "📤 Поделиться",
+    btn_again: "Ещё тест",
+    gate_error_text: "Ты подписался не на все каналы. Проверь и попробуй снова.",
+    checking: "Проверяем...",
+    locked_soon: "Скоро"
+  }
+};
+
+let currentLang = "kk";
+
+function t(key) {
+  return I18N[currentLang][key] || key;
+}
+
+function applyI18n() {
+  document.querySelectorAll("[data-i18n]").forEach(el => {
+    const key = el.getAttribute("data-i18n");
+    if (I18N[currentLang][key] !== undefined) {
+      el.innerHTML = I18N[currentLang][key];
+    }
+  });
+}

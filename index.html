@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="kk">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Менің IQ</title>
+<script src="https://telegram.org/js/telegram-web-app.js"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@500;600;700;800&family=Manrope:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<div class="device">
+
+  <svg width="0" height="0" style="position:absolute">
+    <defs>
+      <g id="brainLine">
+        <path d="M-22 -2c0-9 6-14 13-14 4 0 7 2 9 4 2-2 5-4 9-4 7 0 13 5 13 14 0 4-1 7-4 9 3 3 4 6 4 10 0 9-6 14-13 14-3 0-6-1-8-3-2 2-5 3-8 3-7 0-13-5-13-14 0-4 1-7 4-10-3-2-4-5-4-9Z" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linejoin="round" stroke-linecap="round"/>
+        <path d="M0 -17 L0 30 M-13 -8c3 1.5 3 5 0 7.5 M13 -8c-3 1.5-3 5 0 7.5 M-14 4c3 0 4.5 2.5 4.5 5 M14 4c-3 0-4.5 2.5-4.5 5 M-12 15c2.5 1 2.5 4 0 5.5 M12 15c-2.5 1-2.5 4 0 5.5" stroke="currentColor" stroke-width="1.4" fill="none" stroke-linecap="round"/>
+      </g>
+    </defs>
+  </svg>
+
+  <!-- ============ SCREEN 1 — HOME ============ -->
+  <section class="screen active" id="screen-start">
+    <div class="topbar">
+      <div class="logo">
+        <svg class="logo-mark" viewBox="0 0 48 48">
+          <circle cx="24" cy="24" r="22" fill="#EAF0FE"/>
+          <g color="#3B6FF0" transform="translate(24,25) scale(0.62)"><use href="#brainLine"/></g>
+        </svg>
+        <div class="logo-word">МЕНІҢ IQ<span class="sm">AQYL TEST</span></div>
+      </div>
+      <div class="topbar-right">
+        <div class="lang-toggle">
+          <button class="on" data-lang="kk">ҚАЗ</button>
+          <button data-lang="ru">РУС</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="scroll-area">
+      <div class="hero-illust">
+        <svg width="180" height="150" viewBox="0 0 180 150">
+          <circle cx="90" cy="78" r="62" fill="none" stroke="#DCE6FB" stroke-width="1.4" stroke-dasharray="3 5"/>
+          <circle cx="90" cy="20" r="16" fill="#fff" stroke="#E7ECF7"/><text x="90" y="26" text-anchor="middle" font-size="16">💡</text>
+          <circle cx="150" cy="55" r="16" fill="#fff" stroke="#E7ECF7"/><text x="150" y="61" text-anchor="middle" font-size="15">📦</text>
+          <circle cx="150" cy="115" r="16" fill="#fff" stroke="#E7ECF7"/><text x="150" y="121" text-anchor="middle" font-size="15">💬</text>
+          <circle cx="30" cy="55" r="16" fill="#fff" stroke="#E7ECF7"/><text x="30" y="61" text-anchor="middle" font-size="15">Σ</text>
+          <circle cx="30" cy="115" r="16" fill="#fff" stroke="#E7ECF7"/><text x="30" y="121" text-anchor="middle" font-size="14">▦</text>
+          <g color="#3B6FF0" transform="translate(90,78) scale(1.9)"><use href="#brainLine"/></g>
+        </svg>
+      </div>
+
+      <h1 class="display" data-i18n="hero_title">Ақыл-ойыңды<br><span class="accent">дәл өлше</span></h1>
+      <p class="lede" data-i18n="hero_lede">Логика, сан, кеңістік, есте сақтау және вербалды қабілеттерді тексеретін кешенді IQ тесті.</p>
+
+      <div class="stat-row">
+        <div class="stat"><span class="ic">📝</span><span><span class="num">15 231+</span><span class="lbl" data-i18n="stat_passed">Тапсырды</span></span></div>
+        <div class="stat"><span class="ic">📚</span><span><span class="num">6</span><span class="lbl" data-i18n="stat_cats">Санат</span></span></div>
+        <div class="stat"><span class="ic">⭐</span><span><span class="num">4.9</span><span class="lbl" data-i18n="stat_rating">Баға</span></span></div>
+      </div>
+
+      <div class="section-label" data-i18n="cats_label">Санаттар</div>
+      <div class="cat-grid" id="catGrid"></div>
+
+      <div class="dark-block">
+        <h3 data-i18n="dark_title">Нәтижеңді біл — <span data-i18n="dark_title_accent">достарыңмен жарыс!</span></h3>
+        <p data-i18n="dark_sub">Нәтижеңді лидерлер рейтингінде көріп, достарыңды шақырып, кімнің ақылы мықты екенін дәлелде.</p>
+        <div class="podium">
+          <div class="p"><div class="avatar">🙂<span class="rank">2</span></div><span class="pname">Айжан</span><span class="piq">IQ 128</span></div>
+          <div class="p first"><div class="avatar">😎<span class="rank">👑</span></div><span class="pname">Ержан</span><span class="piq">IQ 134</span></div>
+          <div class="p"><div class="avatar">🙂<span class="rank">3</span></div><span class="pname">Нұрлан</span><span class="piq">IQ 125</span></div>
+        </div>
+        <button class="btn-white" id="btnLeaderboard" data-i18n="btn_leaderboard">Рейтингті қарау →</button>
+      </div>
+      <div class="bottom-spacer"></div>
+    </div>
+  </section>
+
+  <!-- ============ SCREEN 2 — QUESTION ============ -->
+  <section class="screen" id="screen-question">
+    <div class="q-topbar">
+      <div class="q-back" id="btnBack">←</div>
+      <div class="q-progress-text"><span data-i18n="q_label">СҰРАҚ</span> <b id="qCurrent">01</b> / <span id="qTotal">10</span></div>
+      <div class="timer">⏱ <span id="qTimer">00:20</span></div>
+    </div>
+    <div class="progress-track"><div class="progress-fill" id="qProgressFill"></div></div>
+
+    <div class="q-body">
+      <div class="q-card">
+        <span class="q-tag" id="qTag">—</span>
+        <div class="q-text" id="qText">—</div>
+        <div class="q-visual" id="qVisual"></div>
+      </div>
+      <div class="options" id="qOptions"></div>
+    </div>
+  </section>
+
+  <!-- ============ SCREEN 3 — GATE ============ -->
+  <section class="screen gate-screen" id="screen-gate">
+    <div class="gate-preview-wrap">
+      <div class="dial-wrap gate-blur">
+        <svg width="200" height="200" viewBox="0 0 230 230">
+          <circle class="dial-track" cx="115" cy="115" r="80"/>
+          <circle cx="115" cy="115" r="80" fill="none" stroke="#3B6FF0" stroke-width="14" stroke-linecap="round" stroke-dasharray="502" stroke-dashoffset="120"/>
+        </svg>
+      </div>
+      <div class="gate-overlay">
+        <div class="gate-lock">🔒</div>
+        <div class="gate-title" data-i18n="gate_title">Нәтиже дайын!<br>Оны ашу үшін жазыл</div>
+        <p class="gate-sub" data-i18n="gate_sub">Серіктес арналарға жазылып, нәтижеңді бірден көр</p>
+      </div>
+    </div>
+
+    <div class="gate-card" id="gateChannels"></div>
+
+    <div class="gate-hint" data-i18n="gate_hint">💡 Жазылғаннан кейін «Тексеру» батырмасын бас — нәтиже бірден ашылады</div>
+    <div class="btn-row" style="margin-top:18px;"><button class="btn-primary" id="btnCheckSub" data-i18n="btn_check">✅ Тексеру</button></div>
+    <div class="gate-error" id="gateError" style="display:none;"></div>
+  </section>
+
+  <!-- ============ SCREEN 4 — RESULT ============ -->
+  <section class="screen result-screen" id="screen-result">
+    <div class="result-eyebrow" id="resultCategory">Нәтиже</div>
+    <div class="dial-wrap">
+      <svg width="220" height="220" viewBox="0 0 230 230">
+        <defs><linearGradient id="gradResult" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#3B6FF0"/><stop offset="100%" stop-color="#7FA8FF"/></linearGradient></defs>
+        <circle class="dial-track" cx="115" cy="115" r="80"/>
+        <circle class="dial-fill" id="resultDial" cx="115" cy="115" r="80"/>
+      </svg>
+      <div class="dial-center"><span class="score" id="resultScore">—</span><span class="score-label" data-i18n="score_label">IQ ұпайы</span></div>
+    </div>
+    <div class="badge-pill" id="resultBadge">🏆 —</div>
+    <div class="percentile-bar-wrap">
+      <div class="percentile-label"><span data-i18n="avg_label">Орташа: 100</span><span id="pctLabel">Сен: —</span></div>
+      <div class="percentile-track"><div class="percentile-fill" id="pctFill"></div></div>
+    </div>
+    <div class="share-card">
+      <div class="row1"><span class="brand">🧠 Менің IQ</span><span class="cat" id="shareCat">—</span></div>
+      <div class="big" id="shareScore">—</div>
+      <div class="name" id="shareName">—</div>
+    </div>
+    <div class="btn-row">
+      <button class="btn-primary" id="btnShare" data-i18n="btn_share">📤 Бөлісу</button>
+      <button class="btn-ghost" id="btnAgain" data-i18n="btn_again">Тағы тест</button>
+    </div>
+  </section>
+
+</div>
+<script src="js/questions.js"></script>
+<script src="js/i18n.js"></script>
+<script src="js/app.js"></script>
+</body>
+</html>
