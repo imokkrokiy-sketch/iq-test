@@ -88,7 +88,7 @@ const CATEGORIES = [
   { code: "math", icon: "ic-numbers", name: { kk: "Сандар", ru: "Математика" }, meta: { kk: "Математикалық қабілетті бағалайды", ru: "Оценивает математические способности" }, locked: true },
   { code: "space", icon: "ic-cube", name: { kk: "Кеңістік", ru: "Пространство" }, meta: { kk: "Кеңістіктік елестету қабілетін өлшейді", ru: "Измеряет пространственное мышление" }, locked: true },
   { code: "verbal", icon: "ic-book", name: { kk: "Сөздік", ru: "Словесный" }, meta: { kk: "Вербалды қабілетті анықтайды", ru: "Определяет вербальные способности" }, locked: true },
-  { code: "memory", icon: "brainLine", name: { kk: "Есте сақтау", ru: "Память" }, meta: { kk: "Жады мен зейінді бағалайды", ru: "Оценивает память и внимание" }, locked: true },
+  { code: "memory", icon: "ic-phone", name: { kk: "Есте сақтау", ru: "Память" }, meta: { kk: "Жады мен зейінді бағалайды", ru: "Оценивает память и внимание" }, locked: true },
   { code: "movies", icon: "ic-clapper", name: { kk: "Кино тесті", ru: "Кино-тест" }, meta: { kk: "Кино арқылы логиканы тексереді", ru: "Проверяет логику через кино" }, locked: true }
 ];
 
