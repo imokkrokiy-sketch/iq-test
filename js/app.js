@@ -226,6 +226,16 @@ function showLocalResult(payload) {
   });
 }
 
+document.getElementById("btnStartMain")?.addEventListener("click", () => {
+  document.getElementById("catGrid").scrollIntoView({ behavior: "smooth", block: "start" });
+});
+document.getElementById("btnLeaderboardTop")?.addEventListener("click", () => {
+  document.querySelector(".dark-block")?.scrollIntoView({ behavior: "smooth", block: "start" });
+});
+document.getElementById("btnLeaderboard")?.addEventListener("click", () => {
+  document.querySelector(".dark-block")?.scrollIntoView({ behavior: "smooth", block: "start" });
+});
+
 document.getElementById("btnBack").addEventListener("click", () => {
   clearInterval(state.timerInterval);
   go("screen-start");
