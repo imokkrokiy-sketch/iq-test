@@ -1,5 +1,6 @@
 // ===== Telegram WebApp init =====
 const tg = window.Telegram ? window.Telegram.WebApp : null;
+const API_URL = "https://63.250.59.63.sslip.io";
 if (tg) {
   tg.ready();
   tg.expand();
@@ -213,36 +214,79 @@ function computeIqScore() {
   return Math.round(85 + pct * 60);
 }
 
-document.getElementById("btnCheckSub").addEventListener("click", () => {
+document.getElementById("btnCheckSub").addEventListener("click", async () => {
   const btn = document.getElementById("btnCheckSub");
   const errBox = document.getElementById("gateError");
   btn.disabled = true;
   btn.textContent = t("checking");
+  errBox.style.display = "none";
+
+  const telegramId = tg && tg.initDataUnsafe && tg.initDataUnsafe.user ? tg.initDataUnsafe.user.id : null;
+  const username = tg && tg.initDataUnsafe && tg.initDataUnsafe.user ? tg.initDataUnsafe.user.username : null;
+  const firstName = tg && tg.initDataUnsafe && tg.initDataUnsafe.user ? tg.initDataUnsafe.user.first_name : null;
+
+  if (!telegramId) {
+    // Fallback для просмотра вне Telegram (браузер) — локальная демонстрация
+    showLocalResult({ category: state.category, iq_score: computeIqScore() });
+    btn.disabled = false;
+    btn.textContent = t("btn_check");
+    return;
+  }
 
   const payload = {
-    type: "iq_test_result",
+    telegram_id: telegramId,
+    username: username,
+    first_name: firstName,
     category: state.category,
     score: state.score,
     total: state.questions.length,
     iq_score: computeIqScore(),
     age: selectedAge,
-    lang: currentLang,
   };
 
-  if (tg && tg.sendData) {
+  try {
+    const res = await fetch(`${API_URL}/submit-result`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(payload),
+    });
+    const data = await res.json();
+
+    if (data.success) {
+      showApiResult(payload);
+    } else {
+      errBox.style.display = "block";
+      errBox.textContent = t("gate_error_text");
+      btn.disabled = false;
+      btn.textContent = t("btn_check");
+    }
+  } catch (e) {
     errBox.style.display = "block";
-    errBox.style.background = "var(--blue-tint)";
-    errBox.style.color = "var(--blue)";
-    errBox.textContent = t("return_to_chat");
-    tg.sendData(JSON.stringify(payload));
-    setTimeout(() => { if (tg.close) tg.close(); }, 1400);
-  } else {
-    errBox.style.display = "none";
-    showLocalResult(payload);
+    errBox.textContent = t("network_error");
     btn.disabled = false;
     btn.textContent = t("btn_check");
   }
 });
+
+function showApiResult(payload) {
+  const cat = CATEGORIES.find(c => c.code === payload.category);
+  document.getElementById("resultCategory").textContent = `${currentLang === "kk" ? "Нәтиже" : "Результат"} · ${L(cat.name)}`;
+  document.getElementById("resultScore").textContent = payload.iq_score;
+  document.getElementById("shareScore").textContent = payload.iq_score;
+  document.getElementById("shareCat").textContent = `${L(cat.name)} · #—`;
+  document.getElementById("shareName").textContent = payload.first_name
+    ? `${payload.first_name} · @${payload.username || ""}`
+    : "Қонақ";
+  document.getElementById("pctLabel").textContent = `${currentLang === "kk" ? "Сен" : "Ты"}: ${payload.iq_score}`;
+
+  go("screen-result");
+  requestAnimationFrame(() => {
+    const dial = document.getElementById("resultDial");
+    const pct = Math.min(payload.iq_score / 160, 1);
+    setTimeout(() => { dial.style.strokeDashoffset = 502 - (502 * pct); }, 150);
+    setTimeout(() => { document.getElementById("pctFill").style.width = "86%"; }, 200);
+  });
+}
 
 // ===== Local result preview (только для просмотра дизайна вне Telegram) =====
 function showLocalResult(payload) {
