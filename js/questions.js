@@ -84,16 +84,16 @@ const QUESTION_BANKS = {
 };
 
 const CATEGORIES = [
-  { code: "logic", icon: "🧩", name: { kk: "Логика", ru: "Логика" }, meta: { kk: "Логикалық ойлауды тексереді", ru: "Проверяет логическое мышление" }, locked: false },
-  { code: "math", icon: "🔢", name: { kk: "Сандар", ru: "Математика" }, meta: { kk: "Математикалық қабілетті бағалайды", ru: "Оценивает математические способности" }, locked: true },
-  { code: "space", icon: "📦", name: { kk: "Кеңістік", ru: "Пространство" }, meta: { kk: "Кеңістіктік елестету қабілетін өлшейді", ru: "Измеряет пространственное мышление" }, locked: true },
-  { code: "verbal", icon: "📖", name: { kk: "Сөздік", ru: "Словесный" }, meta: { kk: "Вербалды қабілетті анықтайды", ru: "Определяет вербальные способности" }, locked: true },
-  { code: "memory", icon: "🧠", name: { kk: "Есте сақтау", ru: "Память" }, meta: { kk: "Жады мен зейінді бағалайды", ru: "Оценивает память и внимание" }, locked: true },
-  { code: "movies", icon: "🎬", name: { kk: "Кино тесті", ru: "Кино-тест" }, meta: { kk: "Кино арқылы логиканы тексереді", ru: "Проверяет логику через кино" }, locked: true }
+  { code: "logic", icon: "ic-puzzle", name: { kk: "Логика", ru: "Логика" }, meta: { kk: "Логикалық ойлауды тексереді", ru: "Проверяет логическое мышление" }, locked: false },
+  { code: "math", icon: "ic-numbers", name: { kk: "Сандар", ru: "Математика" }, meta: { kk: "Математикалық қабілетті бағалайды", ru: "Оценивает математические способности" }, locked: true },
+  { code: "space", icon: "ic-cube", name: { kk: "Кеңістік", ru: "Пространство" }, meta: { kk: "Кеңістіктік елестету қабілетін өлшейді", ru: "Измеряет пространственное мышление" }, locked: true },
+  { code: "verbal", icon: "ic-book", name: { kk: "Сөздік", ru: "Словесный" }, meta: { kk: "Вербалды қабілетті анықтайды", ru: "Определяет вербальные способности" }, locked: true },
+  { code: "memory", icon: "brainLine", name: { kk: "Есте сақтау", ru: "Память" }, meta: { kk: "Жады мен зейінді бағалайды", ru: "Оценивает память и внимание" }, locked: true },
+  { code: "movies", icon: "ic-clapper", name: { kk: "Кино тесті", ru: "Кино-тест" }, meta: { kk: "Кино арқылы логиканы тексереді", ru: "Проверяет логику через кино" }, locked: true }
 ];
 
 const SPONSOR_CHANNELS = [
-  { username: "kazakh_uyat", name: "Kazakh Uyat", icon: "📱", members: "21K" },
-  { username: "humanoidnotes", name: "Humanoid Notes", icon: "🎬", members: "3.4K" },
-  { username: "estesakta", name: "ESTE SAKTA", icon: "🎵", members: "21K" }
+  { username: "kazakh_uyat", name: "Kazakh Uyat", icon: "ic-megaphone", members: "21K" },
+  { username: "humanoidnotes", name: "Humanoid Notes", icon: "ic-clapper", members: "3.4K" },
+  { username: "estesakta", name: "ESTE SAKTA", icon: "ic-megaphone", members: "21K" }
 ];

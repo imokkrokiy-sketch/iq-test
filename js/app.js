@@ -35,7 +35,7 @@ function renderCategories() {
     const card = document.createElement("button");
     card.className = "cat-card" + (cat.locked ? " locked" : "");
     card.innerHTML = `
-      <div class="row"><div class="ic">${cat.icon}</div><div class="arrow">→</div></div>
+      <div class="row"><div class="ic"><svg width="18" height="18"><use href="#${cat.icon}"/></svg></div><div class="arrow"><svg width="11" height="11"><use href="#ic-arrow"/></svg></div></div>
       <div>
         <div class="name">${L(cat.name)}</div>
         <div class="meta">${cat.locked ? t("locked_soon") : L(cat.meta)}</div>
@@ -55,7 +55,7 @@ function renderGateChannels() {
     row.className = "gate-channel";
     row.dataset.username = ch.username;
     row.innerHTML = `
-      <div class="ch-icon">${ch.icon}</div>
+      <div class="ch-icon"><svg width="17" height="17"><use href="#${ch.icon}"/></svg></div>
       <div class="ch-info">
         <div class="ch-name">${ch.name}</div>
         <div class="ch-meta">@${ch.username} · ${ch.members}</div>
