@@ -1,3 +1,4 @@
+// ===== Telegram WebApp init =====
 const tg = window.Telegram ? window.Telegram.WebApp : null;
 if (tg) {
   tg.ready();
@@ -5,6 +6,7 @@ if (tg) {
   try { tg.setHeaderColor("#F4F7FE"); } catch (e) {}
 }
 
+// ===== State =====
 let state = {
   category: null,
   questions: [],
@@ -15,30 +17,38 @@ let state = {
   timeLeft: 20,
 };
 
-const QUESTION_TIME = 20;
+const QUESTION_TIME = 20; // секунд на вопрос
 
+// ===== Screen navigation =====
 function go(id) {
   document.querySelectorAll(".screen").forEach(s => s.classList.remove("active"));
   document.getElementById(id).classList.add("active");
 }
 
+// ===== Localized field helper (supports {kk,ru} objects or plain strings) =====
 function L(field) {
   if (typeof field === "string") return field;
   if (field && typeof field === "object") return field[currentLang] || field.kk || "";
   return "";
 }
 
+// ===== Render categories =====
 function renderCategories() {
   const grid = document.getElementById("catGrid");
   grid.innerHTML = "";
+  const qWord = currentLang === "kk" ? "сұрақ" : "вопросов";
+  const minWord = currentLang === "kk" ? "мин" : "мин";
   CATEGORIES.forEach(cat => {
     const card = document.createElement("button");
     card.className = "cat-card" + (cat.locked ? " locked" : "");
+    const rightEl = cat.locked
+      ? `<span class="soon-badge">${t("locked_soon")}</span>`
+      : `<div class="arrow"><svg width="11" height="11"><use href="#ic-arrow"/></svg></div>`;
     card.innerHTML = `
-      <div class="row"><div class="ic"><svg width="18" height="18"><use href="#${cat.icon}"/></svg></div><div class="arrow"><svg width="11" height="11"><use href="#ic-arrow"/></svg></div></div>
-      <div>
+      <div class="row"><div class="ic"><svg width="18" height="18"><use href="#${cat.icon}"/></svg></div>${rightEl}</div>
+      <div class="body">
         <div class="name">${L(cat.name)}</div>
-        <div class="meta">${cat.locked ? t("locked_soon") : L(cat.meta)}</div>
+        <div class="meta">${cat.questions} ${qWord} · ~${cat.minutes} ${minWord}</div>
       </div>`;
     if (!cat.locked) {
       card.addEventListener("click", () => startTest(cat.code));
@@ -47,6 +57,7 @@ function renderCategories() {
   });
 }
 
+// ===== Render sponsor channels in gate =====
 function renderGateChannels() {
   const wrap = document.getElementById("gateChannels");
   wrap.innerHTML = "";
@@ -78,12 +89,13 @@ function renderGateChannels() {
   });
 }
 
+// ===== Test flow =====
 function startTest(categoryCode) {
   const bank = QUESTION_BANKS[categoryCode];
   if (!bank || bank.length === 0) return;
 
   state.category = categoryCode;
-  state.questions = bank;
+  state.questions = bank; // MVP: весь банк по порядку; позже — случайная выборка N штук
   state.index = 0;
   state.score = 0;
   state.answers = [];
@@ -126,7 +138,7 @@ function startTimer() {
     updateTimerDisplay();
     if (state.timeLeft <= 0) {
       clearInterval(state.timerInterval);
-      selectOption(-1);
+      selectOption(-1); // время вышло — считаем как неверный ответ
     }
   }, 1000);
 }
@@ -167,6 +179,7 @@ function selectOption(selectedIndex) {
   }, 900);
 }
 
+// ===== Finish test → gate screen → send to bot =====
 function finishTest() {
   document.getElementById("qProgressFill").style.width = "100%";
   renderGateChannels();
@@ -177,6 +190,7 @@ function finishTest() {
 function computeIqScore() {
   const total = state.questions.length;
   const pct = state.score / total;
+  // простая линейная нормализация в диапазон ~85-145
   return Math.round(85 + pct * 60);
 }
 
@@ -206,6 +220,7 @@ document.getElementById("btnCheckSub").addEventListener("click", () => {
   }
 });
 
+// ===== Local result preview (только для просмотра дизайна вне Telegram) =====
 function showLocalResult(payload) {
   const cat = CATEGORIES.find(c => c.code === payload.category);
   document.getElementById("resultCategory").textContent = `${t("q_label") === "СҰРАҚ" ? "Нәтиже" : "Результат"} · ${L(cat.name)}`;
@@ -225,6 +240,23 @@ function showLocalResult(payload) {
     setTimeout(() => { document.getElementById("pctFill").style.width = "86%"; }, 200);
   });
 }
+
+// ===== Nav buttons =====
+document.getElementById("navHome")?.addEventListener("click", (e) => {
+  document.querySelectorAll(".nav-item").forEach(b => b.classList.remove("active"));
+  e.currentTarget.classList.add("active");
+  document.querySelector(".scroll-area").scrollTo({ top: 0, behavior: "smooth" });
+});
+document.getElementById("navTest")?.addEventListener("click", (e) => {
+  document.querySelectorAll(".nav-item").forEach(b => b.classList.remove("active"));
+  e.currentTarget.classList.add("active");
+  document.getElementById("catGrid").scrollIntoView({ behavior: "smooth", block: "start" });
+});
+document.getElementById("navRating")?.addEventListener("click", (e) => {
+  document.querySelectorAll(".nav-item").forEach(b => b.classList.remove("active"));
+  e.currentTarget.classList.add("active");
+  document.querySelector(".dark-block")?.scrollIntoView({ behavior: "smooth", block: "start" });
+});
 
 document.getElementById("btnStartMain")?.addEventListener("click", () => {
   document.getElementById("catGrid").scrollIntoView({ behavior: "smooth", block: "start" });
@@ -248,6 +280,7 @@ document.getElementById("btnShare").addEventListener("click", () => {
   }
 });
 
+// ===== Language switch =====
 document.querySelectorAll(".lang-toggle button").forEach(btn => {
   btn.addEventListener("click", () => {
     document.querySelectorAll(".lang-toggle button").forEach(b => b.classList.remove("on"));
@@ -261,5 +294,6 @@ document.querySelectorAll(".lang-toggle button").forEach(btn => {
   });
 });
 
+// ===== Init =====
 applyI18n();
 renderCategories();
