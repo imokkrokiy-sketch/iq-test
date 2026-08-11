@@ -51,7 +51,7 @@ function renderCategories() {
         <div class="meta">${cat.questions} ${qWord} · ~${cat.minutes} ${minWord}</div>
       </div>`;
     if (!cat.locked) {
-      card.addEventListener("click", () => startTest(cat.code));
+      card.addEventListener("click", () => openAgeGate(cat.code));
     }
     grid.appendChild(card);
   });
@@ -88,6 +88,25 @@ function renderGateChannels() {
     });
   });
 }
+
+// ===== Age gate =====
+let pendingCategory = null;
+let selectedAge = null;
+
+function openAgeGate(categoryCode) {
+  pendingCategory = categoryCode;
+  go("screen-age");
+}
+
+document.querySelectorAll(".age-opt").forEach(btn => {
+  btn.addEventListener("click", () => {
+    selectedAge = btn.dataset.age;
+    if (pendingCategory) {
+      startTest(pendingCategory);
+    }
+  });
+});
+document.getElementById("btnAgeBack")?.addEventListener("click", () => go("screen-start"));
 
 // ===== Test flow =====
 function startTest(categoryCode) {
@@ -206,6 +225,7 @@ document.getElementById("btnCheckSub").addEventListener("click", () => {
     score: state.score,
     total: state.questions.length,
     iq_score: computeIqScore(),
+    age: selectedAge,
     lang: currentLang,
   };
 
@@ -259,7 +279,7 @@ document.getElementById("navRating")?.addEventListener("click", (e) => {
 });
 
 document.getElementById("btnStartMain")?.addEventListener("click", () => {
-  document.getElementById("catGrid").scrollIntoView({ behavior: "smooth", block: "start" });
+  openAgeGate("logic");
 });
 document.getElementById("btnLeaderboardTop")?.addEventListener("click", () => {
   document.querySelector(".dark-block")?.scrollIntoView({ behavior: "smooth", block: "start" });
