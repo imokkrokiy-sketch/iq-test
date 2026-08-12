@@ -131,7 +131,7 @@ function renderQuestion() {
 
   const optWrap = document.getElementById("qOptions");
   optWrap.innerHTML = "";
-  const letters = ["A", "B", "C", "D"];
+  const letters = ["A", "B", "C", "D", "E", "F"];
   const optionList = q.options[currentLang] || q.options.kk;
   optionList.forEach((opt, i) => {
     const btn = document.createElement("button");
