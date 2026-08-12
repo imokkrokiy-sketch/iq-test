@@ -211,8 +211,8 @@ function selectOption(selectedIndex) {
 }
 
 const DOMAIN_KEYS = ["matrix", "verbal", "memory", "speed"];
-const POPULATION_MEAN = 0.62;
-const POPULATION_SD = 0.15;
+const POPULATION_MEAN = 0.56;
+const POPULATION_SD = 0.13;
 
 function calculateIQ(results) {
   const domainScores = { matrix: 0, verbal: 0, memory: 0, speed: 0 };
