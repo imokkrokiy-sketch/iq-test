@@ -182,11 +182,9 @@ function selectOption(selectedIndex) {
   if (isCorrect) state.score++;
   state.answers.push({ q: state.index, selected: selectedIndex, correct: q.correct });
 
+  // Закрытый тест: не показываем правильность ответа, только какой вариант выбран
   if (selectedIndex >= 0) {
-    opts[selectedIndex].classList.add(isCorrect ? "correct" : "wrong");
-  }
-  if (!isCorrect) {
-    opts[q.correct].classList.add("correct");
+    opts[selectedIndex].classList.add("selected");
   }
 
   setTimeout(() => {

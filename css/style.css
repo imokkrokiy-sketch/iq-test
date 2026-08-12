@@ -128,10 +128,8 @@ h1.display .accent{ color:var(--blue);}
   box-shadow:0 4px 14px -10px rgba(15,30,69,.1); transition:all .12s ease; width:100%; font-family:'Manrope',sans-serif;}
 .opt .letter{ width:30px; height:30px; border-radius:10px; background:var(--blue-tint); color:var(--blue); display:flex; align-items:center; justify-content:center; font-family:'IBM Plex Mono',monospace; font-size:12px; font-weight:700; flex-shrink:0;}
 .opt:active{ transform:scale(.98);}
-.opt.correct{ border-color:var(--blue); background:var(--blue-tint);}
-.opt.correct .letter{ background:var(--blue); color:#fff;}
-.opt.wrong{ border-color:var(--error); background:#FFF0F0;}
-.opt.wrong .letter{ background:var(--error); color:#fff;}
+.opt.selected{ border-color:var(--blue); background:var(--blue-tint);}
+.opt.selected .letter{ background:var(--blue); color:#fff;}
 .opt:disabled{ pointer-events:none;}
 
 .age-screen{ padding:0;}
