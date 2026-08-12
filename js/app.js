@@ -199,39 +199,45 @@ function selectOption(selectedIndex) {
   }, 900);
 }
 
-// ===== Finish test → gate screen → send to bot =====
-function finishTest() {
+// ===== Finish test → auto-check subscription → gate or result =====
+async function finishTest() {
   document.getElementById("qProgressFill").style.width = "100%";
+
+  const telegramId = tg && tg.initDataUnsafe && tg.initDataUnsafe.user ? tg.initDataUnsafe.user.id : null;
+
+  if (!telegramId) {
+    // вне Telegram — просто показываем гейт (демо-режим)
+    renderGateChannels();
+    go("screen-gate");
+    document.getElementById("gateError").style.display = "none";
+    return;
+  }
+
+  try {
+    const res = await fetch(`${API_URL}/check-subscription`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ telegram_id: telegramId }),
+    });
+    const data = await res.json();
+
+    if (data.subscribed) {
+      // уже подписан — гейт не показываем, сразу отправляем и показываем результат
+      await submitAndShowResult(telegramId);
+      return;
+    }
+  } catch (e) {
+    // при сетевой ошибке — просто показываем гейт как обычно
+  }
+
   renderGateChannels();
   go("screen-gate");
   document.getElementById("gateError").style.display = "none";
 }
 
-function computeIqScore() {
-  const total = state.questions.length;
-  const pct = state.score / total;
-  // простая линейная нормализация в диапазон ~85-145
-  return Math.round(85 + pct * 60);
-}
-
-document.getElementById("btnCheckSub").addEventListener("click", async () => {
-  const btn = document.getElementById("btnCheckSub");
-  const errBox = document.getElementById("gateError");
-  btn.disabled = true;
-  btn.textContent = t("checking");
-  errBox.style.display = "none";
-
-  const telegramId = tg && tg.initDataUnsafe && tg.initDataUnsafe.user ? tg.initDataUnsafe.user.id : null;
+async function submitAndShowResult(telegramId) {
   const username = tg && tg.initDataUnsafe && tg.initDataUnsafe.user ? tg.initDataUnsafe.user.username : null;
   const firstName = tg && tg.initDataUnsafe && tg.initDataUnsafe.user ? tg.initDataUnsafe.user.first_name : null;
-
-  if (!telegramId) {
-    // Fallback для просмотра вне Telegram (браузер) — локальная демонстрация
-    showLocalResult({ category: state.category, iq_score: computeIqScore() });
-    btn.disabled = false;
-    btn.textContent = t("btn_check");
-    return;
-  }
 
   const payload = {
     telegram_id: telegramId,
@@ -251,21 +257,45 @@ document.getElementById("btnCheckSub").addEventListener("click", async () => {
       body: JSON.stringify(payload),
     });
     const data = await res.json();
-
     if (data.success) {
       showApiResult(payload);
     } else {
-      errBox.style.display = "block";
-      errBox.textContent = t("gate_error_text");
-      btn.disabled = false;
-      btn.textContent = t("btn_check");
+      // подписка вдруг слетела между проверками — покажем гейт
+      renderGateChannels();
+      go("screen-gate");
     }
   } catch (e) {
-    errBox.style.display = "block";
-    errBox.textContent = t("network_error");
+    renderGateChannels();
+    go("screen-gate");
+  }
+}
+
+function computeIqScore() {
+  const total = state.questions.length;
+  const pct = state.score / total;
+  // простая линейная нормализация в диапазон ~85-145
+  return Math.round(85 + pct * 60);
+}
+
+document.getElementById("btnCheckSub").addEventListener("click", async () => {
+  const btn = document.getElementById("btnCheckSub");
+  const errBox = document.getElementById("gateError");
+  btn.disabled = true;
+  btn.textContent = t("checking");
+  errBox.style.display = "none";
+
+  const telegramId = tg && tg.initDataUnsafe && tg.initDataUnsafe.user ? tg.initDataUnsafe.user.id : null;
+
+  if (!telegramId) {
+    showLocalResult({ category: state.category, iq_score: computeIqScore() });
     btn.disabled = false;
     btn.textContent = t("btn_check");
+    return;
   }
+
+  await submitAndShowResult(telegramId);
+  btn.disabled = false;
+  btn.textContent = t("btn_check");
 });
 
 function showApiResult(payload) {
