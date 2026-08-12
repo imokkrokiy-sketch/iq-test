@@ -31,8 +31,8 @@ function L(field) {
 function renderCategories() {
   const grid = document.getElementById("catGrid");
   grid.innerHTML = "";
-  const counts = { matrix: 0, verbal: 0, memory: 0, speed: 0 };
-  QUESTION_BANK.forEach(q => counts[q.domain]++);
+  const counts = { matrix: 0 };
+  QUESTION_BANK.forEach(q => { counts[q.domain] = (counts[q.domain] || 0) + 1; });
 
   Object.entries(DOMAIN_INFO).forEach(([code, info]) => {
     const card = document.createElement("div");
@@ -41,7 +41,7 @@ function renderCategories() {
       <div class="row"><div class="ic"><svg width="18" height="18"><use href="#${info.icon}"/></svg></div></div>
       <div class="body">
         <div class="name">${L(info.name)}</div>
-        <div class="meta">${counts[code]} ${currentLang === "kk" ? "сұрақ" : "вопросов"}</div>
+        <div class="meta">${counts[code] || 0} ${currentLang === "kk" ? "сұрақ" : "вопросов"}</div>
       </div>`;
     grid.appendChild(card);
   });
@@ -102,18 +102,7 @@ function shuffle(arr) {
 }
 
 function startTest() {
-  const byDomain = { matrix: [], verbal: [], memory: [], speed: [] };
-  QUESTION_BANK.forEach(q => byDomain[q.domain].push(q));
-  Object.keys(byDomain).forEach(d => { byDomain[d] = shuffle(byDomain[d]); });
-
-  const interleaved = [];
-  const maxLen = Math.max(...Object.values(byDomain).map(a => a.length));
-  const domainOrder = shuffle(["matrix", "verbal", "memory", "speed"]);
-  for (let i = 0; i < maxLen; i++) {
-    domainOrder.forEach(d => { if (byDomain[d][i]) interleaved.push(byDomain[d][i]); });
-  }
-
-  state.questions = interleaved;
+  state.questions = shuffle(QUESTION_BANK);
   state.index = 0;
   state.results = [];
 
@@ -125,7 +114,7 @@ function startTest() {
 function renderQuestion() {
   const q = state.questions[state.index];
   document.getElementById("qCurrent").textContent = String(state.index + 1).padStart(2, "0");
-  document.getElementById("qTag").textContent = L(DOMAIN_INFO[q.domain].name);
+  document.getElementById("qTag").textContent = q.tag ? L(q.tag) : L(DOMAIN_INFO[q.domain].name);
   document.getElementById("qText").textContent = L(q.text);
 
   const visualEl = document.getElementById("qVisual");
@@ -188,8 +177,12 @@ function selectOption(selectedIndex) {
   const isCorrect = selectedIndex === q.answerIndex;
   const timeTaken = (Date.now() - state.questionStartTime) / 1000;
 
+  const typeMap = { "АЙНАЛЫМ": "rotation", "ПОЗИЦИЯ": "position", "ДӨҢГЕЛЕК": "wheel", "ПРОГРЕССИЯ": "progression" };
+  const itemType = q.tag ? (typeMap[q.tag.kk] || "pattern") : "pattern";
+
   state.results.push({
     domain: q.domain,
+    type: itemType,
     difficulty: q.difficulty,
     correct: isCorrect,
     timeTaken: Math.min(timeTaken, q.timeLimit),
@@ -210,45 +203,40 @@ function selectOption(selectedIndex) {
   }, 500);
 }
 
-const DOMAIN_KEYS = ["matrix", "verbal", "memory", "speed"];
-const POPULATION_MEAN = 0.56;
-const POPULATION_SD = 0.13;
+const POPULATION_MEAN = 0.5;
+const POPULATION_SD = 0.16;
 
 function calculateIQ(results) {
-  const domainScores = { matrix: 0, verbal: 0, memory: 0, speed: 0 };
-  const domainCounts = { matrix: 0, verbal: 0, memory: 0, speed: 0 };
+  let totalScore = 0;
+  const typeScores = {};
+  const typeCounts = {};
 
   for (const r of results) {
-    domainCounts[r.domain]++;
+    const type = r.type || "pattern";
+    typeCounts[type] = (typeCounts[type] || 0) + 1;
+
     if (r.correct) {
       const difficultyScore = r.difficulty / 5;
       const timeFraction = Math.max(0, 1 - r.timeTaken / r.timeLimit);
       const timeBonus = timeFraction * 0.1;
-      domainScores[r.domain] += Math.min(1, difficultyScore + timeBonus);
+      const itemScore = Math.min(1, difficultyScore + timeBonus);
+      totalScore += itemScore;
+      typeScores[type] = (typeScores[type] || 0) + itemScore;
     }
   }
 
-  const normalised = {};
-  for (const d of DOMAIN_KEYS) {
-    const count = domainCounts[d] || 1;
-    normalised[d] = domainScores[d] / count;
-  }
-
-  let composite = 0;
-  for (const [d, w] of Object.entries(DOMAIN_WEIGHTS)) {
-    composite += (normalised[d] || 0) * w;
-  }
-
+  const composite = results.length > 0 ? totalScore / results.length : 0;
   const z = (composite - POPULATION_MEAN) / POPULATION_SD;
   const iq = Math.round(100 + 15 * z);
   const clampedIQ = Math.max(55, Math.min(145, iq));
 
-  const domainPercents = {};
-  for (const [d, val] of Object.entries(normalised)) {
-    domainPercents[d] = Math.round(val * 100);
+  const typePercents = {};
+  for (const type of Object.keys(typeCounts)) {
+    const count = typeCounts[type] || 1;
+    typePercents[type] = Math.round(((typeScores[type] || 0) / count) * 100);
   }
 
-  return { iq: clampedIQ, domains: domainPercents };
+  return { iq: clampedIQ, types: typePercents };
 }
 
 async function finishTest() {
@@ -297,7 +285,7 @@ async function submitAndShowResult(telegramId) {
     score: correctCount,
     total: state.results.length,
     iq_score: scoring.iq,
-    domains: scoring.domains,
+    types: scoring.types,
     age: selectedAge,
   };
 
@@ -330,8 +318,8 @@ document.getElementById("btnCheckSub").addEventListener("click", async () => {
   const telegramId = tg && tg.initDataUnsafe && tg.initDataUnsafe.user ? tg.initDataUnsafe.user.id : null;
 
   if (!telegramId) {
-    const demoScoring = calculateIQ(state.results.length ? state.results : [{domain:"matrix",difficulty:3,correct:true,timeTaken:10,timeLimit:40}]);
-    showLocalResult({ iq_score: demoScoring.iq, domains: demoScoring.domains });
+    const demoScoring = calculateIQ(state.results.length ? state.results : [{type:"pattern",difficulty:3,correct:true,timeTaken:10,timeLimit:40}]);
+    showLocalResult({ iq_score: demoScoring.iq, types: demoScoring.types });
     btn.disabled = false;
     btn.textContent = t("btn_check");
     return;
@@ -342,16 +330,25 @@ document.getElementById("btnCheckSub").addEventListener("click", async () => {
   btn.textContent = t("btn_check");
 });
 
-function renderDomainBars(domains) {
+const TYPE_LABELS = {
+  pattern: { kk: "Үлгі", ru: "Узор" },
+  rotation: { kk: "Айналым", ru: "Вращение" },
+  position: { kk: "Позиция", ru: "Позиция" },
+  wheel: { kk: "Дөңгелек", ru: "Колесо" },
+  progression: { kk: "Прогрессия", ru: "Прогрессия" },
+};
+
+function renderDomainBars(types) {
   const wrap = document.getElementById("domainBars");
   if (!wrap) return;
   wrap.innerHTML = "";
-  DOMAIN_KEYS.forEach(d => {
-    const pct = domains[d] || 0;
+  Object.keys(types).forEach(t => {
+    const pct = types[t] || 0;
+    const label = TYPE_LABELS[t] ? L(TYPE_LABELS[t]) : t;
     const row = document.createElement("div");
     row.className = "domain-row";
     row.innerHTML = `
-      <div class="domain-label">${L(DOMAIN_INFO[d].name)}</div>
+      <div class="domain-label">${label}</div>
       <div class="domain-track"><div class="domain-fill" style="width:${pct}%"></div></div>
       <div class="domain-pct">${pct}%</div>`;
     wrap.appendChild(row);
@@ -367,7 +364,7 @@ function showApiResult(payload) {
     ? `${payload.first_name} · @${payload.username || ""}`
     : "Қонақ";
   document.getElementById("pctLabel").textContent = `${currentLang === "kk" ? "Сен" : "Ты"}: ${payload.iq_score}`;
-  renderDomainBars(payload.domains || {});
+  renderDomainBars(payload.types || {});
 
   go("screen-result");
   requestAnimationFrame(() => {

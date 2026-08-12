@@ -1,13 +1,10 @@
 // ============================================================
-// Научный банк вопросов на основе International Cognitive
-// Ability Resource методологии (адаптация из открытого MIT-
-// лицензированного проекта Ksound22/iq-measurer).
-// 4 домена: matrix (35%), verbal (25%), memory (20%), speed (20%)
+// Визуальный тест на пространственное мышление (Raven's-style)
+// Все задания — оригинальные, без текстового перевода смысла.
 // ============================================================
 
 const QUESTION_BANK = [
-  // ---------- MATRIX (матричное мышление) ----------
-  {
+{
     id: 1, domain: "matrix", difficulty: 1, timeLimit: 40,
     text: { kk: "3×3 торды қандай фигура толықтырады?", ru: "Какая фигура дополняет сетку 3×3?" },
     svg: "<svg viewBox='0 0 210 210' xmlns='http://www.w3.org/2000/svg' style='max-width:210px;margin:0 auto;display:block'><rect width='210' height='210' rx='8' fill='#1e293b'/><g fill='#818cf8'><circle cx='35' cy='35' r='18'/><rect x='17' y='87' width='36' height='36' rx='3'/><polygon points='35,143 17,175 53,175'/><circle cx='105' cy='35' r='18'/><rect x='87' y='87' width='36' height='36' rx='3'/><polygon points='105,143 87,175 123,175'/><circle cx='175' cy='35' r='18'/><rect x='157' y='87' width='36' height='36' rx='3'/></g><rect x='157' y='157' width='36' height='36' rx='4' fill='none' stroke='#f59e0b' stroke-width='2' stroke-dasharray='5,3'/><text x='175' y='180' text-anchor='middle' fill='#f59e0b' font-size='22' font-weight='bold'>?</text></svg>",
@@ -63,230 +60,61 @@ const QUESTION_BANK = [
     options: { kk: ["1 ширек толған", "2 ширек толған", "3 ширек толған", "Барлық 4 ширек толған"], ru: ["Заполнена 1 четверть", "Заполнены 2 четверти", "Заполнены 3 четверти", "Заполнены все 4 четверти"] },
     answerIndex: 3
   },
-
-  // ---------- VERBAL (вербальное мышление) ----------
-  {
-    id: 11, domain: "verbal", difficulty: 1, timeLimit: 25,
-    text: { kk: "«Ыстық» — «Суыққа» қалай қатысты болса, «Күн» — солай ___ қатысты.", ru: "«Горячий» относится к «Холодному», как «День» относится к ___." },
-    options: { kk: ["Күн (аспандағы)", "Түн", "Жылы", "Аспан"], ru: ["Солнце", "Ночь", "Тепло", "Небо"] },
+  
+{
+    id: 301, domain: "matrix", difficulty: 3, timeLimit: 40,
+    text: { kk: "Қандай белгі үлгіні толықтырады?", ru: "Какой элемент завершает узор?" },
+    tag: { kk: "АЙНАЛЫМ", ru: "ВРАЩЕНИЕ" },
+    svg: "<svg viewBox='0 0 210 210' xmlns='http://www.w3.org/2000/svg' style='max-width:210px;margin:0 auto;display:block'><rect width='210' height='210' rx='8' fill='#1e293b'/><g transform='rotate(0 35 35)'><polygon points='35,19 25,45 35,38 45,45' fill='#818cf8'/></g><g transform='rotate(90 105 35)'><polygon points='105,19 95,45 105,38 115,45' fill='#818cf8'/></g><g transform='rotate(180 175 35)'><polygon points='175,19 165,45 175,38 185,45' fill='#818cf8'/></g><g transform='rotate(0 35 105)'><polygon points='35,89 25,115 35,108 45,115' fill='#818cf8'/></g><g transform='rotate(90 105 105)'><polygon points='105,89 95,115 105,108 115,115' fill='#818cf8'/></g><g transform='rotate(180 175 105)'><polygon points='175,89 165,115 175,108 185,115' fill='#818cf8'/></g><g transform='rotate(0 35 175)'><polygon points='35,159 25,185 35,178 45,185' fill='#818cf8'/></g><g transform='rotate(90 105 175)'><polygon points='105,159 95,185 105,178 115,185' fill='#818cf8'/></g><rect x='157' y='157' width='36' height='36' rx='4' fill='none' stroke='#f59e0b' stroke-width='2' stroke-dasharray='5,3'/><text x='175' y='183' text-anchor='middle' fill='#f59e0b' font-size='22' font-weight='bold'>?</text></svg>",
+    options: { kk: ["<svg viewBox='0 0 60 60' width='40' height='40'><g transform='rotate(90 30 30)'><polygon points='30,14 20,44 30,34 40,44' fill='#818cf8'/></g></svg>", "<svg viewBox='0 0 60 60' width='40' height='40'><g transform='rotate(180 30 30)'><polygon points='30,14 20,44 30,34 40,44' fill='#818cf8'/></g></svg>", "<svg viewBox='0 0 60 60' width='40' height='40'><g transform='rotate(0 30 30)'><polygon points='30,14 20,44 30,34 40,44' fill='#818cf8'/></g></svg>", "<svg viewBox='0 0 60 60' width='40' height='40'><g transform='rotate(270 30 30)'><polygon points='30,14 20,44 30,34 40,44' fill='#818cf8'/></g></svg>"], ru: ["<svg viewBox='0 0 60 60' width='40' height='40'><g transform='rotate(90 30 30)'><polygon points='30,14 20,44 30,34 40,44' fill='#818cf8'/></g></svg>", "<svg viewBox='0 0 60 60' width='40' height='40'><g transform='rotate(180 30 30)'><polygon points='30,14 20,44 30,34 40,44' fill='#818cf8'/></g></svg>", "<svg viewBox='0 0 60 60' width='40' height='40'><g transform='rotate(0 30 30)'><polygon points='30,14 20,44 30,34 40,44' fill='#818cf8'/></g></svg>", "<svg viewBox='0 0 60 60' width='40' height='40'><g transform='rotate(270 30 30)'><polygon points='30,14 20,44 30,34 40,44' fill='#818cf8'/></g></svg>"] },
     answerIndex: 1
   },
   {
-    id: 12, domain: "verbal", difficulty: 1, timeLimit: 25,
-    text: { kk: "«Үлкен» — «Кішіге» қалай қатысты болса, «Жылдам» — солай ___ қатысты.", ru: "«Большой» относится к «Маленькому», как «Быстрый» относится к ___." },
-    options: { kk: ["Тез", "Баяу", "Жылдамдық", "Жүгіру"], ru: ["Скорый", "Медленный", "Скорость", "Бег"] },
+    id: 302, domain: "matrix", difficulty: 3, timeLimit: 40,
+    text: { kk: "Қандай белгі үлгіні толықтырады?", ru: "Какой элемент завершает узор?" },
+    tag: { kk: "ПОЗИЦИЯ", ru: "ПОЗИЦИЯ" },
+    svg: "<svg viewBox='0 0 210 210' xmlns='http://www.w3.org/2000/svg' style='max-width:210px;margin:0 auto;display:block'><rect width='210' height='210' rx='8' fill='#1e293b'/><rect x='17' y='17' width='36' height='36' rx='4' fill='none' stroke='#475569' stroke-width='1.5'/><circle cx='24' cy='24' r='5' fill='#818cf8'/><rect x='87' y='17' width='36' height='36' rx='4' fill='none' stroke='#475569' stroke-width='1.5'/><circle cx='116' cy='24' r='5' fill='#818cf8'/><rect x='157' y='17' width='36' height='36' rx='4' fill='none' stroke='#475569' stroke-width='1.5'/><circle cx='186' cy='46' r='5' fill='#818cf8'/><rect x='17' y='87' width='36' height='36' rx='4' fill='none' stroke='#475569' stroke-width='1.5'/><circle cx='24' cy='94' r='5' fill='#818cf8'/><rect x='87' y='87' width='36' height='36' rx='4' fill='none' stroke='#475569' stroke-width='1.5'/><circle cx='116' cy='94' r='5' fill='#818cf8'/><rect x='157' y='87' width='36' height='36' rx='4' fill='none' stroke='#475569' stroke-width='1.5'/><circle cx='186' cy='116' r='5' fill='#818cf8'/><rect x='17' y='157' width='36' height='36' rx='4' fill='none' stroke='#475569' stroke-width='1.5'/><circle cx='24' cy='164' r='5' fill='#818cf8'/><rect x='87' y='157' width='36' height='36' rx='4' fill='none' stroke='#475569' stroke-width='1.5'/><circle cx='116' cy='164' r='5' fill='#818cf8'/><rect x='157' y='157' width='36' height='36' rx='4' fill='none' stroke='#f59e0b' stroke-width='2' stroke-dasharray='5,3'/><text x='175' y='183' text-anchor='middle' fill='#f59e0b' font-size='22' font-weight='bold'>?</text></svg>",
+    options: { kk: ["<svg viewBox='0 0 40 40' width='38' height='38'><rect x='2' y='2' width='36' height='36' rx='4' fill='none' stroke='#475569' stroke-width='1.5'/><circle cx='9' cy='9' r='5' fill='#818cf8'/></svg>", "<svg viewBox='0 0 40 40' width='38' height='38'><rect x='2' y='2' width='36' height='36' rx='4' fill='none' stroke='#475569' stroke-width='1.5'/><circle cx='31' cy='31' r='5' fill='#818cf8'/></svg>", "<svg viewBox='0 0 40 40' width='38' height='38'><rect x='2' y='2' width='36' height='36' rx='4' fill='none' stroke='#475569' stroke-width='1.5'/><circle cx='31' cy='9' r='5' fill='#818cf8'/></svg>", "<svg viewBox='0 0 40 40' width='38' height='38'><rect x='2' y='2' width='36' height='36' rx='4' fill='none' stroke='#475569' stroke-width='1.5'/><circle cx='9' cy='31' r='5' fill='#818cf8'/></svg>"], ru: ["<svg viewBox='0 0 40 40' width='38' height='38'><rect x='2' y='2' width='36' height='36' rx='4' fill='none' stroke='#475569' stroke-width='1.5'/><circle cx='9' cy='9' r='5' fill='#818cf8'/></svg>", "<svg viewBox='0 0 40 40' width='38' height='38'><rect x='2' y='2' width='36' height='36' rx='4' fill='none' stroke='#475569' stroke-width='1.5'/><circle cx='31' cy='31' r='5' fill='#818cf8'/></svg>", "<svg viewBox='0 0 40 40' width='38' height='38'><rect x='2' y='2' width='36' height='36' rx='4' fill='none' stroke='#475569' stroke-width='1.5'/><circle cx='31' cy='9' r='5' fill='#818cf8'/></svg>", "<svg viewBox='0 0 40 40' width='38' height='38'><rect x='2' y='2' width='36' height='36' rx='4' fill='none' stroke='#475569' stroke-width='1.5'/><circle cx='9' cy='31' r='5' fill='#818cf8'/></svg>"] },
     answerIndex: 1
   },
-  {
-    id: 13, domain: "verbal", difficulty: 2, timeLimit: 25,
-    text: { kk: "«Құс» — «Топқа» қалай қатысты болса, «Балық» — солай ___ қатысты.", ru: "«Птица» относится к «Стае», как «Рыба» относится к ___." },
-    options: { kk: ["Мұхит", "Топ (балық)", "Отар", "Табын"], ru: ["Океан", "Косяк", "Стая", "Стадо"] },
-    answerIndex: 1
-  },
-  {
-    id: 14, domain: "verbal", difficulty: 2, timeLimit: 25,
-    text: { kk: "«Суретші» — «Кенепке» қалай қатысты болса, «Мүсінші» — солай ___ қатысты.", ru: "«Художник» относится к «Холсту», как «Скульптор» относится к ___." },
-    options: { kk: ["Мұражай", "Балшық", "Қылқалам", "Галерея"], ru: ["Музей", "Глина", "Кисть", "Галерея"] },
-    answerIndex: 1
-  },
-  {
-    id: 15, domain: "verbal", difficulty: 3, timeLimit: 25,
-    text: { kk: "Қай сөз артық? Меланхолия, Эйфория, Ностальгия, Термометр.", ru: "Какое слово лишнее? Меланхолия, Эйфория, Ностальгия, Термометр." },
-    options: { kk: ["Меланхолия", "Эйфория", "Ностальгия", "Термометр"], ru: ["Меланхолия", "Эйфория", "Ностальгия", "Термометр"] },
-    answerIndex: 3
-  },
-  {
-    id: 16, domain: "verbal", difficulty: 3, timeLimit: 25,
-    text: { kk: "Қай сөз артық? Пианино, Гитара, Скрипка, Труба, Барабан, Микротолқынды пеш.", ru: "Какое слово лишнее? Пианино, Гитара, Скрипка, Труба, Барабан, Микроволновка." },
-    options: { kk: ["Пианино", "Труба", "Барабан", "Микротолқынды пеш"], ru: ["Пианино", "Труба", "Барабан", "Микроволновка"] },
-    answerIndex: 3
-  },
-  {
-    id: 66, domain: "verbal", difficulty: 5, timeLimit: 35,
-    text: { kk: "Барлық логиктер — ойшыл. Кейбір ойшылдар — жазушы. Демек:", ru: "Все логики — мыслители. Некоторые мыслители — писатели. Следовательно:" },
-    options: {
-      kk: ["Барлық логиктер жазушы", "Кейбір логиктер жазушы", "Ешбір логик жазушы емес", "Жоғарыдағылардың ешқайсысын қорытындылауға болмайды"],
-      ru: ["Все логики — писатели", "Некоторые логики — писатели", "Ни один логик не писатель", "Ничего из вышеперечисленного нельзя заключить"]
-    },
-    answerIndex: 3
-  },
-  {
-    id: 70, domain: "verbal", difficulty: 5, timeLimit: 35,
-    text: { kk: "Кейбір A — B. Ешбір B — C емес. Демек:", ru: "Некоторые A — это B. Ни одно B не является C. Следовательно:" },
-    options: {
-      kk: ["Кейбір A — C емес", "Барлық A — C", "Ешбір A — C емес", "Кейбір C — A"],
-      ru: ["Некоторые A не являются C", "Все A являются C", "Ни одно A не является C", "Некоторые C являются A"]
-    },
-    answerIndex: 0
-  },
-
-  // ---------- MEMORY (есте сақтау) ----------
-  {
-    id: 21, domain: "memory", difficulty: 1, timeLimit: 20,
-    text: { kk: "Мына тізбекті есте сақтап, таңдаңыз: 3, 7, 2", ru: "Запомни эту последовательность и выбери её: 3, 7, 2" },
-    options: { kk: ["3, 7, 2", "7, 3, 2", "2, 7, 3", "3, 2, 7"], ru: ["3, 7, 2", "7, 3, 2", "2, 7, 3", "3, 2, 7"] },
-    answerIndex: 0
-  },
-  {
-    id: 22, domain: "memory", difficulty: 1, timeLimit: 20,
-    text: { kk: "Мына тізбекті есте сақтап, таңдаңыз: 5, 9, 1", ru: "Запомни эту последовательность и выбери её: 5, 9, 1" },
-    options: { kk: ["9, 5, 1", "5, 1, 9", "1, 9, 5", "5, 9, 1"], ru: ["9, 5, 1", "5, 1, 9", "1, 9, 5", "5, 9, 1"] },
-    answerIndex: 3
-  },
-  {
-    id: 23, domain: "memory", difficulty: 2, timeLimit: 20,
-    text: { kk: "Мына тізбекті есте сақтап, таңдаңыз: 8, 1, 5, 4", ru: "Запомни эту последовательность и выбери её: 8, 1, 5, 4" },
-    options: { kk: ["8, 1, 5, 4", "1, 8, 5, 4", "8, 5, 1, 4", "4, 5, 1, 8"], ru: ["8, 1, 5, 4", "1, 8, 5, 4", "8, 5, 1, 4", "4, 5, 1, 8"] },
-    answerIndex: 0
-  },
-  {
-    id: 24, domain: "memory", difficulty: 2, timeLimit: 20,
-    text: { kk: "Мына тізбекті есте сақтап, таңдаңыз: 3, 6, 2, 9", ru: "Запомни эту последовательность и выбери её: 3, 6, 2, 9" },
-    options: { kk: ["6, 3, 2, 9", "3, 2, 6, 9", "3, 6, 2, 9", "9, 2, 6, 3"], ru: ["6, 3, 2, 9", "3, 2, 6, 9", "3, 6, 2, 9", "9, 2, 6, 3"] },
+  
+{
+    id: 303, domain: "matrix", difficulty: 4, timeLimit: 40,
+    text: { kk: "Қандай белгі үлгіні толықтырады?", ru: "Какой элемент завершает узор?" },
+    tag: { kk: "ПОЗИЦИЯ", ru: "ПОЗИЦИЯ" },
+    svg: "<svg viewBox='0 0 210 210' xmlns='http://www.w3.org/2000/svg' style='max-width:210px;margin:0 auto;display:block'><rect width='210' height='210' rx='8' fill='#1e293b'/><rect x='17' y='17' width='36' height='36' rx='4' fill='none' stroke='#475569' stroke-width='1.5'/><circle cx='46' cy='24' r='5' fill='#34d399'/><rect x='87' y='17' width='36' height='36' rx='4' fill='none' stroke='#475569' stroke-width='1.5'/><circle cx='116' cy='46' r='5' fill='#34d399'/><rect x='157' y='17' width='36' height='36' rx='4' fill='none' stroke='#475569' stroke-width='1.5'/><circle cx='164' cy='46' r='5' fill='#34d399'/><rect x='17' y='87' width='36' height='36' rx='4' fill='none' stroke='#475569' stroke-width='1.5'/><circle cx='46' cy='94' r='5' fill='#34d399'/><rect x='87' y='87' width='36' height='36' rx='4' fill='none' stroke='#475569' stroke-width='1.5'/><circle cx='116' cy='116' r='5' fill='#34d399'/><rect x='157' y='87' width='36' height='36' rx='4' fill='none' stroke='#475569' stroke-width='1.5'/><circle cx='164' cy='116' r='5' fill='#34d399'/><rect x='17' y='157' width='36' height='36' rx='4' fill='none' stroke='#475569' stroke-width='1.5'/><circle cx='46' cy='164' r='5' fill='#34d399'/><rect x='87' y='157' width='36' height='36' rx='4' fill='none' stroke='#475569' stroke-width='1.5'/><circle cx='116' cy='186' r='5' fill='#34d399'/><rect x='157' y='157' width='36' height='36' rx='4' fill='none' stroke='#f59e0b' stroke-width='2' stroke-dasharray='5,3'/><text x='175' y='183' text-anchor='middle' fill='#f59e0b' font-size='22' font-weight='bold'>?</text></svg>",
+    options: { kk: ["<svg viewBox='0 0 40 40' width='38' height='38'><rect x='2' y='2' width='36' height='36' rx='4' fill='none' stroke='#475569' stroke-width='1.5'/><circle cx='31' cy='9' r='5' fill='#34d399'/></svg>", "<svg viewBox='0 0 40 40' width='38' height='38'><rect x='2' y='2' width='36' height='36' rx='4' fill='none' stroke='#475569' stroke-width='1.5'/><circle cx='9' cy='9' r='5' fill='#34d399'/></svg>", "<svg viewBox='0 0 40 40' width='38' height='38'><rect x='2' y='2' width='36' height='36' rx='4' fill='none' stroke='#475569' stroke-width='1.5'/><circle cx='9' cy='31' r='5' fill='#34d399'/></svg>", "<svg viewBox='0 0 40 40' width='38' height='38'><rect x='2' y='2' width='36' height='36' rx='4' fill='none' stroke='#475569' stroke-width='1.5'/><circle cx='31' cy='31' r='5' fill='#34d399'/></svg>"], ru: ["<svg viewBox='0 0 40 40' width='38' height='38'><rect x='2' y='2' width='36' height='36' rx='4' fill='none' stroke='#475569' stroke-width='1.5'/><circle cx='31' cy='9' r='5' fill='#34d399'/></svg>", "<svg viewBox='0 0 40 40' width='38' height='38'><rect x='2' y='2' width='36' height='36' rx='4' fill='none' stroke='#475569' stroke-width='1.5'/><circle cx='9' cy='9' r='5' fill='#34d399'/></svg>", "<svg viewBox='0 0 40 40' width='38' height='38'><rect x='2' y='2' width='36' height='36' rx='4' fill='none' stroke='#475569' stroke-width='1.5'/><circle cx='9' cy='31' r='5' fill='#34d399'/></svg>", "<svg viewBox='0 0 40 40' width='38' height='38'><rect x='2' y='2' width='36' height='36' rx='4' fill='none' stroke='#475569' stroke-width='1.5'/><circle cx='31' cy='31' r='5' fill='#34d399'/></svg>"] },
     answerIndex: 2
   },
   {
-    id: 25, domain: "memory", difficulty: 3, timeLimit: 25,
-    text: { kk: "Мына тізбекті есте сақтап, таңдаңыз: 6, 3, 9, 1, 7", ru: "Запомни эту последовательность и выбери её: 6, 3, 9, 1, 7" },
-    options: { kk: ["6, 3, 9, 1, 7", "3, 6, 9, 7, 1", "6, 9, 3, 1, 7", "7, 1, 9, 3, 6"], ru: ["6, 3, 9, 1, 7", "3, 6, 9, 7, 1", "6, 9, 3, 1, 7", "7, 1, 9, 3, 6"] },
-    answerIndex: 0
-  },
-  {
-    id: 27, domain: "memory", difficulty: 4, timeLimit: 30,
-    text: { kk: "Тізбекті КЕРІ ретпен таңдаңыз: 2, 6, 4, 8", ru: "Выбери эту последовательность в ОБРАТНОМ порядке: 2, 6, 4, 8" },
-    options: { kk: ["8, 4, 6, 2", "2, 6, 4, 8", "4, 6, 8, 2", "8, 6, 4, 2"], ru: ["8, 4, 6, 2", "2, 6, 4, 8", "4, 6, 8, 2", "8, 6, 4, 2"] },
-    answerIndex: 0
-  },
-  {
-    id: 28, domain: "memory", difficulty: 4, timeLimit: 30,
-    text: { kk: "Тізбекті КЕРІ ретпен таңдаңыз: 1, 7, 3, 5", ru: "Выбери эту последовательность в ОБРАТНОМ порядке: 1, 7, 3, 5" },
-    options: { kk: ["5, 3, 7, 1", "1, 7, 3, 5", "5, 7, 3, 1", "3, 5, 7, 1"], ru: ["5, 3, 7, 1", "1, 7, 3, 5", "5, 7, 3, 1", "3, 5, 7, 1"] },
-    answerIndex: 0
-  },
-  {
-    id: 29, domain: "memory", difficulty: 5, timeLimit: 35,
-    text: { kk: "Тізбекті КЕРІ ретпен таңдаңыз: 5, 3, 8, 1, 9, 2", ru: "Выбери эту последовательность в ОБРАТНОМ порядке: 5, 3, 8, 1, 9, 2" },
-    options: { kk: ["2, 9, 1, 8, 3, 5", "5, 3, 8, 1, 9, 2", "2, 1, 9, 8, 3, 5", "9, 2, 1, 8, 3, 5"], ru: ["2, 9, 1, 8, 3, 5", "5, 3, 8, 1, 9, 2", "2, 1, 9, 8, 3, 5", "9, 2, 1, 8, 3, 5"] },
-    answerIndex: 0
-  },
-
-  // ---------- SPEED (өңдеу жылдамдығы) ----------
-  {
-    id: 31, domain: "speed", difficulty: 1, timeLimit: 20,
-    text: { kk: "Мына жолда неше 'E' әрпі бар? EABECEDEFE", ru: "Сколько букв 'E' в этой строке? EABECEDEFE" },
-    options: { kk: ["3", "4", "5", "6"], ru: ["3", "4", "5", "6"] },
-    answerIndex: 2
-  },
-  {
-    id: 32, domain: "speed", difficulty: 1, timeLimit: 20,
-    text: { kk: "Қай сан ең үлкен? 47, 74, 44, 77, 71", ru: "Какое число наибольшее? 47, 74, 44, 77, 71" },
-    options: { kk: ["74", "47", "77", "71"], ru: ["74", "47", "77", "71"] },
-    answerIndex: 2
-  },
-  {
-    id: 33, domain: "speed", difficulty: 2, timeLimit: 20,
-    text: { kk: "Қай сан жетіспейді? 10, 20, ?, 40, 50", ru: "Какое число пропущено? 10, 20, ?, 40, 50" },
-    options: { kk: ["25", "30", "35", "28"], ru: ["25", "30", "35", "28"] },
+    id: 306, domain: "matrix", difficulty: 2, timeLimit: 35,
+    text: { kk: "Қандай белгі үлгіні толықтырады?", ru: "Какой элемент завершает узор?" },
+    tag: { kk: "ПРОГРЕССИЯ", ru: "ПРОГРЕССИЯ" },
+    svg: "<svg viewBox='0 0 210 210' xmlns='http://www.w3.org/2000/svg' style='max-width:210px;margin:0 auto;display:block'><rect width='210' height='210' rx='8' fill='#1e293b'/><rect x='25' y='25' width='20' height='20' fill='none' stroke='#818cf8' stroke-width='2'/><rect x='95' y='25' width='20' height='20' fill='none' stroke='#818cf8' stroke-width='2'/><rect x='87' y='17' width='36' height='36' fill='none' stroke='#818cf8' stroke-width='2'/><rect x='165' y='25' width='20' height='20' fill='none' stroke='#818cf8' stroke-width='2'/><rect x='157' y='17' width='36' height='36' fill='none' stroke='#818cf8' stroke-width='2'/><rect x='149' y='9' width='52' height='52' fill='none' stroke='#818cf8' stroke-width='2'/><rect x='25' y='95' width='20' height='20' fill='none' stroke='#818cf8' stroke-width='2'/><rect x='95' y='95' width='20' height='20' fill='none' stroke='#818cf8' stroke-width='2'/><rect x='87' y='87' width='36' height='36' fill='none' stroke='#818cf8' stroke-width='2'/><rect x='165' y='95' width='20' height='20' fill='none' stroke='#818cf8' stroke-width='2'/><rect x='157' y='87' width='36' height='36' fill='none' stroke='#818cf8' stroke-width='2'/><rect x='149' y='79' width='52' height='52' fill='none' stroke='#818cf8' stroke-width='2'/><rect x='25' y='165' width='20' height='20' fill='none' stroke='#818cf8' stroke-width='2'/><rect x='95' y='165' width='20' height='20' fill='none' stroke='#818cf8' stroke-width='2'/><rect x='87' y='157' width='36' height='36' fill='none' stroke='#818cf8' stroke-width='2'/><rect x='157' y='157' width='36' height='36' rx='4' fill='none' stroke='#f59e0b' stroke-width='2' stroke-dasharray='5,3'/><text x='175' y='183' text-anchor='middle' fill='#f59e0b' font-size='22' font-weight='bold'>?</text></svg>",
+    options: { kk: ["<svg viewBox='0 0 60 60' width='40' height='40'><rect x='24' y='24' width='12' height='12' fill='none' stroke='#818cf8' stroke-width='2'/><rect x='17' y='17' width='26' height='26' fill='none' stroke='#818cf8' stroke-width='2'/><rect x='10' y='10' width='40' height='40' fill='none' stroke='#818cf8' stroke-width='2'/></svg>", "<svg viewBox='0 0 60 60' width='40' height='40'><rect x='24' y='24' width='12' height='12' fill='none' stroke='#818cf8' stroke-width='2'/><rect x='17' y='17' width='26' height='26' fill='none' stroke='#818cf8' stroke-width='2'/><rect x='10' y='10' width='40' height='40' fill='none' stroke='#818cf8' stroke-width='2'/><rect x='3' y='3' width='54' height='54' fill='none' stroke='#818cf8' stroke-width='2'/></svg>", "<svg viewBox='0 0 60 60' width='40' height='40'><rect x='24' y='24' width='12' height='12' fill='none' stroke='#818cf8' stroke-width='2'/><rect x='17' y='17' width='26' height='26' fill='none' stroke='#818cf8' stroke-width='2'/></svg>", "<svg viewBox='0 0 60 60' width='40' height='40'><rect x='24' y='24' width='12' height='12' fill='none' stroke='#818cf8' stroke-width='2'/><rect x='17' y='17' width='26' height='26' fill='none' stroke='#818cf8' stroke-width='2'/><rect x='10' y='10' width='40' height='40' fill='none' stroke='#818cf8' stroke-width='2'/><rect x='3' y='3' width='54' height='54' fill='none' stroke='#818cf8' stroke-width='2'/><rect x='-4' y='-4' width='68' height='68' fill='none' stroke='#818cf8' stroke-width='2'/></svg>"], ru: ["<svg viewBox='0 0 60 60' width='40' height='40'><rect x='24' y='24' width='12' height='12' fill='none' stroke='#818cf8' stroke-width='2'/><rect x='17' y='17' width='26' height='26' fill='none' stroke='#818cf8' stroke-width='2'/><rect x='10' y='10' width='40' height='40' fill='none' stroke='#818cf8' stroke-width='2'/></svg>", "<svg viewBox='0 0 60 60' width='40' height='40'><rect x='24' y='24' width='12' height='12' fill='none' stroke='#818cf8' stroke-width='2'/><rect x='17' y='17' width='26' height='26' fill='none' stroke='#818cf8' stroke-width='2'/><rect x='10' y='10' width='40' height='40' fill='none' stroke='#818cf8' stroke-width='2'/><rect x='3' y='3' width='54' height='54' fill='none' stroke='#818cf8' stroke-width='2'/></svg>", "<svg viewBox='0 0 60 60' width='40' height='40'><rect x='24' y='24' width='12' height='12' fill='none' stroke='#818cf8' stroke-width='2'/><rect x='17' y='17' width='26' height='26' fill='none' stroke='#818cf8' stroke-width='2'/></svg>", "<svg viewBox='0 0 60 60' width='40' height='40'><rect x='24' y='24' width='12' height='12' fill='none' stroke='#818cf8' stroke-width='2'/><rect x='17' y='17' width='26' height='26' fill='none' stroke='#818cf8' stroke-width='2'/><rect x='10' y='10' width='40' height='40' fill='none' stroke='#818cf8' stroke-width='2'/><rect x='3' y='3' width='54' height='54' fill='none' stroke='#818cf8' stroke-width='2'/><rect x='-4' y='-4' width='68' height='68' fill='none' stroke='#818cf8' stroke-width='2'/></svg>"] },
     answerIndex: 1
   },
-  {
-    id: 34, domain: "speed", difficulty: 2, timeLimit: 20,
-    text: { kk: "Мына тізбекте неше жұп сан бар: 3, 8, 15, 22, 7, 4, 11, 16?", ru: "Сколько чётных чисел в: 3, 8, 15, 22, 7, 4, 11, 16?" },
-    options: { kk: ["2", "3", "4", "5"], ru: ["2", "3", "4", "5"] },
-    answerIndex: 2
-  },
-  {
-    id: 35, domain: "speed", difficulty: 3, timeLimit: 25,
-    text: { kk: "Мына тізбекте неше тақ сан бар: 4, 7, 11, 14, 19, 22, 23?", ru: "Сколько нечётных чисел в: 4, 7, 11, 14, 19, 22, 23?" },
-    options: { kk: ["2", "3", "4", "5"], ru: ["2", "3", "4", "5"] },
-    answerIndex: 2
-  },
-  {
-    id: 36, domain: "speed", difficulty: 3, timeLimit: 25,
-    text: { kk: "25×4 нешеге тең?", ru: "Чему равно 25×4?" },
-    options: { kk: ["90", "95", "100", "105"], ru: ["90", "95", "100", "105"] },
-    answerIndex: 2
-  },
-  {
-    id: 37, domain: "speed", difficulty: 4, timeLimit: 30,
-    text: { kk: "17×8 нешеге тең?", ru: "Чему равно 17×8?" },
-    options: { kk: ["126", "134", "136", "144"], ru: ["126", "134", "136", "144"] },
-    answerIndex: 2
-  },
-  {
-    id: 39, domain: "speed", difficulty: 5, timeLimit: 35,
-    text: { kk: "Пойыз сағатына 60 км жылдамдықпен жүреді. 40 минутта қанша км жол жүреді?", ru: "Поезд едет со скоростью 60 км/ч. Сколько км он проедет за 40 минут?" },
-    options: { kk: ["35 км", "40 км", "45 км", "50 км"], ru: ["35 км", "40 км", "45 км", "50 км"] },
-    answerIndex: 1
-  },
-
-  // ---------- Дополнительные сложные задания (уровень 5) ----------
-  {
-    id: 201, domain: "matrix", difficulty: 5, timeLimit: 55,
-    text: { kk: "Әр ұяшықтың мәні = (жол нөмірі × баған нөмірі) mod 5. Жол 3, баған 3 ұяшығында қандай мән бар?", ru: "Значение каждой ячейки = (номер строки × номер столбца) mod 5. Какое значение в строке 3, столбце 3?" },
-    options: { kk: ["1", "3", "4", "0"], ru: ["1", "3", "4", "0"] },
-    answerIndex: 2
-  },
-  {
-    id: 202, domain: "matrix", difficulty: 5, timeLimit: 55,
-    text: { kk: "Тор сиқырлы шаршыны кодтайды (әр жол, баған және диагональ қосындысы 15-ке тең). Жоғарғы жол: 2, 7, 6. Сол жақ баған жалғасады: 9, ?, 4. Жетіспейтін мән қандай?", ru: "Сетка кодирует магический квадрат (все строки, столбцы и диагонали дают сумму 15). Верхняя строка: 2, 7, 6. Левый столбец продолжается: 9, ?, 4. Какое значение пропущено?" },
-    options: { kk: ["5", "3", "8", "1"], ru: ["5", "3", "8", "1"] },
+  
+{
+    id: 307, domain: "matrix", difficulty: 3, timeLimit: 35,
+    text: { kk: "Қандай белгі үлгіні толықтырады?", ru: "Какой элемент завершает узор?" },
+    tag: { kk: "ПРОГРЕССИЯ", ru: "ПРОГРЕССИЯ" },
+    svg: "<svg viewBox='0 0 210 210' xmlns='http://www.w3.org/2000/svg' style='max-width:210px;margin:0 auto;display:block'><rect width='210' height='210' rx='8' fill='#1e293b'/><polygon points='35.0,19.0 48.9,43.0 21.1,43.0' fill='none' stroke='#34d399' stroke-width='3'/><polygon points='105.0,19.0 121.0,35.0 105.0,51.0 89.0,35.0' fill='none' stroke='#34d399' stroke-width='3'/><polygon points='175.0,19.0 190.2,30.1 184.4,47.9 165.6,47.9 159.8,30.1' fill='none' stroke='#34d399' stroke-width='3'/><polygon points='35.0,89.0 48.9,113.0 21.1,113.0' fill='none' stroke='#34d399' stroke-width='3'/><polygon points='105.0,89.0 121.0,105.0 105.0,121.0 89.0,105.0' fill='none' stroke='#34d399' stroke-width='3'/><polygon points='175.0,89.0 190.2,100.1 184.4,117.9 165.6,117.9 159.8,100.1' fill='none' stroke='#34d399' stroke-width='3'/><polygon points='35.0,159.0 48.9,183.0 21.1,183.0' fill='none' stroke='#34d399' stroke-width='3'/><polygon points='105.0,159.0 121.0,175.0 105.0,191.0 89.0,175.0' fill='none' stroke='#34d399' stroke-width='3'/><rect x='157' y='157' width='36' height='36' rx='4' fill='none' stroke='#f59e0b' stroke-width='2' stroke-dasharray='5,3'/><text x='175' y='183' text-anchor='middle' fill='#f59e0b' font-size='22' font-weight='bold'>?</text></svg>",
+    options: { kk: ["<svg viewBox='0 0 60 60' width='40' height='40'><polygon points='30.0,10.0 47.3,20.0 47.3,40.0 30.0,50.0 12.7,40.0 12.7,20.0' fill='none' stroke='#34d399' stroke-width='3'/></svg>", "<svg viewBox='0 0 60 60' width='40' height='40'><polygon points='30.0,10.0 49.0,23.8 41.8,46.2 18.2,46.2 11.0,23.8' fill='none' stroke='#34d399' stroke-width='3'/></svg>", "<svg viewBox='0 0 60 60' width='40' height='40'><polygon points='30.0,10.0 45.6,17.5 49.5,34.5 38.7,48.0 21.3,48.0 10.5,34.5 14.4,17.5' fill='none' stroke='#34d399' stroke-width='3'/></svg>", "<svg viewBox='0 0 60 60' width='40' height='40'><polygon points='30.0,10.0 50.0,30.0 30.0,50.0 10.0,30.0' fill='none' stroke='#34d399' stroke-width='3'/></svg>"], ru: ["<svg viewBox='0 0 60 60' width='40' height='40'><polygon points='30.0,10.0 47.3,20.0 47.3,40.0 30.0,50.0 12.7,40.0 12.7,20.0' fill='none' stroke='#34d399' stroke-width='3'/></svg>", "<svg viewBox='0 0 60 60' width='40' height='40'><polygon points='30.0,10.0 49.0,23.8 41.8,46.2 18.2,46.2 11.0,23.8' fill='none' stroke='#34d399' stroke-width='3'/></svg>", "<svg viewBox='0 0 60 60' width='40' height='40'><polygon points='30.0,10.0 45.6,17.5 49.5,34.5 38.7,48.0 21.3,48.0 10.5,34.5 14.4,17.5' fill='none' stroke='#34d399' stroke-width='3'/></svg>", "<svg viewBox='0 0 60 60' width='40' height='40'><polygon points='30.0,10.0 50.0,30.0 30.0,50.0 10.0,30.0' fill='none' stroke='#34d399' stroke-width='3'/></svg>"] },
     answerIndex: 0
   },
   {
-    id: 203, domain: "verbal", difficulty: 5, timeLimit: 35,
-    text: { kk: "«Оспадарсыздық» сөзінің мағынасы неге жақын?", ru: "«Эфемерный» ближе всего по значению к:" },
-    options: {
-      kk: ["Мызғымас, тұрақты", "Қысқа өмірлі, өткінші", "Ашық, айқын", "Қатал, қатаң"],
-      ru: ["Прочный, устойчивый", "Кратковременный, мимолётный", "Явный, очевидный", "Суровый, строгий"]
-    },
+    id: 308, domain: "matrix", difficulty: 2, timeLimit: 35,
+    text: { kk: "Қандай белгі үлгіні толықтырады?", ru: "Какой элемент завершает узор?" },
+    tag: { kk: "ПРОГРЕССИЯ", ru: "ПРОГРЕССИЯ" },
+    svg: "<svg viewBox='0 0 210 210' xmlns='http://www.w3.org/2000/svg' style='max-width:210px;margin:0 auto;display:block'><rect width='210' height='210' rx='8' fill='#1e293b'/><circle cx='35.0' cy='35' r='5' fill='#f472b6'/><circle cx='99.0' cy='35' r='5' fill='#f472b6'/><circle cx='111.0' cy='35' r='5' fill='#f472b6'/><circle cx='163.0' cy='35' r='5' fill='#f472b6'/><circle cx='175.0' cy='35' r='5' fill='#f472b6'/><circle cx='187.0' cy='35' r='5' fill='#f472b6'/><circle cx='35.0' cy='105' r='5' fill='#f472b6'/><circle cx='99.0' cy='105' r='5' fill='#f472b6'/><circle cx='111.0' cy='105' r='5' fill='#f472b6'/><circle cx='163.0' cy='105' r='5' fill='#f472b6'/><circle cx='175.0' cy='105' r='5' fill='#f472b6'/><circle cx='187.0' cy='105' r='5' fill='#f472b6'/><circle cx='35.0' cy='175' r='5' fill='#f472b6'/><circle cx='99.0' cy='175' r='5' fill='#f472b6'/><circle cx='111.0' cy='175' r='5' fill='#f472b6'/><rect x='157' y='157' width='36' height='36' rx='4' fill='none' stroke='#f59e0b' stroke-width='2' stroke-dasharray='5,3'/><text x='175' y='183' text-anchor='middle' fill='#f59e0b' font-size='22' font-weight='bold'>?</text></svg>",
+    options: { kk: ["<svg viewBox='0 0 60 60' width='40' height='40'><circle cx='17.0' cy='30' r='5' fill='#f472b6'/><circle cx='30.0' cy='30' r='5' fill='#f472b6'/><circle cx='43.0' cy='30' r='5' fill='#f472b6'/></svg>", "<svg viewBox='0 0 60 60' width='40' height='40'><circle cx='10.5' cy='30' r='5' fill='#f472b6'/><circle cx='23.5' cy='30' r='5' fill='#f472b6'/><circle cx='36.5' cy='30' r='5' fill='#f472b6'/><circle cx='49.5' cy='30' r='5' fill='#f472b6'/></svg>", "<svg viewBox='0 0 60 60' width='40' height='40'><circle cx='23.5' cy='30' r='5' fill='#f472b6'/><circle cx='36.5' cy='30' r='5' fill='#f472b6'/></svg>", "<svg viewBox='0 0 60 60' width='40' height='40'><circle cx='4.0' cy='30' r='5' fill='#f472b6'/><circle cx='17.0' cy='30' r='5' fill='#f472b6'/><circle cx='30.0' cy='30' r='5' fill='#f472b6'/><circle cx='43.0' cy='30' r='5' fill='#f472b6'/><circle cx='56.0' cy='30' r='5' fill='#f472b6'/></svg>"], ru: ["<svg viewBox='0 0 60 60' width='40' height='40'><circle cx='17.0' cy='30' r='5' fill='#f472b6'/><circle cx='30.0' cy='30' r='5' fill='#f472b6'/><circle cx='43.0' cy='30' r='5' fill='#f472b6'/></svg>", "<svg viewBox='0 0 60 60' width='40' height='40'><circle cx='10.5' cy='30' r='5' fill='#f472b6'/><circle cx='23.5' cy='30' r='5' fill='#f472b6'/><circle cx='36.5' cy='30' r='5' fill='#f472b6'/><circle cx='49.5' cy='30' r='5' fill='#f472b6'/></svg>", "<svg viewBox='0 0 60 60' width='40' height='40'><circle cx='23.5' cy='30' r='5' fill='#f472b6'/><circle cx='36.5' cy='30' r='5' fill='#f472b6'/></svg>", "<svg viewBox='0 0 60 60' width='40' height='40'><circle cx='4.0' cy='30' r='5' fill='#f472b6'/><circle cx='17.0' cy='30' r='5' fill='#f472b6'/><circle cx='30.0' cy='30' r='5' fill='#f472b6'/><circle cx='43.0' cy='30' r='5' fill='#f472b6'/><circle cx='56.0' cy='30' r='5' fill='#f472b6'/></svg>"] },
     answerIndex: 1
-  },
-  {
-    id: 204, domain: "verbal", difficulty: 5, timeLimit: 40,
-    text: { kk: "Барлық P — Q. Кейбір Q — R. Ешбір R — S емес. Мыналардың қайсысы міндетті түрде дұрыс?", ru: "Все P — это Q. Некоторые Q — это R. Ни одно R не является S. Что из этого определённо верно?" },
-    options: {
-      kk: ["Барлық P — S", "Кейбір P — S емес болуы мүмкін", "Ешбір P — Q емес", "Барлық S — P"],
-      ru: ["Все P — это S", "Некоторые P могут не быть S", "Ни одно P не является Q", "Все S — это P"]
-    },
-    answerIndex: 1
-  },
-  {
-    id: 205, domain: "memory", difficulty: 5, timeLimit: 40,
-    text: { kk: "Мына 7 таңбалы тізбекті есте сақтап, таңдаңыз: 3, 1, 4, 1, 5, 9, 2", ru: "Запомни эту 7-значную последовательность и выбери её: 3, 1, 4, 1, 5, 9, 2" },
-    options: {
-      kk: ["3, 1, 4, 1, 5, 9, 2", "3, 1, 4, 5, 1, 9, 2", "1, 3, 4, 1, 5, 9, 2", "3, 1, 4, 1, 5, 2, 9"],
-      ru: ["3, 1, 4, 1, 5, 9, 2", "3, 1, 4, 5, 1, 9, 2", "1, 3, 4, 1, 5, 9, 2", "3, 1, 4, 1, 5, 2, 9"]
-    },
-    answerIndex: 0
-  },
-  {
-    id: 206, domain: "memory", difficulty: 5, timeLimit: 40,
-    text: { kk: "Есте сақта: 7, 2, 9, 4, 6, 1, 3. Тізбектегі 2-ші және 5-ші сандардың қосындысы қандай?", ru: "Запомни: 7, 2, 9, 4, 6, 1, 3. Какова сумма 2-го и 5-го чисел в последовательности?" },
-    options: { kk: ["8", "11", "6", "10"], ru: ["8", "11", "6", "10"] },
-    answerIndex: 1
-  },
-  {
-    id: 207, domain: "speed", difficulty: 5, timeLimit: 40,
-    text: { kk: "23×47 нешеге тең?", ru: "Чему равно 23×47?" },
-    options: { kk: ["1081", "1071", "1091", "1061"], ru: ["1081", "1071", "1091", "1061"] },
-    answerIndex: 0
-  },
-  {
-    id: 208, domain: "speed", difficulty: 5, timeLimit: 40,
-    text: { kk: "Егер x + y = 10 және x × y = 21 болса, x² + y² нешеге тең?", ru: "Если x + y = 10 и x × y = 21, чему равно x² + y²?" },
-    options: { kk: ["58", "52", "64", "46"], ru: ["58", "52", "64", "46"] },
-    answerIndex: 0
   }
 ];
 
-// Веса доменов для композитного IQ (по методологии Condon & Revelle, 2014 / ICAR)
-const DOMAIN_WEIGHTS = { matrix: 0.35, verbal: 0.25, memory: 0.20, speed: 0.20 };
 const DOMAIN_INFO = {
-  matrix: { icon: "ic-cube", name: { kk: "Матрицалар", ru: "Матрицы" } },
-  verbal: { icon: "ic-book", name: { kk: "Вербалды", ru: "Вербальный" } },
-  memory: { icon: "ic-phone", name: { kk: "Есте сақтау", ru: "Память" } },
-  speed: { icon: "ic-sigma", name: { kk: "Жылдамдық", ru: "Скорость" } }
+  matrix: { icon: "ic-cube", name: { kk: "Кеңістіктік ойлау", ru: "Пространственное мышление" } }
 };
 
 // Каналы-спонсоры для гейта подписки
