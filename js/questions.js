@@ -1,97 +1,236 @@
-const QUESTION_BANKS = {
-  logic: [
-    {
-      tag: { kk: "Сандық тізбек", ru: "Числовая последовательность" },
-      text: { kk: "Тізбекті жалғастыратын сан қандай?", ru: "Какое число продолжает ряд?" },
-      visual: "2 · 6 · 12 · 20 · ?",
-      options: ["24", "30", "28", "32"],
-      correct: 1
-    },
-    {
-      tag: { kk: "Аналогия", ru: "Аналогия" },
-      text: { kk: "Құс — ұя. Ара — ?", ru: "Птица — гнездо. Пчела — ?" },
-      visual: "",
-      options: ["Гүл", "Ұлу", "Ара ұясы", "Бал"],
-      correct: 2
-    },
-    {
-      tag: { kk: "Сандық тізбек", ru: "Числовая последовательность" },
-      text: { kk: "Келесі сан қандай?", ru: "Какое следующее число?" },
-      visual: "3 · 9 · 27 · 81 · ?",
-      options: ["162", "243", "216", "324"],
-      correct: 1
-    },
-    {
-      tag: { kk: "Логика", ru: "Логика" },
-      text: { kk: "Егер барлық А — В, барлық В — С болса, онда:", ru: "Если все А — это В, все В — это С, то:" },
-      visual: "",
-      options: [
-        { kk: "Барлық С — А", ru: "Все С — это А" },
-        { kk: "Барлық А — С", ru: "Все А — это С" },
-        { kk: "Ешбір А — С емес", ru: "Ни одно А не является С" },
-        { kk: "Анықталмаған", ru: "Не определено" }
-      ],
-      correct: 1
-    },
-    {
-      tag: { kk: "Жіктеу", ru: "Классификация" },
-      text: { kk: "Артық сөзді тап:", ru: "Найди лишнее:" },
-      visual: "",
-      options: ["Алма", "Алмұрт", "Сәбіз", "Банан"],
-      correct: 2
-    },
-    {
-      tag: { kk: "Сандық тізбек", ru: "Числовая последовательность" },
-      text: { kk: "Келесі сан қандай?", ru: "Какое следующее число?" },
-      visual: "1 · 1 · 2 · 3 · 5 · 8 · ?",
-      options: ["11", "13", "12", "10"],
-      correct: 1
-    },
-    {
-      tag: { kk: "Кеңістіктік логика", ru: "Пространственная логика" },
-      text: { kk: "Текшенің қанша қыры бар?", ru: "Сколько граней у куба?" },
-      visual: "",
-      options: ["4", "6", "8", "12"],
-      correct: 1
-    },
-    {
-      tag: { kk: "Аналогия", ru: "Аналогия" },
-      text: { kk: "Кітап — бет. Ағаш — ?", ru: "Книга — страница. Дерево — ?" },
-      visual: "",
-      options: [
-        { kk: "Жапырақ", ru: "Лист" },
-        { kk: "Тамыр", ru: "Корень" },
-        { kk: "Бұтақ", ru: "Ветка" },
-        { kk: "Орман", ru: "Лес" }
-      ],
-      correct: 0
-    },
-    {
-      tag: { kk: "Сандық тізбек", ru: "Числовая последовательность" },
-      text: { kk: "Тізбектегі келесі сан:", ru: "Следующее число в ряду:" },
-      visual: "100 · 90 · 81 · 73 · ?",
-      options: ["66", "64", "68", "70"],
-      correct: 0
-    },
-    {
-      tag: { kk: "Логика", ru: "Логика" },
-      text: { kk: "5 адам 5 тапсырманы 5 минутта орындайды. 100 адам 100 тапсырманы қанша минутта орындайды?", ru: "5 человек делают 5 задач за 5 минут. За сколько минут 100 человек сделают 100 задач?" },
-      visual: "",
-      options: ["100", "20", "5", "50"],
-      correct: 2
-    }
-  ]
-};
+// ============================================================
+// Научный банк вопросов на основе International Cognitive
+// Ability Resource методологии (адаптация из открытого MIT-
+// лицензированного проекта Ksound22/iq-measurer).
+// 4 домена: matrix (35%), verbal (25%), memory (20%), speed (20%)
+// ============================================================
 
-const CATEGORIES = [
-  { code: "logic", icon: "ic-puzzle", name: { kk: "Логика", ru: "Логика" }, questions: 10, minutes: 3, locked: false },
-  { code: "math", icon: "ic-numbers", name: { kk: "Сандар", ru: "Математика" }, questions: 12, minutes: 3, locked: true },
-  { code: "space", icon: "ic-cube", name: { kk: "Кеңістік", ru: "Пространство" }, questions: 10, minutes: 3, locked: true },
-  { code: "verbal", icon: "ic-book", name: { kk: "Сөздік", ru: "Словесный" }, questions: 12, minutes: 3, locked: true },
-  { code: "memory", icon: "ic-phone", name: { kk: "Есте сақтау", ru: "Память" }, questions: 12, minutes: 3, locked: true },
-  { code: "movies", icon: "ic-clapper", name: { kk: "Кино тесті", ru: "Кино-тест" }, questions: 12, minutes: 3, locked: true }
+const QUESTION_BANK = [
+  // ---------- MATRIX (матричное мышление) ----------
+  {
+    id: 1, domain: "matrix", difficulty: 1, timeLimit: 40,
+    text: { kk: "3×3 торды қандай фигура толықтырады?", ru: "Какая фигура дополняет сетку 3×3?" },
+    svg: "<svg viewBox='0 0 210 210' xmlns='http://www.w3.org/2000/svg' style='max-width:210px;margin:0 auto;display:block'><rect width='210' height='210' rx='8' fill='#1e293b'/><g fill='#818cf8'><circle cx='35' cy='35' r='18'/><rect x='17' y='87' width='36' height='36' rx='3'/><polygon points='35,143 17,175 53,175'/><circle cx='105' cy='35' r='18'/><rect x='87' y='87' width='36' height='36' rx='3'/><polygon points='105,143 87,175 123,175'/><circle cx='175' cy='35' r='18'/><rect x='157' y='87' width='36' height='36' rx='3'/></g><rect x='157' y='157' width='36' height='36' rx='4' fill='none' stroke='#f59e0b' stroke-width='2' stroke-dasharray='5,3'/><text x='175' y='180' text-anchor='middle' fill='#f59e0b' font-size='22' font-weight='bold'>?</text></svg>",
+    options: { kk: ["Шеңбер", "Шаршы", "Үшбұрыш", "Ромб"], ru: ["Круг", "Квадрат", "Треугольник", "Ромб"] },
+    answerIndex: 2
+  },
+  {
+    id: 2, domain: "matrix", difficulty: 1, timeLimit: 40,
+    text: { kk: "Әр қатарда бірдей үш фигура бар. Қай фигура жетіспейді?", ru: "В каждой строке одинаковые три фигуры. Какая фигура отсутствует?" },
+    svg: "<svg viewBox='0 0 210 210' xmlns='http://www.w3.org/2000/svg' style='max-width:210px;margin:0 auto;display:block'><rect width='210' height='210' rx='8' fill='#1e293b'/><g fill='#34d399'><rect x='17' y='17' width='36' height='36' rx='3'/><circle cx='105' cy='35' r='18'/><polygon points='175,17 157,53 193,53'/><rect x='17' y='87' width='36' height='36' rx='3'/><circle cx='105' cy='105' r='18'/><polygon points='175,87 157,123 193,123'/><rect x='17' y='157' width='36' height='36' rx='3'/></g><rect x='87' y='157' width='36' height='36' rx='4' fill='none' stroke='#f59e0b' stroke-width='2' stroke-dasharray='5,3'/><text x='105' y='180' text-anchor='middle' fill='#f59e0b' font-size='22' font-weight='bold'>?</text><polygon points='175,157 157,193 193,193' fill='#34d399'/></svg>",
+    options: { kk: ["Шаршы", "Шеңбер", "Үшбұрыш", "Ромб"], ru: ["Квадрат", "Круг", "Треугольник", "Ромб"] },
+    answerIndex: 1
+  },
+  {
+    id: 3, domain: "matrix", difficulty: 2, timeLimit: 40,
+    text: { kk: "Фигуралар солдан оңға қарай үлкейеді. Төменгі оң жақ ұяшықты қандай өлшем толықтырады?", ru: "Фигуры увеличиваются слева направо. Какой размер дополняет нижнюю правую ячейку?" },
+    svg: "<svg viewBox='0 0 210 210' xmlns='http://www.w3.org/2000/svg' style='max-width:210px;margin:0 auto;display:block'><rect width='210' height='210' rx='8' fill='#1e293b'/><g fill='#818cf8'><circle cx='35' cy='35' r='10'/><circle cx='105' cy='35' r='15'/><circle cx='175' cy='35' r='20'/><circle cx='35' cy='105' r='10'/><circle cx='105' cy='105' r='15'/><circle cx='175' cy='105' r='20'/><circle cx='35' cy='175' r='10'/><circle cx='105' cy='175' r='15'/></g><rect x='157' y='157' width='36' height='36' rx='4' fill='none' stroke='#f59e0b' stroke-width='2' stroke-dasharray='5,3'/><text x='175' y='180' text-anchor='middle' fill='#f59e0b' font-size='22' font-weight='bold'>?</text></svg>",
+    options: { kk: ["Кіші шеңбер", "Орта шеңбер", "Үлкен шеңбер", "Аса үлкен шеңбер"], ru: ["Маленький круг", "Средний круг", "Большой круг", "Очень большой круг"] },
+    answerIndex: 2
+  },
+  {
+    id: 4, domain: "matrix", difficulty: 2, timeLimit: 40,
+    text: { kk: "Әр ұяшықтағы нүктелер саны әр бағанда 1-ге артады. Жетіспейтін ұяшыққа не сәйкес келеді?", ru: "Количество точек в каждой ячейке увеличивается на 1 в каждом столбце. Что заполняет пропущенную ячейку?" },
+    svg: "<svg viewBox='0 0 210 210' xmlns='http://www.w3.org/2000/svg' style='max-width:210px;margin:0 auto;display:block'><rect width='210' height='210' rx='8' fill='#1e293b'/><g fill='#f472b6'><circle cx='35' cy='35' r='6'/><circle cx='99' cy='29' r='6'/><circle cx='111' cy='41' r='6'/><circle cx='163' cy='29' r='6'/><circle cx='175' cy='41' r='6'/><circle cx='187' cy='29' r='6'/><circle cx='35' cy='105' r='6'/><circle cx='47' cy='93' r='6'/><circle cx='93' cy='99' r='6'/><circle cx='105' cy='111' r='6'/><circle cx='117' cy='99' r='6'/><circle cx='163' cy='99' r='6'/><circle cx='175' cy='111' r='6'/><circle cx='187' cy='99' r='6'/><circle cx='175' cy='87' r='6'/><circle cx='35' cy='175' r='6'/><circle cx='47' cy='163' r='6'/><circle cx='23' cy='163' r='6'/><circle cx='93' cy='169' r='6'/><circle cx='105' cy='181' r='6'/><circle cx='117' cy='169' r='6'/><circle cx='105' cy='157' r='6'/></g><rect x='157' y='157' width='36' height='36' rx='4' fill='none' stroke='#f59e0b' stroke-width='2' stroke-dasharray='5,3'/><text x='175' y='180' text-anchor='middle' fill='#f59e0b' font-size='22' font-weight='bold'>?</text></svg>",
+    options: { kk: ["3 нүкте", "4 нүкте", "5 нүкте", "6 нүкте"], ru: ["3 точки", "4 точки", "5 точек", "6 точек"] },
+    answerIndex: 2
+  },
+  {
+    id: 5, domain: "matrix", difficulty: 3, timeLimit: 40,
+    text: { kk: "Әр қатарда фигура сағат тілі бойымен 45°-қа бұрылады. Қай нұсқа үлгіні толықтырады?", ru: "В каждой строке фигура поворачивается на 45° по часовой стрелке. Какой вариант дополняет узор?" },
+    svg: "<svg viewBox='0 0 210 210' xmlns='http://www.w3.org/2000/svg' style='max-width:210px;margin:0 auto;display:block'><rect width='210' height='210' rx='8' fill='#1e293b'/><g fill='none' stroke='#818cf8' stroke-width='3'><rect x='22' y='22' width='26' height='26'/><rect x='92' y='22' width='26' height='26' transform='rotate(45 105 35)'/><rect x='162' y='22' width='26' height='26' transform='rotate(90 175 35)'/><rect x='22' y='92' width='26' height='26'/><rect x='92' y='92' width='26' height='26' transform='rotate(45 105 105)'/><rect x='162' y='92' width='26' height='26' transform='rotate(90 175 105)'/><rect x='22' y='162' width='26' height='26'/><rect x='92' y='162' width='26' height='26' transform='rotate(45 105 175)'/></g><rect x='157' y='157' width='36' height='36' rx='4' fill='none' stroke='#f59e0b' stroke-width='2' stroke-dasharray='5,3'/><text x='175' y='180' text-anchor='middle' fill='#f59e0b' font-size='22' font-weight='bold'>?</text></svg>",
+    options: { kk: ["Шаршы (0°)", "Ромб (45°)", "Шаршы (90°)", "Ромб (135°)"], ru: ["Квадрат (0°)", "Ромб (45°)", "Квадрат (90°)", "Ромб (135°)"] },
+    answerIndex: 2
+  },
+  {
+    id: 6, domain: "matrix", difficulty: 3, timeLimit: 40,
+    text: { kk: "Әр қатарда бір қою, бір орташа және бір ашық түсті фигура бар. Қай реңк торды толықтырады?", ru: "В каждой строке одна тёмная, одна средняя и одна светлая фигура. Какой оттенок дополняет сетку?" },
+    svg: "<svg viewBox='0 0 210 210' xmlns='http://www.w3.org/2000/svg' style='max-width:210px;margin:0 auto;display:block'><rect width='210' height='210' rx='8' fill='#1e293b'/><circle cx='35' cy='35' r='20' fill='#312e81'/><circle cx='105' cy='35' r='20' fill='#818cf8'/><circle cx='175' cy='35' r='20' fill='#e0e7ff'/><circle cx='35' cy='105' r='20' fill='#818cf8'/><circle cx='105' cy='105' r='20' fill='#e0e7ff'/><circle cx='175' cy='105' r='20' fill='#312e81'/><circle cx='35' cy='175' r='20' fill='#e0e7ff'/><circle cx='105' cy='175' r='20' fill='#312e81'/><rect x='157' y='157' width='36' height='36' rx='4' fill='none' stroke='#f59e0b' stroke-width='2' stroke-dasharray='5,3'/><text x='175' y='180' text-anchor='middle' fill='#f59e0b' font-size='22' font-weight='bold'>?</text></svg>",
+    options: { kk: ["Қою", "Орташа", "Ашық", "Жолақты"], ru: ["Тёмный", "Средний", "Светлый", "Полосатый"] },
+    answerIndex: 1
+  },
+  {
+    id: 8, domain: "matrix", difficulty: 4, timeLimit: 45,
+    text: { kk: "Әр қатардағы бағдаршалар әр бағанда басқа бағытты көрсетеді. Қай бағыт жетіспейді?", ru: "Стрелки в каждой строке указывают в разном направлении по столбцам. Какое направление отсутствует?" },
+    svg: "<svg viewBox='0 0 210 210' xmlns='http://www.w3.org/2000/svg' style='max-width:210px;margin:0 auto;display:block'><rect width='210' height='210' rx='8' fill='#1e293b'/><g fill='#818cf8' font-size='28' text-anchor='middle'><text x='35'  y='48'>→</text><text x='105' y='48'>↓</text><text x='175' y='48'>←</text><text x='35'  y='118'>↓</text><text x='105' y='118'>←</text><text x='175' y='118'>↑</text><text x='35'  y='188'>←</text><text x='105' y='188'>↑</text></g><rect x='157' y='157' width='36' height='36' rx='4' fill='none' stroke='#f59e0b' stroke-width='2' stroke-dasharray='5,3'/><text x='175' y='188' text-anchor='middle' fill='#f59e0b' font-size='22' font-weight='bold'>?</text></svg>",
+    options: { kk: ["→", "↓", "↑", "←"], ru: ["→", "↓", "↑", "←"] },
+    answerIndex: 0
+  },
+  {
+    id: 10, domain: "matrix", difficulty: 5, timeLimit: 50,
+    text: { kk: "Әр қатарда ішкі үлгі сағат тілі бойымен бір ширекке көбірек толады. Жетіспейтін ұяшық қалай көрінеді?", ru: "В каждой строке внутренний узор заполняется на одну четверть больше по часовой стрелке. Как выглядит пропущенная ячейка?" },
+    svg: "<svg viewBox='0 0 210 210' xmlns='http://www.w3.org/2000/svg' style='max-width:210px;margin:0 auto;display:block'><rect width='210' height='210' rx='8' fill='#1e293b'/><g stroke='#818cf8' stroke-width='1' fill='none'><rect x='17' y='17' width='36' height='36' rx='3'/><rect x='87' y='17' width='36' height='36' rx='3'/><rect x='157' y='17' width='36' height='36' rx='3'/><rect x='17' y='87' width='36' height='36' rx='3'/><rect x='87' y='87' width='36' height='36' rx='3'/><rect x='157' y='87' width='36' height='36' rx='3'/><rect x='17' y='157' width='36' height='36' rx='3'/><rect x='87' y='157' width='36' height='36' rx='3'/></g><g fill='#818cf8'><rect x='17' y='17' width='18' height='18' rx='2'/><rect x='87' y='17' width='18' height='18' rx='2'/><rect x='105' y='17' width='18' height='18' rx='2'/><rect x='157' y='17' width='36' height='36' rx='2'/><rect x='17' y='87' width='18' height='18' rx='2'/><rect x='87' y='87' width='18' height='18' rx='2'/><rect x='105' y='87' width='18' height='18' rx='2'/><rect x='157' y='87' width='36' height='36' rx='2'/><rect x='17' y='157' width='18' height='18' rx='2'/><rect x='17' y='175' width='18' height='18' rx='2'/></g><rect x='157' y='157' width='36' height='36' rx='4' fill='none' stroke='#f59e0b' stroke-width='2' stroke-dasharray='5,3'/><text x='175' y='180' text-anchor='middle' fill='#f59e0b' font-size='22' font-weight='bold'>?</text></svg>",
+    options: { kk: ["1 ширек толған", "2 ширек толған", "3 ширек толған", "Барлық 4 ширек толған"], ru: ["Заполнена 1 четверть", "Заполнены 2 четверти", "Заполнены 3 четверти", "Заполнены все 4 четверти"] },
+    answerIndex: 3
+  },
+
+  // ---------- VERBAL (вербальное мышление) ----------
+  {
+    id: 11, domain: "verbal", difficulty: 1, timeLimit: 25,
+    text: { kk: "«Ыстық» — «Суыққа» қалай қатысты болса, «Күн» — солай ___ қатысты.", ru: "«Горячий» относится к «Холодному», как «День» относится к ___." },
+    options: { kk: ["Күн (аспандағы)", "Түн", "Жылы", "Аспан"], ru: ["Солнце", "Ночь", "Тепло", "Небо"] },
+    answerIndex: 1
+  },
+  {
+    id: 12, domain: "verbal", difficulty: 1, timeLimit: 25,
+    text: { kk: "«Үлкен» — «Кішіге» қалай қатысты болса, «Жылдам» — солай ___ қатысты.", ru: "«Большой» относится к «Маленькому», как «Быстрый» относится к ___." },
+    options: { kk: ["Тез", "Баяу", "Жылдамдық", "Жүгіру"], ru: ["Скорый", "Медленный", "Скорость", "Бег"] },
+    answerIndex: 1
+  },
+  {
+    id: 13, domain: "verbal", difficulty: 2, timeLimit: 25,
+    text: { kk: "«Құс» — «Топқа» қалай қатысты болса, «Балық» — солай ___ қатысты.", ru: "«Птица» относится к «Стае», как «Рыба» относится к ___." },
+    options: { kk: ["Мұхит", "Топ (балық)", "Отар", "Табын"], ru: ["Океан", "Косяк", "Стая", "Стадо"] },
+    answerIndex: 1
+  },
+  {
+    id: 14, domain: "verbal", difficulty: 2, timeLimit: 25,
+    text: { kk: "«Суретші» — «Кенепке» қалай қатысты болса, «Мүсінші» — солай ___ қатысты.", ru: "«Художник» относится к «Холсту», как «Скульптор» относится к ___." },
+    options: { kk: ["Мұражай", "Балшық", "Қылқалам", "Галерея"], ru: ["Музей", "Глина", "Кисть", "Галерея"] },
+    answerIndex: 1
+  },
+  {
+    id: 15, domain: "verbal", difficulty: 3, timeLimit: 25,
+    text: { kk: "Қай сөз артық? Алма, Банан, Сәбіз, Манго.", ru: "Какое слово лишнее? Яблоко, Банан, Морковь, Манго." },
+    options: { kk: ["Алма", "Банан", "Сәбіз", "Манго"], ru: ["Яблоко", "Банан", "Морковь", "Манго"] },
+    answerIndex: 2
+  },
+  {
+    id: 16, domain: "verbal", difficulty: 3, timeLimit: 25,
+    text: { kk: "Қай сөз артық? Пианино, Гитара, Скрипка, Труба, Барабан, Микротолқынды пеш.", ru: "Какое слово лишнее? Пианино, Гитара, Скрипка, Труба, Барабан, Микроволновка." },
+    options: { kk: ["Пианино", "Труба", "Барабан", "Микротолқынды пеш"], ru: ["Пианино", "Труба", "Барабан", "Микроволновка"] },
+    answerIndex: 3
+  },
+  {
+    id: 66, domain: "verbal", difficulty: 5, timeLimit: 35,
+    text: { kk: "Барлық логиктер — ойшыл. Кейбір ойшылдар — жазушы. Демек:", ru: "Все логики — мыслители. Некоторые мыслители — писатели. Следовательно:" },
+    options: {
+      kk: ["Барлық логиктер жазушы", "Кейбір логиктер жазушы", "Ешбір логик жазушы емес", "Жоғарыдағылардың ешқайсысын қорытындылауға болмайды"],
+      ru: ["Все логики — писатели", "Некоторые логики — писатели", "Ни один логик не писатель", "Ничего из вышеперечисленного нельзя заключить"]
+    },
+    answerIndex: 3
+  },
+  {
+    id: 70, domain: "verbal", difficulty: 5, timeLimit: 35,
+    text: { kk: "Кейбір A — B. Ешбір B — C емес. Демек:", ru: "Некоторые A — это B. Ни одно B не является C. Следовательно:" },
+    options: {
+      kk: ["Кейбір A — C емес", "Барлық A — C", "Ешбір A — C емес", "Кейбір C — A"],
+      ru: ["Некоторые A не являются C", "Все A являются C", "Ни одно A не является C", "Некоторые C являются A"]
+    },
+    answerIndex: 0
+  },
+
+  // ---------- MEMORY (есте сақтау) ----------
+  {
+    id: 21, domain: "memory", difficulty: 1, timeLimit: 20,
+    text: { kk: "Мына тізбекті есте сақтап, таңдаңыз: 3, 7, 2", ru: "Запомни эту последовательность и выбери её: 3, 7, 2" },
+    options: { kk: ["3, 7, 2", "7, 3, 2", "2, 7, 3", "3, 2, 7"], ru: ["3, 7, 2", "7, 3, 2", "2, 7, 3", "3, 2, 7"] },
+    answerIndex: 0
+  },
+  {
+    id: 22, domain: "memory", difficulty: 1, timeLimit: 20,
+    text: { kk: "Мына тізбекті есте сақтап, таңдаңыз: 5, 9, 1", ru: "Запомни эту последовательность и выбери её: 5, 9, 1" },
+    options: { kk: ["9, 5, 1", "5, 1, 9", "1, 9, 5", "5, 9, 1"], ru: ["9, 5, 1", "5, 1, 9", "1, 9, 5", "5, 9, 1"] },
+    answerIndex: 3
+  },
+  {
+    id: 23, domain: "memory", difficulty: 2, timeLimit: 20,
+    text: { kk: "Мына тізбекті есте сақтап, таңдаңыз: 8, 1, 5, 4", ru: "Запомни эту последовательность и выбери её: 8, 1, 5, 4" },
+    options: { kk: ["8, 1, 5, 4", "1, 8, 5, 4", "8, 5, 1, 4", "4, 5, 1, 8"], ru: ["8, 1, 5, 4", "1, 8, 5, 4", "8, 5, 1, 4", "4, 5, 1, 8"] },
+    answerIndex: 0
+  },
+  {
+    id: 24, domain: "memory", difficulty: 2, timeLimit: 20,
+    text: { kk: "Мына тізбекті есте сақтап, таңдаңыз: 3, 6, 2, 9", ru: "Запомни эту последовательность и выбери её: 3, 6, 2, 9" },
+    options: { kk: ["6, 3, 2, 9", "3, 2, 6, 9", "3, 6, 2, 9", "9, 2, 6, 3"], ru: ["6, 3, 2, 9", "3, 2, 6, 9", "3, 6, 2, 9", "9, 2, 6, 3"] },
+    answerIndex: 2
+  },
+  {
+    id: 25, domain: "memory", difficulty: 3, timeLimit: 25,
+    text: { kk: "Мына тізбекті есте сақтап, таңдаңыз: 6, 3, 9, 1, 7", ru: "Запомни эту последовательность и выбери её: 6, 3, 9, 1, 7" },
+    options: { kk: ["6, 3, 9, 1, 7", "3, 6, 9, 7, 1", "6, 9, 3, 1, 7", "7, 1, 9, 3, 6"], ru: ["6, 3, 9, 1, 7", "3, 6, 9, 7, 1", "6, 9, 3, 1, 7", "7, 1, 9, 3, 6"] },
+    answerIndex: 0
+  },
+  {
+    id: 27, domain: "memory", difficulty: 4, timeLimit: 30,
+    text: { kk: "Тізбекті КЕРІ ретпен таңдаңыз: 2, 6, 4, 8", ru: "Выбери эту последовательность в ОБРАТНОМ порядке: 2, 6, 4, 8" },
+    options: { kk: ["8, 4, 6, 2", "2, 6, 4, 8", "4, 6, 8, 2", "8, 6, 4, 2"], ru: ["8, 4, 6, 2", "2, 6, 4, 8", "4, 6, 8, 2", "8, 6, 4, 2"] },
+    answerIndex: 0
+  },
+  {
+    id: 28, domain: "memory", difficulty: 4, timeLimit: 30,
+    text: { kk: "Тізбекті КЕРІ ретпен таңдаңыз: 1, 7, 3, 5", ru: "Выбери эту последовательность в ОБРАТНОМ порядке: 1, 7, 3, 5" },
+    options: { kk: ["5, 3, 7, 1", "1, 7, 3, 5", "5, 7, 3, 1", "3, 5, 7, 1"], ru: ["5, 3, 7, 1", "1, 7, 3, 5", "5, 7, 3, 1", "3, 5, 7, 1"] },
+    answerIndex: 0
+  },
+  {
+    id: 29, domain: "memory", difficulty: 5, timeLimit: 35,
+    text: { kk: "Тізбекті КЕРІ ретпен таңдаңыз: 5, 3, 8, 1, 9, 2", ru: "Выбери эту последовательность в ОБРАТНОМ порядке: 5, 3, 8, 1, 9, 2" },
+    options: { kk: ["2, 9, 1, 8, 3, 5", "5, 3, 8, 1, 9, 2", "2, 1, 9, 8, 3, 5", "9, 2, 1, 8, 3, 5"], ru: ["2, 9, 1, 8, 3, 5", "5, 3, 8, 1, 9, 2", "2, 1, 9, 8, 3, 5", "9, 2, 1, 8, 3, 5"] },
+    answerIndex: 0
+  },
+
+  // ---------- SPEED (өңдеу жылдамдығы) ----------
+  {
+    id: 31, domain: "speed", difficulty: 1, timeLimit: 20,
+    text: { kk: "Мына жолда неше 'E' әрпі бар? EABECEDEFE", ru: "Сколько букв 'E' в этой строке? EABECEDEFE" },
+    options: { kk: ["3", "4", "5", "6"], ru: ["3", "4", "5", "6"] },
+    answerIndex: 2
+  },
+  {
+    id: 32, domain: "speed", difficulty: 1, timeLimit: 20,
+    text: { kk: "Қай сан ең үлкен? 47, 74, 44, 77, 71", ru: "Какое число наибольшее? 47, 74, 44, 77, 71" },
+    options: { kk: ["74", "47", "77", "71"], ru: ["74", "47", "77", "71"] },
+    answerIndex: 2
+  },
+  {
+    id: 33, domain: "speed", difficulty: 2, timeLimit: 20,
+    text: { kk: "Қай сан жетіспейді? 10, 20, ?, 40, 50", ru: "Какое число пропущено? 10, 20, ?, 40, 50" },
+    options: { kk: ["25", "30", "35", "28"], ru: ["25", "30", "35", "28"] },
+    answerIndex: 1
+  },
+  {
+    id: 34, domain: "speed", difficulty: 2, timeLimit: 20,
+    text: { kk: "Мына тізбекте неше жұп сан бар: 3, 8, 15, 22, 7, 4, 11, 16?", ru: "Сколько чётных чисел в: 3, 8, 15, 22, 7, 4, 11, 16?" },
+    options: { kk: ["2", "3", "4", "5"], ru: ["2", "3", "4", "5"] },
+    answerIndex: 2
+  },
+  {
+    id: 35, domain: "speed", difficulty: 3, timeLimit: 25,
+    text: { kk: "Мына тізбекте неше тақ сан бар: 4, 7, 11, 14, 19, 22, 23?", ru: "Сколько нечётных чисел в: 4, 7, 11, 14, 19, 22, 23?" },
+    options: { kk: ["2", "3", "4", "5"], ru: ["2", "3", "4", "5"] },
+    answerIndex: 2
+  },
+  {
+    id: 36, domain: "speed", difficulty: 3, timeLimit: 25,
+    text: { kk: "25×4 нешеге тең?", ru: "Чему равно 25×4?" },
+    options: { kk: ["90", "95", "100", "105"], ru: ["90", "95", "100", "105"] },
+    answerIndex: 2
+  },
+  {
+    id: 37, domain: "speed", difficulty: 4, timeLimit: 30,
+    text: { kk: "17×8 нешеге тең?", ru: "Чему равно 17×8?" },
+    options: { kk: ["126", "134", "136", "144"], ru: ["126", "134", "136", "144"] },
+    answerIndex: 2
+  },
+  {
+    id: 39, domain: "speed", difficulty: 5, timeLimit: 35,
+    text: { kk: "Пойыз сағатына 60 км жылдамдықпен жүреді. 40 минутта қанша км жол жүреді?", ru: "Поезд едет со скоростью 60 км/ч. Сколько км он проедет за 40 минут?" },
+    options: { kk: ["35 км", "40 км", "45 км", "50 км"], ru: ["35 км", "40 км", "45 км", "50 км"] },
+    answerIndex: 1
+  }
 ];
 
+// Веса доменов для композитного IQ (по методологии Condon & Revelle, 2014 / ICAR)
+const DOMAIN_WEIGHTS = { matrix: 0.35, verbal: 0.25, memory: 0.20, speed: 0.20 };
+const DOMAIN_INFO = {
+  matrix: { icon: "ic-cube", name: { kk: "Матрицалар", ru: "Матрицы" } },
+  verbal: { icon: "ic-book", name: { kk: "Вербалды", ru: "Вербальный" } },
+  memory: { icon: "ic-phone", name: { kk: "Есте сақтау", ru: "Память" } },
+  speed: { icon: "ic-sigma", name: { kk: "Жылдамдық", ru: "Скорость" } }
+};
+
+// Каналы-спонсоры для гейта подписки
 const SPONSOR_CHANNELS = [
   { username: "estesakta_mus", name: "ESTE SAKTA", icon: "ic-megaphone", members: "21K" }
 ];

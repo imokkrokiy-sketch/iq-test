@@ -121,7 +121,8 @@ h1.display .accent{ color:var(--blue);}
 .q-card{ background:var(--card); border:1px solid var(--line); border-radius:22px; padding:26px 20px; margin-bottom:20px; box-shadow:0 10px 30px -16px rgba(15,30,69,.12);}
 .q-tag{ display:inline-block; background:var(--blue-tint); color:var(--blue); font-family:'IBM Plex Mono',monospace; font-size:10px; text-transform:uppercase; letter-spacing:.08em; padding:5px 10px; border-radius:8px; margin-bottom:14px;}
 .q-text{ font-size:19px; font-weight:800; line-height:1.4; color:var(--navy);}
-.q-visual{ display:flex; justify-content:center; flex-wrap:wrap; gap:14px; margin-top:20px; font-family:'IBM Plex Mono',monospace; font-size:24px; font-weight:700; color:var(--blue);}
+.q-visual{ display:none; justify-content:center; margin-top:18px;}
+.q-visual svg{ width:100%; max-width:210px; border-radius:12px;}
 
 .options{ display:flex; flex-direction:column; gap:10px;}
 .opt{ background:var(--card); border:1px solid var(--line); border-radius:16px; padding:16px 18px; display:flex; align-items:center; gap:14px; text-align:left; font-weight:700; font-size:15px; color:var(--navy);
@@ -181,6 +182,13 @@ h1.display .accent{ color:var(--blue);}
 .percentile-label{ display:flex; justify-content:space-between; font-family:'IBM Plex Mono',monospace; font-size:11px; color:var(--text-muted); margin-bottom:8px;}
 .percentile-track{ height:8px; background:var(--line); border-radius:99px; overflow:hidden;}
 .percentile-fill{ height:100%; background:linear-gradient(90deg, var(--blue), var(--gold)); width:0%; border-radius:99px; transition:width 1.2s ease 1.6s;}
+
+.domain-bars-wrap{ width:100%; margin-top:22px; opacity:0; animation:fadeIn .5s ease 1.7s forwards; text-align:left;}
+.domain-row{ display:flex; align-items:center; gap:10px; margin-bottom:10px;}
+.domain-label{ width:80px; font-size:11.5px; font-weight:700; color:var(--navy); flex-shrink:0;}
+.domain-track{ flex:1; height:7px; background:var(--line); border-radius:99px; overflow:hidden;}
+.domain-fill{ height:100%; background:linear-gradient(90deg, var(--blue), #7FA8FF); border-radius:99px; transition:width 1s ease;}
+.domain-pct{ width:36px; text-align:right; font-family:'IBM Plex Mono',monospace; font-size:11px; color:var(--text-muted); flex-shrink:0;}
 
 .share-card{ margin-top:24px; width:100%; border-radius:20px; padding:22px; background:linear-gradient(155deg, var(--navy), var(--navy2)); color:#fff; text-align:left; position:relative; overflow:hidden; opacity:0; animation:fadeIn .5s ease 1.8s forwards;}
 .share-card::after{ content:''; position:absolute; top:-40%; right:-20%; width:200px; height:200px; border-radius:50%; background:radial-gradient(circle, rgba(59,111,240,.35), transparent 70%);}

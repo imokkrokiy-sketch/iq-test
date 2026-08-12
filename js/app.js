@@ -9,56 +9,44 @@ if (tg) {
 
 // ===== State =====
 let state = {
-  category: null,
   questions: [],
   index: 0,
-  score: 0,
-  answers: [],
+  results: [],
   timerInterval: null,
   timeLeft: 20,
+  questionStartTime: 0,
 };
 
-const QUESTION_TIME = 20; // секунд на вопрос
-
-// ===== Screen navigation =====
 function go(id) {
   document.querySelectorAll(".screen").forEach(s => s.classList.remove("active"));
   document.getElementById(id).classList.add("active");
 }
 
-// ===== Localized field helper (supports {kk,ru} objects or plain strings) =====
 function L(field) {
   if (typeof field === "string") return field;
   if (field && typeof field === "object") return field[currentLang] || field.kk || "";
   return "";
 }
 
-// ===== Render categories =====
 function renderCategories() {
   const grid = document.getElementById("catGrid");
   grid.innerHTML = "";
-  const qWord = currentLang === "kk" ? "сұрақ" : "вопросов";
-  const minWord = currentLang === "kk" ? "мин" : "мин";
-  CATEGORIES.forEach(cat => {
-    const card = document.createElement("button");
-    card.className = "cat-card" + (cat.locked ? " locked" : "");
-    const rightEl = cat.locked
-      ? `<span class="soon-badge">${t("locked_soon")}</span>`
-      : `<div class="arrow"><svg width="11" height="11"><use href="#ic-arrow"/></svg></div>`;
+  const counts = { matrix: 0, verbal: 0, memory: 0, speed: 0 };
+  QUESTION_BANK.forEach(q => counts[q.domain]++);
+
+  Object.entries(DOMAIN_INFO).forEach(([code, info]) => {
+    const card = document.createElement("div");
+    card.className = "cat-card";
     card.innerHTML = `
-      <div class="row"><div class="ic"><svg width="18" height="18"><use href="#${cat.icon}"/></svg></div>${rightEl}</div>
+      <div class="row"><div class="ic"><svg width="18" height="18"><use href="#${info.icon}"/></svg></div></div>
       <div class="body">
-        <div class="name">${L(cat.name)}</div>
-        <div class="meta">${cat.questions} ${qWord} · ~${cat.minutes} ${minWord}</div>
+        <div class="name">${L(info.name)}</div>
+        <div class="meta">${counts[code]} ${currentLang === "kk" ? "сұрақ" : "вопросов"}</div>
       </div>`;
-    if (!cat.locked) {
-      card.addEventListener("click", () => openAgeGate(cat.code));
-    }
     grid.appendChild(card);
   });
 }
 
-// ===== Render sponsor channels in gate =====
 function renderGateChannels() {
   const wrap = document.getElementById("gateChannels");
   wrap.innerHTML = "";
@@ -90,35 +78,44 @@ function renderGateChannels() {
   });
 }
 
-// ===== Age gate =====
-let pendingCategory = null;
 let selectedAge = null;
 
-function openAgeGate(categoryCode) {
-  pendingCategory = categoryCode;
+function openAgeGate() {
   go("screen-age");
 }
 
 document.querySelectorAll(".age-opt").forEach(btn => {
   btn.addEventListener("click", () => {
     selectedAge = btn.dataset.age;
-    if (pendingCategory) {
-      startTest(pendingCategory);
-    }
+    startTest();
   });
 });
 document.getElementById("btnAgeBack")?.addEventListener("click", () => go("screen-start"));
 
-// ===== Test flow =====
-function startTest(categoryCode) {
-  const bank = QUESTION_BANKS[categoryCode];
-  if (!bank || bank.length === 0) return;
+function shuffle(arr) {
+  const a = [...arr];
+  for (let i = a.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [a[i], a[j]] = [a[j], a[i]];
+  }
+  return a;
+}
 
-  state.category = categoryCode;
-  state.questions = bank; // MVP: весь банк по порядку; позже — случайная выборка N штук
+function startTest() {
+  const byDomain = { matrix: [], verbal: [], memory: [], speed: [] };
+  QUESTION_BANK.forEach(q => byDomain[q.domain].push(q));
+  Object.keys(byDomain).forEach(d => { byDomain[d] = shuffle(byDomain[d]); });
+
+  const interleaved = [];
+  const maxLen = Math.max(...Object.values(byDomain).map(a => a.length));
+  const domainOrder = shuffle(["matrix", "verbal", "memory", "speed"]);
+  for (let i = 0; i < maxLen; i++) {
+    domainOrder.forEach(d => { if (byDomain[d][i]) interleaved.push(byDomain[d][i]); });
+  }
+
+  state.questions = interleaved;
   state.index = 0;
-  state.score = 0;
-  state.answers = [];
+  state.results = [];
 
   document.getElementById("qTotal").textContent = state.questions.length;
   go("screen-question");
@@ -128,9 +125,17 @@ function startTest(categoryCode) {
 function renderQuestion() {
   const q = state.questions[state.index];
   document.getElementById("qCurrent").textContent = String(state.index + 1).padStart(2, "0");
-  document.getElementById("qTag").textContent = L(q.tag);
+  document.getElementById("qTag").textContent = L(DOMAIN_INFO[q.domain].name);
   document.getElementById("qText").textContent = L(q.text);
-  document.getElementById("qVisual").textContent = q.visual || "";
+
+  const visualEl = document.getElementById("qVisual");
+  if (q.svg) {
+    visualEl.innerHTML = q.svg;
+    visualEl.style.display = "flex";
+  } else {
+    visualEl.innerHTML = "";
+    visualEl.style.display = "none";
+  }
 
   const pct = (state.index / state.questions.length) * 100;
   document.getElementById("qProgressFill").style.width = pct + "%";
@@ -138,27 +143,29 @@ function renderQuestion() {
   const optWrap = document.getElementById("qOptions");
   optWrap.innerHTML = "";
   const letters = ["A", "B", "C", "D"];
-  q.options.forEach((opt, i) => {
+  const optionList = q.options[currentLang] || q.options.kk;
+  optionList.forEach((opt, i) => {
     const btn = document.createElement("button");
     btn.className = "opt";
-    btn.innerHTML = `<span class="letter">${letters[i]}</span>${L(opt)}`;
+    btn.innerHTML = `<span class="letter">${letters[i]}</span>${opt}`;
     btn.addEventListener("click", () => selectOption(i));
     optWrap.appendChild(btn);
   });
 
+  state.timeLeft = q.timeLimit;
+  state.questionStartTime = Date.now();
   startTimer();
 }
 
 function startTimer() {
   clearInterval(state.timerInterval);
-  state.timeLeft = QUESTION_TIME;
   updateTimerDisplay();
   state.timerInterval = setInterval(() => {
     state.timeLeft--;
     updateTimerDisplay();
     if (state.timeLeft <= 0) {
       clearInterval(state.timerInterval);
-      selectOption(-1); // время вышло — считаем как неверный ответ
+      selectOption(-1);
     }
   }, 1000);
 }
@@ -178,11 +185,17 @@ function selectOption(selectedIndex) {
   const opts = document.querySelectorAll(".opt");
   opts.forEach(o => o.disabled = true);
 
-  const isCorrect = selectedIndex === q.correct;
-  if (isCorrect) state.score++;
-  state.answers.push({ q: state.index, selected: selectedIndex, correct: q.correct });
+  const isCorrect = selectedIndex === q.answerIndex;
+  const timeTaken = (Date.now() - state.questionStartTime) / 1000;
 
-  // Закрытый тест: не показываем правильность ответа, только какой вариант выбран
+  state.results.push({
+    domain: q.domain,
+    difficulty: q.difficulty,
+    correct: isCorrect,
+    timeTaken: Math.min(timeTaken, q.timeLimit),
+    timeLimit: q.timeLimit,
+  });
+
   if (selectedIndex >= 0) {
     opts[selectedIndex].classList.add("selected");
   }
@@ -194,17 +207,56 @@ function selectOption(selectedIndex) {
     } else {
       finishTest();
     }
-  }, 900);
+  }, 500);
 }
 
-// ===== Finish test → auto-check subscription → gate or result =====
+const DOMAIN_KEYS = ["matrix", "verbal", "memory", "speed"];
+const POPULATION_MEAN = 0.62;
+const POPULATION_SD = 0.15;
+
+function calculateIQ(results) {
+  const domainScores = { matrix: 0, verbal: 0, memory: 0, speed: 0 };
+  const domainCounts = { matrix: 0, verbal: 0, memory: 0, speed: 0 };
+
+  for (const r of results) {
+    domainCounts[r.domain]++;
+    if (r.correct) {
+      const difficultyScore = r.difficulty / 5;
+      const timeFraction = Math.max(0, 1 - r.timeTaken / r.timeLimit);
+      const timeBonus = timeFraction * 0.1;
+      domainScores[r.domain] += Math.min(1, difficultyScore + timeBonus);
+    }
+  }
+
+  const normalised = {};
+  for (const d of DOMAIN_KEYS) {
+    const count = domainCounts[d] || 1;
+    normalised[d] = domainScores[d] / count;
+  }
+
+  let composite = 0;
+  for (const [d, w] of Object.entries(DOMAIN_WEIGHTS)) {
+    composite += (normalised[d] || 0) * w;
+  }
+
+  const z = (composite - POPULATION_MEAN) / POPULATION_SD;
+  const iq = Math.round(100 + 15 * z);
+  const clampedIQ = Math.max(55, Math.min(145, iq));
+
+  const domainPercents = {};
+  for (const [d, val] of Object.entries(normalised)) {
+    domainPercents[d] = Math.round(val * 100);
+  }
+
+  return { iq: clampedIQ, domains: domainPercents };
+}
+
 async function finishTest() {
   document.getElementById("qProgressFill").style.width = "100%";
 
   const telegramId = tg && tg.initDataUnsafe && tg.initDataUnsafe.user ? tg.initDataUnsafe.user.id : null;
 
   if (!telegramId) {
-    // вне Telegram — просто показываем гейт (демо-режим)
     renderGateChannels();
     go("screen-gate");
     document.getElementById("gateError").style.display = "none";
@@ -220,13 +272,10 @@ async function finishTest() {
     const data = await res.json();
 
     if (data.subscribed) {
-      // уже подписан — гейт не показываем, сразу отправляем и показываем результат
       await submitAndShowResult(telegramId);
       return;
     }
-  } catch (e) {
-    // при сетевой ошибке — просто показываем гейт как обычно
-  }
+  } catch (e) {}
 
   renderGateChannels();
   go("screen-gate");
@@ -237,14 +286,18 @@ async function submitAndShowResult(telegramId) {
   const username = tg && tg.initDataUnsafe && tg.initDataUnsafe.user ? tg.initDataUnsafe.user.username : null;
   const firstName = tg && tg.initDataUnsafe && tg.initDataUnsafe.user ? tg.initDataUnsafe.user.first_name : null;
 
+  const scoring = calculateIQ(state.results);
+  const correctCount = state.results.filter(r => r.correct).length;
+
   const payload = {
     telegram_id: telegramId,
     username: username,
     first_name: firstName,
-    category: state.category,
-    score: state.score,
-    total: state.questions.length,
-    iq_score: computeIqScore(),
+    category: "full",
+    score: correctCount,
+    total: state.results.length,
+    iq_score: scoring.iq,
+    domains: scoring.domains,
     age: selectedAge,
   };
 
@@ -258,7 +311,6 @@ async function submitAndShowResult(telegramId) {
     if (data.success) {
       showApiResult(payload);
     } else {
-      // подписка вдруг слетела между проверками — покажем гейт
       renderGateChannels();
       go("screen-gate");
     }
@@ -266,13 +318,6 @@ async function submitAndShowResult(telegramId) {
     renderGateChannels();
     go("screen-gate");
   }
-}
-
-function computeIqScore() {
-  const total = state.questions.length;
-  const pct = state.score / total;
-  // простая линейная нормализация в диапазон ~85-145
-  return Math.round(85 + pct * 60);
 }
 
 document.getElementById("btnCheckSub").addEventListener("click", async () => {
@@ -285,7 +330,8 @@ document.getElementById("btnCheckSub").addEventListener("click", async () => {
   const telegramId = tg && tg.initDataUnsafe && tg.initDataUnsafe.user ? tg.initDataUnsafe.user.id : null;
 
   if (!telegramId) {
-    showLocalResult({ category: state.category, iq_score: computeIqScore() });
+    const demoScoring = calculateIQ(state.results.length ? state.results : [{domain:"matrix",difficulty:3,correct:true,timeTaken:10,timeLimit:40}]);
+    showLocalResult({ iq_score: demoScoring.iq, domains: demoScoring.domains });
     btn.disabled = false;
     btn.textContent = t("btn_check");
     return;
@@ -296,16 +342,32 @@ document.getElementById("btnCheckSub").addEventListener("click", async () => {
   btn.textContent = t("btn_check");
 });
 
+function renderDomainBars(domains) {
+  const wrap = document.getElementById("domainBars");
+  if (!wrap) return;
+  wrap.innerHTML = "";
+  DOMAIN_KEYS.forEach(d => {
+    const pct = domains[d] || 0;
+    const row = document.createElement("div");
+    row.className = "domain-row";
+    row.innerHTML = `
+      <div class="domain-label">${L(DOMAIN_INFO[d].name)}</div>
+      <div class="domain-track"><div class="domain-fill" style="width:${pct}%"></div></div>
+      <div class="domain-pct">${pct}%</div>`;
+    wrap.appendChild(row);
+  });
+}
+
 function showApiResult(payload) {
-  const cat = CATEGORIES.find(c => c.code === payload.category);
-  document.getElementById("resultCategory").textContent = `${currentLang === "kk" ? "Нәтиже" : "Результат"} · ${L(cat.name)}`;
+  document.getElementById("resultCategory").textContent = currentLang === "kk" ? "Толық нәтиже" : "Полный результат";
   document.getElementById("resultScore").textContent = payload.iq_score;
   document.getElementById("shareScore").textContent = payload.iq_score;
-  document.getElementById("shareCat").textContent = `${L(cat.name)} · #—`;
+  document.getElementById("shareCat").textContent = currentLang === "kk" ? "Ғылыми IQ тест" : "Научный IQ тест";
   document.getElementById("shareName").textContent = payload.first_name
     ? `${payload.first_name} · @${payload.username || ""}`
     : "Қонақ";
   document.getElementById("pctLabel").textContent = `${currentLang === "kk" ? "Сен" : "Ты"}: ${payload.iq_score}`;
+  renderDomainBars(payload.domains || {});
 
   go("screen-result");
   requestAnimationFrame(() => {
@@ -316,28 +378,10 @@ function showApiResult(payload) {
   });
 }
 
-// ===== Local result preview (только для просмотра дизайна вне Telegram) =====
 function showLocalResult(payload) {
-  const cat = CATEGORIES.find(c => c.code === payload.category);
-  document.getElementById("resultCategory").textContent = `${t("q_label") === "СҰРАҚ" ? "Нәтиже" : "Результат"} · ${L(cat.name)}`;
-  document.getElementById("resultScore").textContent = payload.iq_score;
-  document.getElementById("shareScore").textContent = payload.iq_score;
-  document.getElementById("shareCat").textContent = `${L(cat.name)} · #—`;
-  document.getElementById("shareName").textContent = tg && tg.initDataUnsafe && tg.initDataUnsafe.user
-    ? `${tg.initDataUnsafe.user.first_name} · @${tg.initDataUnsafe.user.username || ""}`
-    : "Қонақ";
-  document.getElementById("pctLabel").textContent = `${currentLang === "kk" ? "Сен" : "Ты"}: ${payload.iq_score}`;
-
-  go("screen-result");
-  requestAnimationFrame(() => {
-    const dial = document.getElementById("resultDial");
-    const pct = Math.min(payload.iq_score / 160, 1);
-    setTimeout(() => { dial.style.strokeDashoffset = 502 - (502 * pct); }, 150);
-    setTimeout(() => { document.getElementById("pctFill").style.width = "86%"; }, 200);
-  });
+  showApiResult({ ...payload, first_name: null });
 }
 
-// ===== Nav buttons =====
 document.getElementById("navHome")?.addEventListener("click", (e) => {
   document.querySelectorAll(".nav-item").forEach(b => b.classList.remove("active"));
   e.currentTarget.classList.add("active");
@@ -346,7 +390,7 @@ document.getElementById("navHome")?.addEventListener("click", (e) => {
 document.getElementById("navTest")?.addEventListener("click", (e) => {
   document.querySelectorAll(".nav-item").forEach(b => b.classList.remove("active"));
   e.currentTarget.classList.add("active");
-  document.getElementById("catGrid").scrollIntoView({ behavior: "smooth", block: "start" });
+  openAgeGate();
 });
 document.getElementById("navRating")?.addEventListener("click", (e) => {
   document.querySelectorAll(".nav-item").forEach(b => b.classList.remove("active"));
@@ -355,7 +399,7 @@ document.getElementById("navRating")?.addEventListener("click", (e) => {
 });
 
 document.getElementById("btnStartMain")?.addEventListener("click", () => {
-  openAgeGate("logic");
+  openAgeGate();
 });
 document.getElementById("btnLeaderboardTop")?.addEventListener("click", () => {
   document.querySelector(".dark-block")?.scrollIntoView({ behavior: "smooth", block: "start" });
@@ -376,7 +420,6 @@ document.getElementById("btnShare").addEventListener("click", () => {
   }
 });
 
-// ===== Language switch =====
 document.querySelectorAll(".lang-toggle button").forEach(btn => {
   btn.addEventListener("click", () => {
     document.querySelectorAll(".lang-toggle button").forEach(b => b.classList.remove("on"));
@@ -390,6 +433,5 @@ document.querySelectorAll(".lang-toggle button").forEach(btn => {
   });
 });
 
-// ===== Init =====
 applyI18n();
 renderCategories();
