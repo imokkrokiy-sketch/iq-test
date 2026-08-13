@@ -633,3 +633,64 @@ document.querySelectorAll(".rating-tab").forEach(tab => {
 
 document.getElementById("navHomeRating")?.addEventListener("click", () => go("screen-start"));
 document.getElementById("navTestRating")?.addEventListener("click", () => openAgeGate());
+
+// ===== Menu screen =====
+async function loadMenuData() {
+  const menuNameEl = document.getElementById("menuName");
+  const menuIqBadgeEl = document.getElementById("menuIqBadge");
+  const menuPointsEl = document.getElementById("menuPoints");
+
+  const tgUser = tg && tg.initDataUnsafe && tg.initDataUnsafe.user ? tg.initDataUnsafe.user : null;
+  menuNameEl.textContent = tgUser && tgUser.first_name ? tgUser.first_name : (currentLang === "kk" ? "Аноним" : "Аноним");
+
+  const telegramId = tgUser ? tgUser.id : null;
+  if (!telegramId) {
+    menuIqBadgeEl.textContent = "IQ —";
+    menuPointsEl.textContent = "0";
+    return;
+  }
+
+  try {
+    const res = await fetch(`${API_URL}/leaderboard?scope=overall&limit=1&telegram_id=${telegramId}`);
+    const data = await res.json();
+    menuIqBadgeEl.textContent = data.your_score ? `IQ ${data.your_score}` : "IQ —";
+    menuPointsEl.textContent = "0"; // очки за баллы — будущая фича
+  } catch (e) {
+    menuIqBadgeEl.textContent = "IQ —";
+    menuPointsEl.textContent = "0";
+  }
+}
+
+function openMenuScreen() {
+  go("screen-menu");
+  loadMenuData();
+  document.getElementById("menuLangValue").textContent = currentLang === "kk" ? "Қазақша" : "Русский";
+}
+
+document.getElementById("navMenu")?.addEventListener("click", (e) => {
+  document.querySelectorAll(".nav-item").forEach(b => b.classList.remove("active"));
+  e.currentTarget.classList.add("active");
+  openMenuScreen();
+});
+document.getElementById("navMenuRating")?.addEventListener("click", () => openMenuScreen());
+document.getElementById("navHomeMenu")?.addEventListener("click", () => go("screen-start"));
+document.getElementById("navTestMenu")?.addEventListener("click", () => openAgeGate());
+document.getElementById("navRatingMenu")?.addEventListener("click", () => openRatingScreen());
+
+document.querySelectorAll('.menu-row[data-stub="1"]').forEach(row => {
+  row.addEventListener("click", () => {
+    row.style.opacity = "0.5";
+    setTimeout(() => { row.style.opacity = "1"; }, 200);
+  });
+});
+
+document.getElementById("menuLangRow")?.addEventListener("click", () => {
+  currentLang = currentLang === "kk" ? "ru" : "kk";
+  document.getElementById("menuLangValue").textContent = currentLang === "kk" ? "Қазақша" : "Русский";
+  document.querySelectorAll('[data-lang]').forEach(b => b.classList.toggle("on", b.dataset.lang === currentLang));
+  if (typeof applyTranslations === "function") applyTranslations();
+});
+
+document.getElementById("menuLogoutBtn")?.addEventListener("click", () => {
+  go("screen-start");
+});
