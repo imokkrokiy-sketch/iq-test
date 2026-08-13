@@ -86,3 +86,13 @@ const QUESTION_BANK = [
     answerIndex: 0
   }
 ];
+
+const DOMAIN_INFO = {
+  matrix: { icon: "ic-cube", name: { kk: "Кеңістіктік ойлау", ru: "Пространственное мышление" } },
+  cube: { icon: "ic-cube", name: { kk: "Кеңістік", ru: "Пространство" } }
+};
+
+// Каналы-спонсоры для гейта подписки
+const SPONSOR_CHANNELS = [
+  { username: "estesakta_mus", name: "ESTE SAKTA", icon: "ic-megaphone", members: "21K" }
+];
