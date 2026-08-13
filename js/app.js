@@ -109,6 +109,7 @@ function startTest() {
   document.getElementById("qTotal").textContent = state.questions.length;
   go("screen-question");
   renderQuestion();
+  saveTestProgress();
 }
 
 function renderQuestion() {
@@ -197,6 +198,7 @@ function selectOption(selectedIndex) {
     state.index++;
     if (state.index < state.questions.length) {
       renderQuestion();
+      saveTestProgress();
     } else {
       finishTest();
     }
@@ -313,6 +315,7 @@ function runAnalyzingAnimation(onDone) {
 
 async function finishTest() {
   document.getElementById("qProgressFill").style.width = "100%";
+  clearTestProgress();
 
   runAnalyzingAnimation(async () => {
     const telegramId = tg && tg.initDataUnsafe && tg.initDataUnsafe.user ? tg.initDataUnsafe.user.id : null;
@@ -481,6 +484,7 @@ document.getElementById("btnLeaderboard")?.addEventListener("click", () => {
 
 document.getElementById("btnBack").addEventListener("click", () => {
   clearInterval(state.timerInterval);
+  clearTestProgress();
   go("screen-start");
 });
 document.getElementById("btnAgain").addEventListener("click", () => go("screen-start"));
@@ -712,3 +716,72 @@ function applyDarkMode(enabled) {
 document.getElementById("menuDarkToggle")?.addEventListener("change", (e) => {
   applyDarkMode(e.target.checked);
 });
+
+// ===== Persistence: resume test progress + last screen =====
+const PROGRESS_KEY = "iqbot_test_progress";
+const LAST_SCREEN_KEY = "iqbot_last_screen";
+const SIMPLE_RESUMABLE_SCREENS = ["screen-start", "screen-rating", "screen-menu"];
+
+function saveTestProgress() {
+  try {
+    localStorage.setItem(PROGRESS_KEY, JSON.stringify({
+      questionIds: state.questions.map(q => q.id),
+      index: state.index,
+      results: state.results,
+      selectedAge: selectedAge,
+    }));
+  } catch (e) {}
+}
+
+function clearTestProgress() {
+  try { localStorage.removeItem(PROGRESS_KEY); } catch (e) {}
+}
+
+function saveLastScreen(id) {
+  if (SIMPLE_RESUMABLE_SCREENS.includes(id)) {
+    try { localStorage.setItem(LAST_SCREEN_KEY, id); } catch (e) {}
+  }
+}
+
+const _origGo = go;
+go = function(id) {
+  _origGo(id);
+  saveLastScreen(id);
+};
+
+function tryResumeOnLoad() {
+  let saved = null;
+  try { saved = localStorage.getItem(PROGRESS_KEY); } catch (e) {}
+
+  if (saved) {
+    try {
+      const data = JSON.parse(saved);
+      const restoredQuestions = data.questionIds
+        .map(id => QUESTION_BANK.find(q => q.id === id))
+        .filter(Boolean);
+
+      if (restoredQuestions.length === data.questionIds.length && data.index < restoredQuestions.length) {
+        state.questions = restoredQuestions;
+        state.index = data.index;
+        state.results = data.results || [];
+        selectedAge = data.selectedAge;
+        document.getElementById("qTotal").textContent = state.questions.length;
+        go("screen-question");
+        renderQuestion();
+        return;
+      }
+    } catch (e) {}
+    clearTestProgress();
+  }
+
+  let lastScreen = null;
+  try { lastScreen = localStorage.getItem(LAST_SCREEN_KEY); } catch (e) {}
+
+  if (lastScreen && SIMPLE_RESUMABLE_SCREENS.includes(lastScreen) && lastScreen !== "screen-start") {
+    go(lastScreen);
+    if (lastScreen === "screen-rating") openRatingScreen();
+    if (lastScreen === "screen-menu") { loadMenuData(); document.getElementById("menuLangValue").textContent = currentLang === "kk" ? "Қазақша" : "Русский"; }
+  }
+}
+
+tryResumeOnLoad();
