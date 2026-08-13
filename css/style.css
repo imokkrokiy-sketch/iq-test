@@ -238,3 +238,24 @@ h1.display .accent{ color:var(--blue);}
 
 .analyze-subtitle{ font-family:'Manrope',sans-serif; font-weight:600; font-size:13.5px; color:var(--text-muted); margin-top:-24px; margin-bottom:34px; max-width:320px; line-height:1.4; }
 .analyze-footer{ font-family:'Manrope',sans-serif; font-weight:600; font-size:12px; color:var(--text-muted); margin-top:38px; max-width:300px; line-height:1.5; opacity:.85; }
+
+/* ===== Batyr gallop animation ===== */
+.batyr-box{ display:flex; flex-direction:column; align-items:center; justify-content:center; }
+.batyr-svg{ width:78px; height:78px; animation:gallop 0.5s ease-in-out infinite; transform-origin:50% 90%; }
+@keyframes gallop{
+  0%{ transform:translateY(0) rotate(-2deg); }
+  25%{ transform:translateY(-8px) rotate(1deg); }
+  50%{ transform:translateY(-1px) rotate(-1deg); }
+  75%{ transform:translateY(-9px) rotate(2deg); }
+  100%{ transform:translateY(0) rotate(-2deg); }
+}
+.dust{ display:flex; gap:4px; margin-top:1px; height:6px; }
+.dust span{ width:5px; height:5px; border-radius:50%; background:#B9C6E8; opacity:.7; animation:dust 0.5s ease-in-out infinite; }
+.dust span:nth-child(1){animation-delay:0s;}
+.dust span:nth-child(2){animation-delay:.1s;}
+.dust span:nth-child(3){animation-delay:.2s;}
+@keyframes dust{
+  0%,100%{ transform:translateY(0) scale(1); opacity:.7;}
+  50%{ transform:translateY(3px) scale(0.6); opacity:.2;}
+}
+.analyze-pct{ font-size:22px !important; margin-top:2px; }
