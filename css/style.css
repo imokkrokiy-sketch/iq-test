@@ -414,3 +414,14 @@ body.dark .rating-list-card, body.dark .menu-list-card, body.dark .q-card, body.
 body.dark .menu-avatar, body.dark .ry-avatar{ box-shadow:0 3px 10px rgba(0,0,0,.4); }
 body.dark .mp-btn{ background:var(--card); color:var(--text); }
 body.dark .menu-logout{ background:#2A1418; }
+
+/* ===== Result screen redesign ===== */
+.result-screen{ padding:0; }
+.result-scroll-area{ padding:26px 20px 90px; align-items:center; text-align:center; display:flex; flex-direction:column; }
+.result-eyebrow{ font-family:'Manrope',sans-serif; font-weight:700; font-size:14px; color:var(--text-muted); margin-bottom:18px; }
+.percentile-sentence{ font-family:'Manrope',sans-serif; font-weight:600; font-size:13.5px; color:var(--text-muted); max-width:280px; line-height:1.5; margin:10px 0 22px; }
+.result-divider{ width:60%; max-width:220px; height:1px; background:var(--line); margin-bottom:20px; }
+.domain-bars-wrap{ width:100%; max-width:340px; margin-bottom:20px; }
+.rank-line{ font-family:'Manrope',sans-serif; font-weight:700; font-size:14px; color:var(--navy); background:var(--blue-tint); border-radius:14px; padding:12px 18px; margin-bottom:22px; }
+.rank-line b{ color:var(--blue); }
+.btn-text-again{ background:none; border:none; color:var(--text-muted); font-family:'Manrope',sans-serif; font-weight:600; font-size:13px; margin-top:14px; padding:8px; }

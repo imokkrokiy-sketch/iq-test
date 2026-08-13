@@ -365,6 +365,7 @@ async function submitAndShowResult(telegramId) {
     types: scoring.types,
     age: selectedAge,
   };
+  window.__lastResultPayload = payload;
 
   try {
     const res = await fetch(`${API_URL}/submit-result`, {
@@ -408,10 +409,10 @@ document.getElementById("btnCheckSub").addEventListener("click", async () => {
 });
 
 const TYPE_LABELS = {
-  pattern: { kk: "Үлгі", ru: "Узор" },
-  rotation: { kk: "Айналым", ru: "Вращение" },
+  pattern: { kk: "Логика", ru: "Логика" },
+  rotation: { kk: "Кеңістік", ru: "Пространство" },
   position: { kk: "Позиция", ru: "Позиция" },
-  wheel: { kk: "Дөңгелек", ru: "Колесо" },
+  wheel: { kk: "Есте сақтау", ru: "Память" },
   progression: { kk: "Прогрессия", ru: "Прогрессия" },
 };
 
@@ -427,28 +428,70 @@ function renderDomainBars(types) {
     row.innerHTML = `
       <div class="domain-label">${label}</div>
       <div class="domain-track"><div class="domain-fill" style="width:${pct}%"></div></div>
-      <div class="domain-pct">${pct}%</div>`;
+      <div class="domain-pct">· ${pct}%</div>`;
     wrap.appendChild(row);
   });
 }
 
-function showApiResult(payload) {
-  document.getElementById("resultCategory").textContent = currentLang === "kk" ? "Толық нәтиже" : "Полный результат";
+function iqToPercentile(iq) {
+  // approximate normal distribution percentile for IQ (mean 100, sd 15)
+  const z = (iq - 100) / 15;
+  const p = 0.5 * (1 + erf(z / Math.sqrt(2)));
+  return Math.max(1, Math.min(99, Math.round(p * 100)));
+}
+
+function erf(x) {
+  const sign = x < 0 ? -1 : 1;
+  x = Math.abs(x);
+  const a1=0.254829592,a2=-0.284496736,a3=1.421413741,a4=-1.453152027,a5=1.061405429,p=0.3275911;
+  const t = 1 / (1 + p * x);
+  const y = 1 - (((((a5*t+a4)*t)+a3)*t+a2)*t+a1)*t*Math.exp(-x*x);
+  return sign * y;
+}
+
+function iqTierLabel(iq) {
+  const tiers = {
+    kk: [[130,"Данышпан деңгей"],[120,"Өте жоғары нәтиже"],[110,"Жоғары нәтиже"],[90,"Орташа нәтиже"],[0,"Дамып келеді"]],
+    ru: [[130,"Гениальный уровень"],[120,"Очень высокий результат"],[110,"Высокий результат"],[90,"Средний результат"],[0,"Развивается"]],
+  };
+  const list = tiers[currentLang] || tiers.ru;
+  for (const [min, label] of list) {
+    if (iq >= min) return label;
+  }
+  return list[list.length - 1][1];
+}
+
+async function showApiResult(payload) {
+  document.getElementById("resultCategory").textContent = currentLang === "kk" ? "🧠 Сіздің IQ нәтижеңіз" : "🧠 Ваш результат IQ";
   document.getElementById("resultScore").textContent = payload.iq_score;
-  document.getElementById("shareScore").textContent = payload.iq_score;
-  document.getElementById("shareCat").textContent = currentLang === "kk" ? "Ғылыми IQ тест" : "Научный IQ тест";
-  document.getElementById("shareName").textContent = payload.first_name
-    ? `${payload.first_name} · @${payload.username || ""}`
-    : "Қонақ";
-  document.getElementById("pctLabel").textContent = `${currentLang === "kk" ? "Сен" : "Ты"}: ${payload.iq_score}`;
+  document.getElementById("resultBadgeText").textContent = iqTierLabel(payload.iq_score);
+
+  const percentile = iqToPercentile(payload.iq_score);
+  document.getElementById("percentileSentence").textContent = currentLang === "kk"
+    ? `Сіз қатысушылардың ${percentile}%-ынан жоғары нәтиже көрсеттіңіз.`
+    : `Вы показали результат выше, чем ${percentile}% участников.`;
+
   renderDomainBars(payload.types || {});
+
+  const rankLine = document.getElementById("rankLine");
+  const rankValue = document.getElementById("rankValue");
+  rankLine.style.display = "none";
+  if (payload.telegram_id) {
+    try {
+      const res = await fetch(`${API_URL}/leaderboard?scope=overall&limit=1&telegram_id=${payload.telegram_id}`);
+      const data = await res.json();
+      if (data.your_rank) {
+        rankValue.textContent = `#${data.your_rank}`;
+        rankLine.style.display = "block";
+      }
+    } catch (e) {}
+  }
 
   go("screen-result");
   requestAnimationFrame(() => {
     const dial = document.getElementById("resultDial");
     const pct = Math.min(payload.iq_score / 160, 1);
     setTimeout(() => { dial.style.strokeDashoffset = 502 - (502 * pct); }, 150);
-    setTimeout(() => { document.getElementById("pctFill").style.width = "86%"; }, 200);
   });
 }
 
@@ -488,6 +531,7 @@ document.getElementById("btnBack").addEventListener("click", () => {
   go("screen-start");
 });
 document.getElementById("btnAgain").addEventListener("click", () => go("screen-start"));
+document.getElementById("btnViewRating")?.addEventListener("click", () => openRatingScreen());
 document.getElementById("btnShare").addEventListener("click", () => {
   if (tg && tg.openTelegramLink) {
     const text = encodeURIComponent(`Менің IQ ${document.getElementById("resultScore").textContent}! Сен жеңе аласың ба? 🧠`);

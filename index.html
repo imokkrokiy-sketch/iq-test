@@ -8,7 +8,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800;900&family=Montserrat:wght@700;800&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="css/style.css?v=32">
+<link rel="stylesheet" href="css/style.css?v=33">
 </head>
 <body>
 <div class="device">
@@ -365,7 +365,8 @@
 
   <!-- ============ SCREEN 4 — RESULT ============ -->
   <section class="screen result-screen" id="screen-result">
-    <div class="result-eyebrow" id="resultCategory">Нәтиже</div>
+    <div class="scroll-area result-scroll-area">
+    <div class="result-eyebrow" id="resultCategory">🧠 Сіздің IQ нәтижеңіз</div>
     <div class="dial-wrap">
       <svg width="220" height="220" viewBox="0 0 230 230">
         <defs><linearGradient id="gradResult" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#3B6FF0"/><stop offset="100%" stop-color="#7FA8FF"/></linearGradient></defs>
@@ -375,19 +376,21 @@
       <div class="dial-center"><span class="score" id="resultScore">—</span><span class="score-label" data-i18n="score_label">IQ ұпайы</span></div>
     </div>
     <div class="badge-pill" id="resultBadge"><svg width="14" height="14"><use href="#ic-trophy"/></svg> <span id="resultBadgeText">—</span></div>
-    <div class="percentile-bar-wrap">
-      <div class="percentile-label"><span data-i18n="avg_label">Орташа: 100</span><span id="pctLabel">Сен: —</span></div>
-      <div class="percentile-track"><div class="percentile-fill" id="pctFill"></div></div>
-    </div>
+    <div class="percentile-sentence" id="percentileSentence">—</div>
+
+    <div class="result-divider"></div>
+
     <div class="domain-bars-wrap" id="domainBars"></div>
-    <div class="share-card">
-      <div class="row1"><span class="brand"><svg width="14" height="14" color="#7FA8FF"><use href="#brainLine" transform="translate(12,12) scale(0.5)"/></svg> Менің IQ</span><span class="cat" id="shareCat">—</span></div>
-      <div class="big" id="shareScore">—</div>
-      <div class="name" id="shareName">—</div>
+
+    <div class="rank-line" id="rankLine" style="display:none;">
+      🏆 <span data-i18n="rank_label">Рейтингтегі орныңыз:</span> <b id="rankValue">—</b>
     </div>
+
     <div class="btn-row">
-      <button class="btn-primary" id="btnShare"><svg width="16" height="16"><use href="#ic-share"/></svg><span data-i18n="btn_share">Бөлісу</span></button>
-      <button class="btn-ghost" id="btnAgain" data-i18n="btn_again">Тағы тест</button>
+      <button class="btn-primary" id="btnViewRating"><svg width="16" height="16"><use href="#ic-trophy"/></svg><span data-i18n="btn_view_rating">Рейтингті көру</span></button>
+      <button class="btn-ghost" id="btnShare"><svg width="16" height="16"><use href="#ic-share"/></svg><span data-i18n="btn_share_friends">Достармен бөлісу</span></button>
+    </div>
+    <button class="btn-text-again" id="btnAgain" data-i18n="btn_again">Тағы тест тапсыру</button>
     </div>
   </section>
 
@@ -452,8 +455,8 @@
   </section>
 
 </div>
-<script src="js/questions.js?v=32"></script>
-<script src="js/i18n.js?v=32"></script>
-<script src="js/app.js?v=32"></script>
+<script src="js/questions.js?v=33"></script>
+<script src="js/i18n.js?v=33"></script>
+<script src="js/app.js?v=33"></script>
 </body>
 </html>
