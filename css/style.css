@@ -117,7 +117,7 @@ h1.display .accent{ color:var(--blue);}
 .progress-track{ height:6px; background:var(--line); border-radius:99px; margin:0 20px 6px; overflow:hidden;}
 .progress-fill{ height:100%; width:0%; background:linear-gradient(90deg, var(--blue), #7FA8FF); border-radius:99px; transition:width .5s ease;}
 
-.q-body{ flex:1; padding:22px 20px;}
+.q-body{ flex:1; padding:22px 20px 90px; overflow-y:auto; -webkit-overflow-scrolling:touch;}
 .q-card{ background:var(--card); border:1px solid var(--line); border-radius:22px; padding:26px 20px; margin-bottom:20px; box-shadow:0 10px 30px -16px rgba(15,30,69,.12);}
 .q-tag{ display:inline-block; background:var(--blue-tint); color:var(--blue); font-family:'IBM Plex Mono',monospace; font-size:10px; text-transform:uppercase; letter-spacing:.08em; padding:5px 10px; border-radius:8px; margin-bottom:14px;}
 .q-text{ font-size:19px; font-weight:800; line-height:1.4; color:var(--navy);}
@@ -134,7 +134,7 @@ h1.display .accent{ color:var(--blue);}
 .opt:disabled{ pointer-events:none;}
 
 .age-screen{ padding:0;}
-.age-body{ flex:1; display:flex; flex-direction:column; align-items:center; justify-content:center; padding:20px 24px; text-align:center;}
+.age-body{ flex:1; display:flex; flex-direction:column; align-items:center; justify-content:center; padding:20px 24px 90px; text-align:center; overflow-y:auto; -webkit-overflow-scrolling:touch;}
 .age-icon{ width:64px; height:64px; border-radius:20px; background:var(--blue-tint); color:var(--blue); display:flex; align-items:center; justify-content:center; margin-bottom:18px;}
 .age-title{ font-family:'Manrope',sans-serif; font-weight:800; font-size:22px; color:var(--navy); margin:0 0 8px;}
 .age-sub{ font-size:13px; color:var(--text-muted); margin:0 0 28px;}
@@ -142,7 +142,7 @@ h1.display .accent{ color:var(--blue);}
 .age-opt{ background:var(--card); border:1px solid var(--line); border-radius:16px; padding:16px; font-family:'Manrope',sans-serif; font-weight:700; font-size:15px; color:var(--navy); box-shadow:0 4px 14px -10px rgba(15,30,69,.1); transition:all .12s ease;}
 .age-opt:active{ transform:scale(.97); background:var(--blue-tint); border-color:var(--blue);}
 
-.gate-screen{ padding:20px; align-items:center; text-align:center;}
+.gate-screen{ padding:20px 20px 90px; align-items:center; text-align:center; overflow-y:auto; -webkit-overflow-scrolling:touch;}
 .gate-preview-wrap{ position:relative; width:100%; display:flex; justify-content:center; margin-bottom:2px;}
 .gate-blur{ filter:blur(10px); opacity:.55; transform:scale(.94);}
 .gate-overlay{ position:absolute; inset:0; display:flex; flex-direction:column; align-items:center; justify-content:center;}
@@ -165,7 +165,7 @@ h1.display .accent{ color:var(--blue);}
 .gate-hint{ display:flex; gap:8px; margin-top:14px; padding:12px 14px; background:var(--blue-tint); border-radius:12px; font-size:11.5px; color:var(--blue); text-align:left; line-height:1.4;}
 .gate-error{ margin-top:12px; padding:12px 14px; background:#FFF0F0; color:var(--error); border-radius:12px; font-size:12.5px; text-align:left; line-height:1.4; width:100%;}
 
-.result-screen{ padding:26px 20px; align-items:center; text-align:center;}
+.result-screen{ padding:26px 20px 90px; align-items:center; text-align:center; overflow-y:auto; -webkit-overflow-scrolling:touch;}
 .result-eyebrow{ font-family:'IBM Plex Mono',monospace; font-size:11px; color:var(--text-muted); letter-spacing:.1em; text-transform:uppercase; margin-bottom:20px;}
 .dial-wrap{ position:relative; width:220px; height:220px; margin-bottom:6px;}
 .dial-wrap svg{ transform:rotate(-90deg);}
@@ -203,7 +203,7 @@ h1.display .accent{ color:var(--blue);}
 .btn-row .btn-ghost{ flex:1; margin-top:0; padding:16px;}
 
 /* ===== Analyzing screen ===== */
-.analyzing-screen{ align-items:center; text-align:center; padding-top:60px; }
+.analyzing-screen{ align-items:center; text-align:center; padding:60px 20px 90px; overflow-y:auto; -webkit-overflow-scrolling:touch; }
 .analyze-dial-wrap{ position:relative; }
 .analyze-dial-wrap .dial-fill{ stroke:var(--blue) !important; transition: stroke-dashoffset 0.25s linear; }
 .analyze-dial-wrap .dial-center .score{ opacity:1 !important; animation:none !important; font-size:44px; }
