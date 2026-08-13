@@ -300,3 +300,14 @@ h1.display .accent{ color:var(--blue);}
 .rating-you .ry-iq{ font-family:'IBM Plex Mono',monospace; font-weight:700; font-size:14px; color:var(--blue); }
 
 .rating-empty{ text-align:center; font-family:'Manrope',sans-serif; font-weight:600; font-size:13.5px; color:var(--text-muted); padding:40px 20px; }
+
+/* ===== Rating decorative bg + polish ===== */
+.podium-bg{ position:relative; height:0; }
+.podium-bg svg{ position:absolute; color:#C7D6F7; opacity:.55; }
+.pb-1{ top:-166px; left:8px; } .pb-2{ top:-190px; right:20px; }
+.pb-3{ top:-100px; left:40px; } .pb-4{ top:-60px; right:6px; }
+.pb-5{ top:-140px; right:70px; } .pb-6{ top:-40px; left:70px; }
+
+.rating-list-card{ max-height:340px; overflow-y:auto; }
+
+.rating-you{ position:sticky; bottom:76px; box-shadow:0 8px 22px rgba(59,111,240,.14); }

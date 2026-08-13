@@ -8,7 +8,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800;900&family=Montserrat:wght@700;800&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="css/style.css?v=23">
+<link rel="stylesheet" href="css/style.css?v=24">
 </head>
 <body>
 <div class="device">
@@ -206,6 +206,14 @@
       <button class="rating-tab" data-scope="friends" data-i18n="rating_friends">Достарым</button>
     </div>
 
+    <div class="podium-bg">
+      <svg width="20" height="20" class="pb-star pb-1" viewBox="0 0 24 24"><use href="#ic-star"/></svg>
+      <svg width="16" height="16" class="pb-hex pb-2" viewBox="0 0 24 24"><use href="#ic-cube"/></svg>
+      <svg width="14" height="14" class="pb-star pb-3" viewBox="0 0 24 24"><use href="#ic-star"/></svg>
+      <svg width="18" height="18" class="pb-hex pb-4" viewBox="0 0 24 24"><use href="#ic-cube"/></svg>
+      <svg width="12" height="12" class="pb-star pb-5" viewBox="0 0 24 24"><use href="#ic-star"/></svg>
+      <svg width="16" height="16" class="pb-hex pb-6" viewBox="0 0 24 24"><use href="#ic-cube"/></svg>
+    </div>
     <div class="podium-wrap" id="ratingPodium"></div>
 
     <div class="rating-list-card">
@@ -215,6 +223,13 @@
     <div class="rating-you" id="ratingYou" style="display:none;"></div>
 
     <div class="rating-empty" id="ratingEmpty" style="display:none;" data-i18n="rating_empty">Бұл санатта нәтижелер әлі жоқ</div>
+
+    <div class="bottom-nav">
+      <button class="nav-item" id="navHomeRating"><svg width="20" height="20"><use href="#ic-home"/></svg><span data-i18n="nav_home">Басты бет</span></button>
+      <button class="nav-item" id="navTestRating"><svg width="20" height="20"><use href="#ic-doc"/></svg><span data-i18n="nav_test">Тест</span></button>
+      <button class="nav-item active" id="navRatingRating"><svg width="20" height="20"><use href="#ic-chart"/></svg><span data-i18n="nav_rating">Рейтинг</span></button>
+      <button class="nav-item" id="navMenuRating"><svg width="20" height="20"><use href="#ic-menu"/></svg><span data-i18n="nav_menu">Мәзір</span></button>
+    </div>
   </section>
 
   <!-- ============ SCREEN 1.5 — AGE GATE ============ -->
@@ -337,8 +352,8 @@
   </section>
 
 </div>
-<script src="js/questions.js?v=23"></script>
-<script src="js/i18n.js?v=23"></script>
-<script src="js/app.js?v=23"></script>
+<script src="js/questions.js?v=24"></script>
+<script src="js/i18n.js?v=24"></script>
+<script src="js/app.js?v=24"></script>
 </body>
 </html>

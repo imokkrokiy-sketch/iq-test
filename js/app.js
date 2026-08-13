@@ -537,7 +537,7 @@ async function loadLeaderboard(scope) {
 
   let data;
   try {
-    const url = `${API_URL}/leaderboard?scope=${scope}&limit=10${telegramId ? `&telegram_id=${telegramId}` : ""}`;
+    const url = `${API_URL}/leaderboard?scope=${scope}&limit=50${telegramId ? `&telegram_id=${telegramId}` : ""}`;
     const res = await fetch(url);
     data = await res.json();
   } catch (e) {
@@ -617,3 +617,6 @@ document.querySelectorAll(".rating-tab").forEach(tab => {
     loadLeaderboard(tab.dataset.scope);
   });
 });
+
+document.getElementById("navHomeRating")?.addEventListener("click", () => go("screen-start"));
+document.getElementById("navTestRating")?.addEventListener("click", () => openAgeGate());
