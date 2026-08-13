@@ -425,3 +425,9 @@ body.dark .menu-logout{ background:#2A1418; }
 .rank-line{ font-family:'Manrope',sans-serif; font-weight:700; font-size:14px; color:var(--navy); background:var(--blue-tint); border-radius:14px; padding:12px 18px; margin-bottom:22px; }
 .rank-line b{ color:var(--blue); }
 .btn-text-again{ background:none; border:none; color:var(--text-muted); font-family:'Manrope',sans-serif; font-weight:600; font-size:13px; margin-top:14px; padding:8px; }
+
+.ci-text{ font-family:'IBM Plex Mono',monospace; font-weight:600; font-size:12px; color:var(--text-muted); margin-top:6px; }
+.strengths-weaknesses{ width:100%; max-width:340px; display:flex; flex-direction:column; gap:8px; margin-bottom:6px; }
+.sw-row{ display:flex; align-items:center; gap:8px; font-family:'Manrope',sans-serif; font-weight:600; font-size:12.5px; padding:8px 12px; border-radius:10px; text-align:left; }
+.sw-row.strength{ background:#E4F7EF; color:#1EA97C; }
+.sw-row.weakness{ background:#FFF0F0; color:var(--error); }

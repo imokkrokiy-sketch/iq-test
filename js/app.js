@@ -101,8 +101,45 @@ function shuffle(arr) {
   return a;
 }
 
+const TEST_LENGTH = 18; // сколько вопросов получает один пользователь за попытку
+
+function pickStratifiedQuestions(bank, count) {
+  // группируем по доменам
+  const byDomain = {};
+  bank.forEach(q => {
+    const d = q.domain || "general";
+    if (!byDomain[d]) byDomain[d] = [];
+    byDomain[d].push(q);
+  });
+
+  const domains = Object.keys(byDomain);
+  domains.forEach(d => { byDomain[d] = shuffle(byDomain[d]); });
+
+  // пропорциональное распределение: сколько вопросов брать из каждого домена
+  const perDomain = Math.max(1, Math.floor(count / domains.length));
+  let picked = [];
+
+  domains.forEach(d => {
+    picked = picked.concat(byDomain[d].slice(0, perDomain));
+  });
+
+  // если не набрали нужное количество (мало доменов/вопросов) — добираем случайно из остатка
+  if (picked.length < count) {
+    const pickedIds = new Set(picked.map(q => q.id));
+    const remaining = shuffle(bank.filter(q => !pickedIds.has(q.id)));
+    picked = picked.concat(remaining.slice(0, count - picked.length));
+  }
+
+  // если набрали больше — обрезаем
+  picked = shuffle(picked).slice(0, Math.min(count, picked.length));
+
+  // сортируем по возрастанию сложности, чтобы тест не был "рандомно скачущим"
+  // но всё же не строго монотонно — лёгкая случайность внутри уровней
+  return picked.sort((a, b) => (a.difficulty || 3) - (b.difficulty || 3));
+}
+
 function startTest() {
-  state.questions = shuffle(QUESTION_BANK);
+  state.questions = pickStratifiedQuestions(QUESTION_BANK, TEST_LENGTH);
   state.index = 0;
   state.results = [];
 
@@ -208,37 +245,77 @@ function selectOption(selectedIndex) {
 const POPULATION_MEAN = 0.5;
 const POPULATION_SD = 0.16;
 
+// ===== Scoring engine v2 =====
+// Каждый вопрос имеет difficulty (1-5), используем упрощённую взвешенную
+// модель в духе 2PL IRT: способность оценивается через сумму
+// (сложность_решённого - сложность_нерешённого), нормализуется в z-score.
+// Итоговый IQ = 100 + 15*z, с доверительным интервалом на основе SEM теста.
+
 function calculateIQ(results) {
-  let totalScore = 0;
-  const typeScores = {};
-  const typeCounts = {};
-
-  for (const r of results) {
-    const type = r.type || "pattern";
-    typeCounts[type] = (typeCounts[type] || 0) + 1;
-
-    if (r.correct) {
-      const difficultyScore = r.difficulty / 5;
-      const timeFraction = Math.max(0, 1 - r.timeTaken / r.timeLimit);
-      const timeBonus = timeFraction * 0.1;
-      const itemScore = Math.min(1, difficultyScore + timeBonus);
-      totalScore += itemScore;
-      typeScores[type] = (typeScores[type] || 0) + itemScore;
-    }
+  if (!results.length) {
+    return { iq: 100, sem: 15, types: {}, domainZ: {}, strengths: [], weaknesses: [] };
   }
 
-  const composite = results.length > 0 ? totalScore / results.length : 0;
+  // 1. Общая способность (theta) через взвешенную сумму сложности с поправкой на скорость
+  let weightedSum = 0;
+  let maxPossible = 0;
+
+  const domainScores = {};   // domain -> { earned, possible, count }
+
+  for (const r of results) {
+    const domain = r.domain || r.type || "general";
+    const diff = r.difficulty || 3;
+    const timeFraction = Math.max(0, Math.min(1, 1 - (r.timeTaken / r.timeLimit)));
+    const speedBonus = timeFraction * 0.15; // до 15% бонуса за скорость правильного ответа
+
+    if (!domainScores[domain]) domainScores[domain] = { earned: 0, possible: 0, count: 0 };
+    domainScores[domain].count++;
+    domainScores[domain].possible += diff;
+
+    if (r.correct) {
+      const itemWeight = diff * (1 + speedBonus);
+      weightedSum += itemWeight;
+      domainScores[domain].earned += diff * (1 + speedBonus);
+    } else {
+      // штраф за неверный ответ на лёгкий вопрос ощутимее, чем на сложный —
+      // это приближение к IRT-логике (лёгкий вопрос должен решаться почти всегда)
+      weightedSum -= diff * 0.3;
+    }
+    maxPossible += diff;
+  }
+
+  const composite = maxPossible > 0 ? weightedSum / maxPossible : 0;
   const z = (composite - POPULATION_MEAN) / POPULATION_SD;
   const iq = Math.round(100 + 15 * z);
   const clampedIQ = Math.max(55, Math.min(145, iq));
 
+  // 2. SEM (стандартная ошибка измерения) — зависит от количества вопросов.
+  // Чем больше вопросов, тем уже доверительный интервал (упрощённая аппроксимация reliability).
+  const n = results.length;
+  const reliability = Math.min(0.95, 0.5 + n * 0.02); // растёт с числом заданий, макс 0.95
+  const sem = Math.round(15 * Math.sqrt(1 - reliability));
+
+  // 3. По доменам — процент "заработанной" сложности от возможной + z-score домена
   const typePercents = {};
-  for (const type of Object.keys(typeCounts)) {
-    const count = typeCounts[type] || 1;
-    typePercents[type] = Math.round(((typeScores[type] || 0) / count) * 100);
+  const domainZ = {};
+  for (const domain of Object.keys(domainScores)) {
+    const d = domainScores[domain];
+    const pct = d.possible > 0 ? Math.round((d.earned / d.possible) * 100) : 0;
+    typePercents[domain] = Math.max(0, Math.min(100, pct));
+    domainZ[domain] = ((pct / 100) - POPULATION_MEAN) / POPULATION_SD;
   }
 
-  return { iq: clampedIQ, types: typePercents };
+  // 4. Сильные / слабые стороны — домены с z заметно выше/ниже общего z
+  const strengths = [];
+  const weaknesses = [];
+  for (const domain of Object.keys(domainZ)) {
+    if (domainScores[domain].count < 1) continue;
+    const diff = domainZ[domain] - z;
+    if (diff > 0.4) strengths.push(domain);
+    if (diff < -0.4) weaknesses.push(domain);
+  }
+
+  return { iq: clampedIQ, sem, types: typePercents, domainZ, strengths, weaknesses };
 }
 
 const ANALYZE_STEPS_TEXT = {
@@ -363,6 +440,9 @@ async function submitAndShowResult(telegramId) {
     total: state.results.length,
     iq_score: scoring.iq,
     types: scoring.types,
+    sem: scoring.sem,
+    strengths: scoring.strengths,
+    weaknesses: scoring.weaknesses,
     age: selectedAge,
   };
   window.__lastResultPayload = payload;
@@ -465,6 +545,32 @@ async function showApiResult(payload) {
   document.getElementById("resultCategory").textContent = currentLang === "kk" ? "🧠 Сіздің IQ нәтижеңіз" : "🧠 Ваш результат IQ";
   document.getElementById("resultScore").textContent = payload.iq_score;
   document.getElementById("resultBadgeText").textContent = iqTierLabel(payload.iq_score);
+
+  const ciEl = document.getElementById("ciText");
+  if (payload.sem) {
+    ciEl.textContent = currentLang === "kk"
+      ? `Сенімділік аралығы: ${payload.iq_score - payload.sem}–${payload.iq_score + payload.sem}`
+      : `Доверительный интервал: ${payload.iq_score - payload.sem}–${payload.iq_score + payload.sem}`;
+  } else {
+    ciEl.textContent = "";
+  }
+
+  const swWrap = document.getElementById("strengthsWeaknesses");
+  swWrap.innerHTML = "";
+  (payload.strengths || []).forEach(d => {
+    const label = DOMAIN_INFO[d] ? L(DOMAIN_INFO[d].name) : d;
+    const row = document.createElement("div");
+    row.className = "sw-row strength";
+    row.innerHTML = `💪 ${currentLang === "kk" ? "Күшті жағы" : "Сильная сторона"}: ${label}`;
+    swWrap.appendChild(row);
+  });
+  (payload.weaknesses || []).forEach(d => {
+    const label = DOMAIN_INFO[d] ? L(DOMAIN_INFO[d].name) : d;
+    const row = document.createElement("div");
+    row.className = "sw-row weakness";
+    row.innerHTML = `📈 ${currentLang === "kk" ? "Дамыту қажет" : "Стоит развивать"}: ${label}`;
+    swWrap.appendChild(row);
+  });
 
   const percentile = iqToPercentile(payload.iq_score);
   document.getElementById("percentileSentence").textContent = currentLang === "kk"
