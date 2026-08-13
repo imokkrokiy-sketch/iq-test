@@ -252,12 +252,16 @@ const ANALYZE_STEPS_TEXT = {
   ],
 };
 const ANALYZE_TITLE = { kk: "Жауаптарыңызды талдап жатырмыз…", ru: "Анализируем ваши ответы…" };
+const ANALYZE_SUBTITLE = { kk: "Сіздің нәтижеңіз басқа қатысушылармен салыстырылуда…", ru: "Ваш результат сравнивается с другими участниками…" };
+const ANALYZE_FOOTER = { kk: "Нәтижеңізді дайындап жатырмыз. Бұл бірнеше секунд уақыт алады.", ru: "Готовим ваш результат. Это займёт несколько секунд." };
 const DIAL_CIRC = 502;
 
 function runAnalyzingAnimation(onDone) {
   go("screen-analyzing");
 
   document.getElementById("analyzeTitle").textContent = ANALYZE_TITLE[currentLang] || ANALYZE_TITLE.ru;
+  document.getElementById("analyzeSubtitle").textContent = ANALYZE_SUBTITLE[currentLang] || ANALYZE_SUBTITLE.ru;
+  document.getElementById("analyzeFooter").textContent = ANALYZE_FOOTER[currentLang] || ANALYZE_FOOTER.ru;
   const texts = ANALYZE_STEPS_TEXT[currentLang] || ANALYZE_STEPS_TEXT.ru;
 
   const steps = [1, 2, 3].map(n => ({
