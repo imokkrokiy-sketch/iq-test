@@ -518,7 +518,9 @@ function medalColor(place) {
 }
 
 function personInitial(name) {
-  return (name || "?").trim().charAt(0).toUpperCase() || "?";
+  const clean = (name || "").replace(/[#.\s]/g, "");
+  const match = clean.match(/[a-zA-Zа-яА-ЯәғқңөұүhіӘҒҚҢӨҰҮІ]/);
+  return match ? match[0].toUpperCase() : "★";
 }
 
 async function loadLeaderboard(scope) {
@@ -562,12 +564,12 @@ async function loadLeaderboard(scope) {
     const slot = document.createElement("div");
     slot.className = `podium-slot ${slotClass[idx]}`;
     slot.innerHTML = `
-      <div class="p-avatar">
-        <div class="p-medal">${medalColor(place)}</div>
-        <span>${personInitial(person.first_name)}</span>
+      <div class="p-card">
+        <div class="p-medal-badge">${place === 1 ? "👑" : place}</div>
+        <div class="p-avatar"><span>${personInitial(person.first_name)}</span></div>
+        <div class="p-name">${person.first_name || "Аноним"}</div>
+        <div class="p-iq">IQ ${person.iq_score}</div>
       </div>
-      <div class="p-name">${person.first_name || (currentLang === "kk" ? "Аноним" : "Аноним")}</div>
-      <div class="p-iq">IQ ${person.iq_score}</div>
     `;
     podiumEl.appendChild(slot);
   });
@@ -578,9 +580,9 @@ async function loadLeaderboard(scope) {
     row.className = "rating-row";
     row.innerHTML = `
       <div class="r-place">${i + 4}</div>
-      <div class="r-avatar">${personInitial(person.first_name)}</div>
+      <div class="r-avatar"><span>${personInitial(person.first_name)}</span></div>
       <div class="r-name">${person.first_name || "Аноним"}</div>
-      <div class="r-iq">IQ ${person.iq_score}</div>
+      <div class="r-iq">IQ <b>${person.iq_score}</b></div>
     `;
     listEl.appendChild(row);
   });
@@ -590,11 +592,22 @@ async function loadLeaderboard(scope) {
     youEl.innerHTML = `
       <div class="ry-rank">
         <span class="ry-rank-label">${currentLang === "kk" ? "Орныңыз" : "Ваше место"}</span>
-        <span class="ry-rank-num">${data.your_rank}</span>
+        <span class="ry-rank-num">${data.your_rank} <span class="ry-total">/ ${data.total}</span></span>
       </div>
       <div class="ry-avatar">${personInitial(tg && tg.initDataUnsafe && tg.initDataUnsafe.user ? tg.initDataUnsafe.user.first_name : "?")}</div>
       <div class="ry-name"><span class="ry-you-tag">${currentLang === "kk" ? "Сіз" : "Вы"}</span></div>
       <div class="ry-iq">IQ ${data.your_score}</div>
+    `;
+  } else if (!telegramId) {
+    youEl.style.display = "flex";
+    youEl.innerHTML = `
+      <div class="ry-rank">
+        <span class="ry-rank-label">${currentLang === "kk" ? "Орныңыз" : "Ваше место"}</span>
+        <span class="ry-rank-num">—</span>
+      </div>
+      <div class="ry-avatar">?</div>
+      <div class="ry-name"><span class="ry-you-tag">${currentLang === "kk" ? "Telegram арқылы кіріңіз" : "Войдите через Telegram"}</span></div>
+      <div class="ry-iq">—</div>
     `;
   }
 }

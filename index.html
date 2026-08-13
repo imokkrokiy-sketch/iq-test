@@ -8,7 +8,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800;900&family=Montserrat:wght@700;800&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="css/style.css?v=24">
+<link rel="stylesheet" href="css/style.css?v=25">
 </head>
 <body>
 <div class="device">
@@ -70,6 +70,17 @@
       <symbol id="ic-arrow-left" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
         <path d="M19 12H5M11 18l-6-6 6-6"/>
       </symbol>
+      <symbol id="ic-filter" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M4 6h16M7 12h10M10 18h4"/>
+      </symbol>
+      <symbol id="ic-globe" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="12" cy="12" r="9"/>
+        <path d="M3 12h18M12 3c2.5 2.7 4 6 4 9s-1.5 6.3-4 9c-2.5-2.7-4-6-4-9s1.5-6.3 4-9z"/>
+      </symbol>
+      <symbol id="ic-chevron-down" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M6 9l6 6 6-6"/>
+      </symbol>
+
       <symbol id="ic-star" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="1.2" stroke-linejoin="round">
         <path d="M12 2.5l2.9 6 6.6.9-4.8 4.6 1.2 6.5L12 17.6l-5.9 3-1.1-6.6-4.8-4.6 6.6-.9Z"/>
       </symbol>
@@ -216,6 +227,10 @@
     </div>
     <div class="podium-wrap" id="ratingPodium"></div>
 
+    <div class="rating-filter-bar">
+      <div class="rf-left"><svg width="15" height="15"><use href="#ic-filter"/></svg><span data-i18n="rating_filter">Фильтр</span></div>
+      <div class="rf-right"><svg width="15" height="15"><use href="#ic-globe"/></svg><span data-i18n="rating_country">Ел бойынша</span><svg width="12" height="12"><use href="#ic-chevron-down"/></svg></div>
+    </div>
     <div class="rating-list-card">
       <div class="rating-list" id="ratingList"></div>
     </div>
@@ -352,8 +367,8 @@
   </section>
 
 </div>
-<script src="js/questions.js?v=24"></script>
-<script src="js/i18n.js?v=24"></script>
-<script src="js/app.js?v=24"></script>
+<script src="js/questions.js?v=25"></script>
+<script src="js/i18n.js?v=25"></script>
+<script src="js/app.js?v=25"></script>
 </body>
 </html>
