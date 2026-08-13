@@ -389,3 +389,28 @@ h1.display .accent{ color:var(--blue);}
 .mr-switch input:checked + .mr-slider::before{ transform:translateX(18px); }
 
 .menu-logout{ width:100%; display:flex; align-items:center; justify-content:center; gap:8px; background:#FFF0F0; color:var(--error); border:none; border-radius:16px; padding:15px; font-family:'Manrope',sans-serif; font-weight:800; font-size:14.5px; }
+
+/* ===== Dark mode ===== */
+body.dark{
+  --bg:#0B1120;
+  --card:#141B2E;
+  --navy:#F0F4FC;
+  --navy2:#1C2540;
+  --blue:#5B8CFF;
+  --blue-dark:#4A78E8;
+  --blue-tint:#1B2340;
+  --text:#E7ECF7;
+  --text-muted:#8B96AC;
+  --line:#232D47;
+  --gold:#F5B429;
+  --error:#FF6B6B;
+}
+body.dark{ background:linear-gradient(180deg, #0B1120 0%, #0E1526 55%, #10182C 100%); }
+body.dark .btn-ghost{ background:var(--card); color:var(--text); }
+body.dark .dark-block{ background:var(--card); }
+body.dark .bottom-nav{ background:rgba(11,17,32,.85); border-top-color:var(--line); }
+body.dark .p-card{ box-shadow:0 4px 16px rgba(0,0,0,.3); }
+body.dark .rating-list-card, body.dark .menu-list-card, body.dark .q-card, body.dark .cat-card{ box-shadow:none; }
+body.dark .menu-avatar, body.dark .ry-avatar{ box-shadow:0 3px 10px rgba(0,0,0,.4); }
+body.dark .mp-btn{ background:var(--card); color:var(--text); }
+body.dark .menu-logout{ background:#2A1418; }

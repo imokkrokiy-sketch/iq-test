@@ -694,3 +694,21 @@ document.getElementById("menuLangRow")?.addEventListener("click", () => {
 document.getElementById("menuLogoutBtn")?.addEventListener("click", () => {
   go("screen-start");
 });
+
+// ===== Dark mode =====
+function applyDarkMode(enabled) {
+  document.body.classList.toggle("dark", enabled);
+  const toggle = document.getElementById("menuDarkToggle");
+  if (toggle) toggle.checked = enabled;
+  try { localStorage.setItem("iqbot_dark", enabled ? "1" : "0"); } catch (e) {}
+}
+
+(function initDarkMode() {
+  let saved = "0";
+  try { saved = localStorage.getItem("iqbot_dark") || "0"; } catch (e) {}
+  applyDarkMode(saved === "1");
+})();
+
+document.getElementById("menuDarkToggle")?.addEventListener("change", (e) => {
+  applyDarkMode(e.target.checked);
+});
