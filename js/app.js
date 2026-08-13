@@ -239,35 +239,105 @@ function calculateIQ(results) {
   return { iq: clampedIQ, types: typePercents };
 }
 
+const ANALYZE_STEPS_TEXT = {
+  kk: [
+    { name: "Жауаптар тексерілді", doing: "Тексерілуде…", done: "Аяқталды" },
+    { name: "Үлгі рейтингі", doing: "Талдауда…", done: "Аяқталды" },
+    { name: "IQ бағасы", doing: "Есептелуде…", done: "Аяқталды" },
+  ],
+  ru: [
+    { name: "Ответы проверены", doing: "Проверяем…", done: "Завершено" },
+    { name: "Рейтинг шаблона", doing: "Анализируем…", done: "Завершено" },
+    { name: "Оценка IQ", doing: "Анализируем…", done: "Завершено" },
+  ],
+};
+const ANALYZE_TITLE = { kk: "Жауаптарыңызды талдап жатырмыз…", ru: "Анализируем ваши ответы…" };
+const DIAL_CIRC = 502;
+
+function runAnalyzingAnimation(onDone) {
+  go("screen-analyzing");
+
+  document.getElementById("analyzeTitle").textContent = ANALYZE_TITLE[currentLang] || ANALYZE_TITLE.ru;
+  const texts = ANALYZE_STEPS_TEXT[currentLang] || ANALYZE_STEPS_TEXT.ru;
+
+  const steps = [1, 2, 3].map(n => ({
+    el: document.getElementById(`astep${n}`),
+    nameEl: document.getElementById(`astep${n}Name`),
+    statusEl: document.getElementById(`astep${n}Status`),
+  }));
+
+  steps.forEach((s, i) => {
+    s.el.classList.remove("active", "done");
+    s.nameEl.textContent = texts[i].name;
+    s.statusEl.textContent = texts[i].doing;
+  });
+  steps[0].el.classList.add("active");
+
+  const dial = document.getElementById("analyzeDial");
+  const pctLabel = document.getElementById("analyzePct");
+  dial.style.strokeDasharray = String(DIAL_CIRC);
+  dial.style.strokeDashoffset = String(DIAL_CIRC);
+
+  const totalMs = 15000;
+  const stepMs = totalMs / 3;
+  const start = Date.now();
+
+  const progressTimer = setInterval(() => {
+    const elapsed = Date.now() - start;
+    const pct = Math.min(1, elapsed / totalMs);
+    dial.style.strokeDashoffset = String(DIAL_CIRC * (1 - pct));
+    pctLabel.textContent = Math.round(pct * 100) + "%";
+    if (pct >= 1) clearInterval(progressTimer);
+  }, 100);
+
+  steps.forEach((s, i) => {
+    setTimeout(() => {
+      s.el.classList.remove("active");
+      s.el.classList.add("done");
+      s.statusEl.textContent = texts[i].done;
+      if (steps[i + 1]) steps[i + 1].el.classList.add("active");
+    }, stepMs * (i + 1));
+  });
+
+  setTimeout(() => {
+    clearInterval(progressTimer);
+    dial.style.strokeDashoffset = "0";
+    pctLabel.textContent = "100%";
+    onDone();
+  }, totalMs);
+}
+
 async function finishTest() {
   document.getElementById("qProgressFill").style.width = "100%";
 
-  const telegramId = tg && tg.initDataUnsafe && tg.initDataUnsafe.user ? tg.initDataUnsafe.user.id : null;
+  runAnalyzingAnimation(async () => {
+    const telegramId = tg && tg.initDataUnsafe && tg.initDataUnsafe.user ? tg.initDataUnsafe.user.id : null;
 
-  if (!telegramId) {
+    if (!telegramId) {
+      renderGateChannels();
+      go("screen-gate");
+      document.getElementById("gateError").style.display = "none";
+      return;
+    }
+
+    try {
+      const res = await fetch(`${API_URL}/check-subscription`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ telegram_id: telegramId }),
+      });
+      const data = await res.json();
+
+      if (data.subscribed) {
+        await submitAndShowResult(telegramId);
+        return;
+      }
+    } catch (e) {}
+
     renderGateChannels();
     go("screen-gate");
     document.getElementById("gateError").style.display = "none";
-    return;
-  }
-
-  try {
-    const res = await fetch(`${API_URL}/check-subscription`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ telegram_id: telegramId }),
-    });
-    const data = await res.json();
-
-    if (data.subscribed) {
-      await submitAndShowResult(telegramId);
-      return;
-    }
-  } catch (e) {}
-
-  renderGateChannels();
-  go("screen-gate");
-  document.getElementById("gateError").style.display = "none";
+  });
 }
 
 async function submitAndShowResult(telegramId) {

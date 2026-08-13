@@ -201,3 +201,23 @@ h1.display .accent{ color:var(--blue);}
 .btn-row{ display:flex; gap:10px; margin-top:22px; width:100%;}
 .btn-row .btn-primary{ flex:1; padding:16px;}
 .btn-row .btn-ghost{ flex:1; margin-top:0; padding:16px;}
+
+/* ===== Analyzing screen ===== */
+.analyzing-screen{ align-items:center; text-align:center; padding-top:60px; }
+.analyze-dial-wrap{ position:relative; }
+.analyze-dial-wrap .dial-fill{ transition: stroke-dashoffset 0.3s linear; }
+.analyze-title{ font-family:'Manrope',sans-serif; font-weight:800; font-size:19px; color:var(--navy); margin:22px 0 34px; }
+.analyze-steps{ width:100%; max-width:420px; display:flex; flex-direction:column; gap:14px; }
+.analyze-step{ display:flex; align-items:center; gap:14px; background:var(--card); border:1px solid var(--line); border-radius:16px; padding:14px 16px; text-align:left; opacity:.55; transform:translateY(4px); transition:opacity .4s ease, transform .4s ease; }
+.analyze-step.active{ opacity:1; transform:translateY(0); box-shadow:0 6px 18px rgba(59,111,240,.10); }
+.analyze-step.done{ opacity:1; transform:translateY(0); }
+.step-icon{ width:34px; height:34px; border-radius:50%; background:var(--blue-tint); display:flex; align-items:center; justify-content:center; flex-shrink:0; position:relative; }
+.step-icon .spinner{ width:16px; height:16px; border-radius:50%; border:2.5px solid var(--blue-tint); border-top-color:var(--blue); animation:spin .7s linear infinite; display:block; }
+.step-icon .step-check{ display:none; color:#1EA97C; }
+.analyze-step.done .step-icon{ background:#E4F7EF; }
+.analyze-step.done .step-icon .spinner{ display:none; }
+.analyze-step.done .step-icon .step-check{ display:block; }
+.step-body .step-name{ font-family:'Manrope',sans-serif; font-weight:700; font-size:14px; color:var(--navy); }
+.step-body .step-status{ font-family:'Manrope',sans-serif; font-weight:600; font-size:12px; color:var(--text-muted); margin-top:1px; }
+.analyze-step.done .step-body .step-status{ color:#1EA97C; }
+@keyframes spin{ to{ transform:rotate(360deg); } }
