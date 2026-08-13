@@ -261,7 +261,7 @@ h1.display .accent{ color:var(--blue);}
 .analyze-pct{ font-size:22px !important; margin-top:2px; }
 
 /* ===== Rating screen ===== */
-.rating-screen{ padding-top:14px; padding-bottom:90px; }
+.rating-screen{ padding:14px 20px 90px; }
 .rating-topbar{ display:flex; align-items:center; justify-content:space-between; padding:4px 4px 18px; }
 .rating-back{ width:36px; height:36px; border-radius:50%; border:1px solid var(--line); background:var(--card); display:flex; align-items:center; justify-content:center; color:var(--navy); flex-shrink:0; }
 .rating-title{ font-family:'Manrope',sans-serif; font-weight:800; font-size:20px; color:var(--navy); }
@@ -302,11 +302,22 @@ h1.display .accent{ color:var(--blue);}
 .rating-empty{ text-align:center; font-family:'Manrope',sans-serif; font-weight:600; font-size:13.5px; color:var(--text-muted); padding:40px 20px; }
 
 /* ===== Rating decorative bg + polish ===== */
-.podium-bg{ position:relative; height:0; }
-.podium-bg svg{ position:absolute; color:#C7D6F7; opacity:.55; }
-.pb-1{ top:-166px; left:8px; } .pb-2{ top:-190px; right:20px; }
-.pb-3{ top:-100px; left:40px; } .pb-4{ top:-60px; right:6px; }
-.pb-5{ top:-140px; right:70px; } .pb-6{ top:-40px; left:70px; }
+.podium-section{ position:relative; padding:18px 0 4px; margin:0 -20px; padding-left:20px; padding-right:20px; overflow:hidden; }
+.podium-section::before{
+  content:""; position:absolute; inset:0;
+  background: radial-gradient(circle at 20% 15%, rgba(59,111,240,.06), transparent 45%),
+              radial-gradient(circle at 85% 20%, rgba(59,111,240,.05), transparent 40%),
+              radial-gradient(circle at 50% 90%, rgba(59,111,240,.04), transparent 50%);
+  pointer-events:none;
+}
+.podium-bg{ position:absolute; inset:0; pointer-events:none; }
+.podium-bg svg{ position:absolute; color:#B9CBF5; opacity:.5; }
+.pb-1{ top:6%; left:6%; } .pb-2{ top:10%; right:8%; }
+.pb-3{ top:22%; left:40%; } .pb-4{ top:4%; right:32%; }
+.pb-5{ top:34%; right:15%; } .pb-6{ top:30%; left:12%; }
+.pb-7{ bottom:10%; left:22%; } .pb-8{ bottom:6%; right:10%; }
+.pb-9{ bottom:18%; left:50%; } .pb-10{ bottom:14%; right:38%; }
+.podium-wrap{ position:relative; z-index:1; padding:0 20px; }
 
 .rating-list-card{ max-height:340px; overflow-y:auto; }
 
