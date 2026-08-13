@@ -466,17 +466,17 @@ document.getElementById("navTest")?.addEventListener("click", (e) => {
 document.getElementById("navRating")?.addEventListener("click", (e) => {
   document.querySelectorAll(".nav-item").forEach(b => b.classList.remove("active"));
   e.currentTarget.classList.add("active");
-  document.querySelector(".dark-block")?.scrollIntoView({ behavior: "smooth", block: "start" });
+  openRatingScreen();
 });
 
 document.getElementById("btnStartMain")?.addEventListener("click", () => {
   openAgeGate();
 });
 document.getElementById("btnLeaderboardTop")?.addEventListener("click", () => {
-  document.querySelector(".dark-block")?.scrollIntoView({ behavior: "smooth", block: "start" });
+  openRatingScreen();
 });
 document.getElementById("btnLeaderboard")?.addEventListener("click", () => {
-  document.querySelector(".dark-block")?.scrollIntoView({ behavior: "smooth", block: "start" });
+  openRatingScreen();
 });
 
 document.getElementById("btnBack").addEventListener("click", () => {
@@ -506,3 +506,114 @@ document.querySelectorAll(".lang-toggle button").forEach(btn => {
 
 applyI18n();
 renderCategories();
+
+// ===== Rating screen =====
+let currentRatingScope = "overall";
+
+function medalColor(place) {
+  if (place === 1) return "🥇";
+  if (place === 2) return "🥈";
+  if (place === 3) return "🥉";
+  return place;
+}
+
+function personInitial(name) {
+  return (name || "?").trim().charAt(0).toUpperCase() || "?";
+}
+
+async function loadLeaderboard(scope) {
+  currentRatingScope = scope;
+  const podiumEl = document.getElementById("ratingPodium");
+  const listEl = document.getElementById("ratingList");
+  const youEl = document.getElementById("ratingYou");
+  const emptyEl = document.getElementById("ratingEmpty");
+
+  podiumEl.innerHTML = "";
+  listEl.innerHTML = "";
+  youEl.style.display = "none";
+  emptyEl.style.display = "none";
+
+  const telegramId = tg && tg.initDataUnsafe && tg.initDataUnsafe.user ? tg.initDataUnsafe.user.id : null;
+
+  let data;
+  try {
+    const url = `${API_URL}/leaderboard?scope=${scope}&limit=10${telegramId ? `&telegram_id=${telegramId}` : ""}`;
+    const res = await fetch(url);
+    data = await res.json();
+  } catch (e) {
+    emptyEl.style.display = "block";
+    return;
+  }
+
+  const entries = data.entries || [];
+  if (entries.length === 0) {
+    emptyEl.style.display = "block";
+    return;
+  }
+
+  const top3 = entries.slice(0, 3);
+  const order = [1, 0, 2]; // визуально: 2 место слева, 1 в центре, 3 справа
+  const slotClass = { 0: "first", 1: "second", 2: "third" };
+
+  order.forEach(idx => {
+    const person = top3[idx];
+    if (!person) return;
+    const place = idx + 1;
+    const slot = document.createElement("div");
+    slot.className = `podium-slot ${slotClass[idx]}`;
+    slot.innerHTML = `
+      <div class="p-avatar">
+        <div class="p-medal">${medalColor(place)}</div>
+        <span>${personInitial(person.first_name)}</span>
+      </div>
+      <div class="p-name">${person.first_name || (currentLang === "kk" ? "Аноним" : "Аноним")}</div>
+      <div class="p-iq">IQ ${person.iq_score}</div>
+    `;
+    podiumEl.appendChild(slot);
+  });
+
+  const rest = entries.slice(3);
+  rest.forEach((person, i) => {
+    const row = document.createElement("div");
+    row.className = "rating-row";
+    row.innerHTML = `
+      <div class="r-place">${i + 4}</div>
+      <div class="r-avatar">${personInitial(person.first_name)}</div>
+      <div class="r-name">${person.first_name || "Аноним"}</div>
+      <div class="r-iq">IQ ${person.iq_score}</div>
+    `;
+    listEl.appendChild(row);
+  });
+
+  if (data.your_rank && data.your_score) {
+    youEl.style.display = "flex";
+    youEl.innerHTML = `
+      <div class="ry-rank">
+        <span class="ry-rank-label">${currentLang === "kk" ? "Орныңыз" : "Ваше место"}</span>
+        <span class="ry-rank-num">${data.your_rank}</span>
+      </div>
+      <div class="ry-avatar">${personInitial(tg && tg.initDataUnsafe && tg.initDataUnsafe.user ? tg.initDataUnsafe.user.first_name : "?")}</div>
+      <div class="ry-name"><span class="ry-you-tag">${currentLang === "kk" ? "Сіз" : "Вы"}</span></div>
+      <div class="ry-iq">IQ ${data.your_score}</div>
+    `;
+  }
+}
+
+function openRatingScreen() {
+  go("screen-rating");
+  loadLeaderboard("overall");
+  document.querySelectorAll(".rating-tab").forEach(t => t.classList.remove("active"));
+  document.querySelector('.rating-tab[data-scope="overall"]')?.classList.add("active");
+}
+
+document.getElementById("ratingBack")?.addEventListener("click", () => {
+  go("screen-start");
+});
+
+document.querySelectorAll(".rating-tab").forEach(tab => {
+  tab.addEventListener("click", () => {
+    document.querySelectorAll(".rating-tab").forEach(t => t.classList.remove("active"));
+    tab.classList.add("active");
+    loadLeaderboard(tab.dataset.scope);
+  });
+});

@@ -8,7 +8,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800;900&family=Montserrat:wght@700;800&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="css/style.css?v=21">
+<link rel="stylesheet" href="css/style.css?v=22">
 </head>
 <body>
 <div class="device">
@@ -66,6 +66,9 @@
       <symbol id="ic-books" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
         <rect x="3" y="4" width="6" height="16" rx="1"/><rect x="10" y="6" width="6" height="14" rx="1"/>
         <path d="M18 6l3 1-3.5 13-3-.8Z"/>
+      </symbol>
+      <symbol id="ic-arrow-left" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M19 12H5M11 18l-6-6 6-6"/>
       </symbol>
       <symbol id="ic-star" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="1.2" stroke-linejoin="round">
         <path d="M12 2.5l2.9 6 6.6.9-4.8 4.6 1.2 6.5L12 17.6l-5.9 3-1.1-6.6-4.8-4.6 6.6-.9Z"/>
@@ -189,6 +192,31 @@
     </div>
   </section>
 
+  <!-- ============ SCREEN — RATING ============ -->
+  <section class="screen rating-screen" id="screen-rating">
+    <div class="rating-topbar">
+      <button class="rating-back" id="ratingBack"><svg width="20" height="20"><use href="#ic-arrow-left"/></svg></button>
+      <div class="rating-title" data-i18n="rating_title">Рейтинг</div>
+      <div style="width:36px"></div>
+    </div>
+
+    <div class="rating-tabs">
+      <button class="rating-tab active" data-scope="overall" data-i18n="rating_overall">Жалпы рейтинг</button>
+      <button class="rating-tab" data-scope="weekly" data-i18n="rating_weekly">Апталық</button>
+      <button class="rating-tab" data-scope="friends" data-i18n="rating_friends">Достарым</button>
+    </div>
+
+    <div class="podium-wrap" id="ratingPodium"></div>
+
+    <div class="rating-list-card">
+      <div class="rating-list" id="ratingList"></div>
+    </div>
+
+    <div class="rating-you" id="ratingYou" style="display:none;"></div>
+
+    <div class="rating-empty" id="ratingEmpty" style="display:none;" data-i18n="rating_empty">Бұл санатта нәтижелер әлі жоқ</div>
+  </section>
+
   <!-- ============ SCREEN 1.5 — AGE GATE ============ -->
   <section class="screen age-screen" id="screen-age">
     <div class="q-topbar">
@@ -309,8 +337,8 @@
   </section>
 
 </div>
-<script src="js/questions.js?v=21"></script>
-<script src="js/i18n.js?v=21"></script>
-<script src="js/app.js?v=21"></script>
+<script src="js/questions.js?v=22"></script>
+<script src="js/i18n.js?v=22"></script>
+<script src="js/app.js?v=22"></script>
 </body>
 </html>

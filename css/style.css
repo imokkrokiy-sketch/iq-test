@@ -259,3 +259,44 @@ h1.display .accent{ color:var(--blue);}
   50%{ transform:translateY(3px) scale(0.6); opacity:.2;}
 }
 .analyze-pct{ font-size:22px !important; margin-top:2px; }
+
+/* ===== Rating screen ===== */
+.rating-screen{ padding-top:14px; padding-bottom:90px; }
+.rating-topbar{ display:flex; align-items:center; justify-content:space-between; padding:4px 4px 18px; }
+.rating-back{ width:36px; height:36px; border-radius:50%; border:1px solid var(--line); background:var(--card); display:flex; align-items:center; justify-content:center; color:var(--navy); flex-shrink:0; }
+.rating-title{ font-family:'Manrope',sans-serif; font-weight:800; font-size:20px; color:var(--navy); }
+
+.rating-tabs{ display:flex; background:var(--blue-tint); border-radius:14px; padding:4px; gap:2px; margin-bottom:22px; }
+.rating-tab{ flex:1; border:none; background:none; padding:10px 6px; border-radius:11px; font-family:'Manrope',sans-serif; font-weight:700; font-size:12.5px; color:var(--text-muted); transition:background .2s ease, color .2s ease; }
+.rating-tab.active{ background:var(--card); color:var(--blue); box-shadow:0 2px 8px rgba(15,30,69,.08); }
+
+.podium-wrap{ display:flex; align-items:flex-end; justify-content:center; gap:10px; margin-bottom:22px; min-height:170px; }
+.podium-slot{ display:flex; flex-direction:column; align-items:center; text-align:center; flex:1; max-width:120px; }
+.podium-slot .p-avatar{ width:58px; height:58px; border-radius:50%; background:var(--blue-tint); display:flex; align-items:center; justify-content:center; color:var(--blue); position:relative; margin-bottom:8px; border:3px solid var(--card); box-shadow:0 4px 14px rgba(15,30,69,.10); }
+.podium-slot.first .p-avatar{ width:76px; height:76px; }
+.podium-slot .p-medal{ position:absolute; top:-14px; left:50%; transform:translateX(-50%); width:26px; height:26px; border-radius:50%; display:flex; align-items:center; justify-content:center; font-family:'Manrope',sans-serif; font-weight:800; font-size:12px; color:#fff; }
+.podium-slot.first .p-medal{ background:#F5B429; width:30px; height:30px; font-size:13px; }
+.podium-slot.second .p-medal{ background:#B8C2D6; }
+.podium-slot.third .p-medal{ background:#D08A55; }
+.podium-slot .p-name{ font-family:'Manrope',sans-serif; font-weight:700; font-size:13px; color:var(--navy); margin-top:2px; }
+.podium-slot .p-iq{ font-family:'IBM Plex Mono',monospace; font-weight:700; font-size:12px; color:var(--blue); margin-top:1px; }
+.podium-slot .p-count{ display:flex; align-items:center; gap:3px; font-family:'Manrope',sans-serif; font-weight:600; font-size:11px; color:var(--text-muted); margin-top:3px; }
+
+.rating-list-card{ background:var(--card); border:1px solid var(--line); border-radius:18px; padding:6px 4px; }
+.rating-row{ display:flex; align-items:center; gap:10px; padding:12px 12px; border-bottom:1px solid var(--line); }
+.rating-row:last-child{ border-bottom:none; }
+.rating-row .r-place{ width:20px; font-family:'IBM Plex Mono',monospace; font-weight:700; font-size:13px; color:var(--text-muted); flex-shrink:0; }
+.rating-row .r-avatar{ width:34px; height:34px; border-radius:50%; background:var(--blue-tint); display:flex; align-items:center; justify-content:center; color:var(--blue); flex-shrink:0; }
+.rating-row .r-name{ flex:1; font-family:'Manrope',sans-serif; font-weight:700; font-size:13.5px; color:var(--navy); overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+.rating-row .r-iq{ font-family:'IBM Plex Mono',monospace; font-weight:700; font-size:13px; color:var(--blue); flex-shrink:0; }
+
+.rating-you{ display:flex; align-items:center; gap:12px; background:var(--blue-tint); border:1px solid #C9D9FA; border-radius:16px; padding:14px 16px; margin-top:16px; }
+.rating-you .ry-rank{ display:flex; flex-direction:column; }
+.rating-you .ry-rank-label{ font-family:'Manrope',sans-serif; font-weight:600; font-size:10.5px; color:var(--text-muted); }
+.rating-you .ry-rank-num{ font-family:'Manrope',sans-serif; font-weight:800; font-size:19px; color:var(--navy); }
+.rating-you .ry-avatar{ width:38px; height:38px; border-radius:50%; background:var(--card); display:flex; align-items:center; justify-content:center; color:var(--blue); flex-shrink:0; }
+.rating-you .ry-name{ flex:1; font-family:'Manrope',sans-serif; font-weight:700; font-size:13.5px; color:var(--navy); }
+.rating-you .ry-name .ry-you-tag{ display:block; font-family:'Manrope',sans-serif; font-weight:600; font-size:11px; color:var(--blue); }
+.rating-you .ry-iq{ font-family:'IBM Plex Mono',monospace; font-weight:700; font-size:14px; color:var(--blue); }
+
+.rating-empty{ text-align:center; font-family:'Manrope',sans-serif; font-weight:600; font-size:13.5px; color:var(--text-muted); padding:40px 20px; }
