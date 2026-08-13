@@ -458,9 +458,17 @@
 
 </div>
 <script>
-  document.write('<scr' + 'ipt src="js/questions-v2.js?nc=' + Date.now() + '"><\/scr' + 'ipt>');
+  window.__questionsLoaded = fetch('js/qbank2608.js', { cache: 'no-store' })
+    .then(r => r.text())
+    .then(code => { (0, eval)(code); });
 </script>
 <script src="js/i18n.js?v=36"></script>
-<script src="js/app.js?v=36"></script>
+<script>
+  window.__questionsLoaded.then(() => {
+    const s = document.createElement('script');
+    s.src = 'js/app.js?v=37';
+    document.body.appendChild(s);
+  });
+</script>
 </body>
 </html>
