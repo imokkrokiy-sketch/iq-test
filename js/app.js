@@ -663,10 +663,49 @@ document.getElementById("navHome")?.addEventListener("click", (e) => {
   e.currentTarget.classList.add("active");
   document.querySelector(".scroll-area").scrollTo({ top: 0, behavior: "smooth" });
 });
+function renderTestListGrid() {
+  const grid = document.getElementById("testListGrid");
+  if (!grid) return;
+  grid.innerHTML = "";
+  const counts = {};
+  QUESTION_BANK.forEach(q => { counts[q.domain] = (counts[q.domain] || 0) + 1; });
+
+  Object.entries(DOMAIN_INFO).forEach(([code, info]) => {
+    const card = document.createElement("div");
+    card.className = "cat-card";
+    card.style.cursor = "pointer";
+    card.innerHTML = `
+      <div class="row"><div class="ic"><svg width="18" height="18"><use href="#${info.icon}"/></svg></div></div>
+      <div class="body">
+        <div class="name">${L(info.name)}</div>
+        <div class="meta">${counts[code] || 0} ${currentLang === "kk" ? "сұрақ" : "вопросов"}</div>
+      </div>`;
+    card.addEventListener("click", () => {
+      state.selectedDomain = code;
+      openAgeGate();
+    });
+    grid.appendChild(card);
+  });
+}
+
+function openTestListScreen() {
+  go("screen-test-list");
+  renderTestListGrid();
+}
+
+document.getElementById("testListBack")?.addEventListener("click", () => go("screen-start"));
+document.getElementById("btnStartFullTest")?.addEventListener("click", () => {
+  state.selectedDomain = null;
+  openAgeGate();
+});
+document.getElementById("navHomeTestList")?.addEventListener("click", () => go("screen-start"));
+document.getElementById("navRatingTestList")?.addEventListener("click", () => openRatingScreen());
+document.getElementById("navMenuTestList")?.addEventListener("click", () => openMenuScreen());
+
 document.getElementById("navTest")?.addEventListener("click", (e) => {
   document.querySelectorAll(".nav-item").forEach(b => b.classList.remove("active"));
   e.currentTarget.classList.add("active");
-  openAgeGate();
+  openTestListScreen();
 });
 document.getElementById("navRating")?.addEventListener("click", (e) => {
   document.querySelectorAll(".nav-item").forEach(b => b.classList.remove("active"));
@@ -844,7 +883,7 @@ document.querySelectorAll(".rating-tab").forEach(tab => {
 });
 
 document.getElementById("navHomeRating")?.addEventListener("click", () => go("screen-start"));
-document.getElementById("navTestRating")?.addEventListener("click", () => openAgeGate());
+document.getElementById("navTestRating")?.addEventListener("click", () => openTestListScreen());
 
 // ===== Menu screen =====
 async function loadMenuData() {
@@ -886,7 +925,7 @@ document.getElementById("navMenu")?.addEventListener("click", (e) => {
 });
 document.getElementById("navMenuRating")?.addEventListener("click", () => openMenuScreen());
 document.getElementById("navHomeMenu")?.addEventListener("click", () => go("screen-start"));
-document.getElementById("navTestMenu")?.addEventListener("click", () => openAgeGate());
+document.getElementById("navTestMenu")?.addEventListener("click", () => openTestListScreen());
 document.getElementById("navRatingMenu")?.addEventListener("click", () => openRatingScreen());
 
 document.querySelectorAll('.menu-row[data-stub="1"]').forEach(row => {
