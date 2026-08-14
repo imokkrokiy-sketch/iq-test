@@ -152,6 +152,45 @@ function startTest() {
 function renderQuestion() {
   const q = state.questions[state.index];
   document.getElementById("qCurrent").textContent = String(state.index + 1).padStart(2, "0");
+
+  const pct = (state.index / state.questions.length) * 100;
+  document.getElementById("qProgressFill").style.width = pct + "%";
+
+  if (q.memorize) {
+    startMemorizePhase(q);
+  } else {
+    renderQuestionBody(q);
+  }
+}
+
+function startMemorizePhase(q) {
+  const overlay = document.getElementById("memorizeOverlay");
+  const body = document.getElementById("qBody");
+  const content = document.getElementById("memorizeContent");
+  const countdownEl = document.getElementById("memorizeCountdown");
+
+  body.style.visibility = "hidden";
+  overlay.style.display = "flex";
+  content.textContent = L(q.memorize);
+
+  const itemCount = (L(q.memorize).match(/,/g) || []).length + 1;
+  let secondsLeft = Math.max(4, Math.min(10, itemCount * 2));
+  countdownEl.textContent = secondsLeft;
+
+  clearInterval(state.memorizeInterval);
+  state.memorizeInterval = setInterval(() => {
+    secondsLeft--;
+    countdownEl.textContent = secondsLeft;
+    if (secondsLeft <= 0) {
+      clearInterval(state.memorizeInterval);
+      overlay.style.display = "none";
+      body.style.visibility = "visible";
+      renderQuestionBody(q);
+    }
+  }, 1000);
+}
+
+function renderQuestionBody(q) {
   document.getElementById("qTag").textContent = q.tag ? L(q.tag) : L(DOMAIN_INFO[q.domain].name);
   document.getElementById("qText").textContent = L(q.text);
 
@@ -163,9 +202,6 @@ function renderQuestion() {
     visualEl.innerHTML = "";
     visualEl.style.display = "none";
   }
-
-  const pct = (state.index / state.questions.length) * 100;
-  document.getElementById("qProgressFill").style.width = pct + "%";
 
   const optWrap = document.getElementById("qOptions");
   optWrap.innerHTML = "";

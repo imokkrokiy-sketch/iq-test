@@ -152,36 +152,6 @@ const QUESTION_BANK = [
     answerIndex: 3
   },
   {
-    id: 701, domain: "memory", difficulty: 3, timeLimit: 30,
-    text: { kk: "Есте сақтаңыз: 7, 2, 9, 4, 1. Тізімдегі үшінші сан қандай?", ru: "Запомните: 7, 2, 9, 4, 1. Какое число третье в списке?" },
-    options: { kk: ["7", "2", "9", "4", "1", "Жоқ"], ru: ["7", "2", "9", "4", "1", "Нет такого"] },
-    answerIndex: 2
-  },
-  {
-    id: 702, domain: "memory", difficulty: 2, timeLimit: 30,
-    text: { kk: "Мына сөздерді есте сақтаңыз: алма, терезе, көлік, бұлт, кітап. Тізімдегі 2-ші сөз қандай?", ru: "Запомните слова: яблоко, окно, машина, облако, книга. Какое слово второе в списке?" },
-    options: { kk: ["Алма", "Терезе", "Көлік", "Бұлт", "Кітап", "Жоқ"], ru: ["Яблоко", "Окно", "Машина", "Облако", "Книга", "Нет такого"] },
-    answerIndex: 1
-  },
-  {
-    id: 703, domain: "memory", difficulty: 4, timeLimit: 40,
-    text: { kk: "Есте сақтаңыз: 8, 3, 5, 1. Осы сандарды кері ретпен айтсаңыз, бірінші саны қандай болады?", ru: "Запомните: 8, 3, 5, 1. Если назвать эти числа в обратном порядке, какое будет первым?" },
-    options: { kk: ["8", "3", "5", "1", "0", "9"], ru: ["8", "3", "5", "1", "0", "9"] },
-    answerIndex: 3
-  },
-  {
-    id: 704, domain: "memory", difficulty: 3, timeLimit: 35,
-    text: { kk: "Мына тізбекті есте сақтаңыз: қызыл, көк, жасыл, сары. 2-ші және 4-ші түстер қандай ретпен?", ru: "Запомните: красный, синий, зелёный, жёлтый. Какой порядок у 2-го и 4-го цветов?" },
-    options: { kk: ["Қызыл, сары", "Көк, сары", "Жасыл, көк", "Сары, қызыл", "Көк, жасыл", "Сары, жасыл"], ru: ["Красный, жёлтый", "Синий, жёлтый", "Зелёный, синий", "Жёлтый, красный", "Синий, зелёный", "Жёлтый, зелёный"] },
-    answerIndex: 1
-  },
-  {
-    id: 705, domain: "memory", difficulty: 4, timeLimit: 40,
-    text: { kk: "Есте сақтаңыз: 4, 9, 2, 7. Ең үлкен және ең кіші сандардың қосындысы неше?", ru: "Запомните: 4, 9, 2, 7. Чему равна сумма наибольшего и наименьшего чисел?" },
-    options: { kk: ["9", "10", "11", "13", "16", "18"], ru: ["9", "10", "11", "13", "16", "18"] },
-    answerIndex: 2
-  },
-  {
     id: 413, domain: "cube", difficulty: 4, timeLimit: 55,
     text: { kk: "Үйіндіде неше текше бар?", ru: "Сколько кубиков в стопке? (некоторые скрыты за другими)" },
     svg: "<svg viewBox='0 0 265 335' xmlns='http://www.w3.org/2000/svg' style='max-width:220px;margin:0 auto;display:block'><rect width='265' height='335' fill='#eff6ff'/><polygon points='110.0,182.0 65.0,156.0 65.0,211.0 110.0,237.0' fill='#94a3b8' stroke='#0f172a' stroke-width='2' stroke-linejoin='round'/><polygon points='110.0,182.0 155.0,156.0 155.0,211.0 110.0,237.0' fill='#1e293b' stroke='#0f172a' stroke-width='2' stroke-linejoin='round'/><polygon points='110.0,130.0 155.0,156.0 110.0,182.0 65.0,156.0' fill='#e8eef5' stroke='#0f172a' stroke-width='2' stroke-linejoin='round'/><polygon points='155.0,208.0 110.0,182.0 110.0,237.0 155.0,263.0' fill='#94a3b8' stroke='#0f172a' stroke-width='2' stroke-linejoin='round'/><polygon points='155.0,208.0 200.0,182.0 200.0,237.0 155.0,263.0' fill='#1e293b' stroke='#0f172a' stroke-width='2' stroke-linejoin='round'/><polygon points='155.0,156.0 200.0,182.0 155.0,208.0 110.0,182.0' fill='#e8eef5' stroke='#0f172a' stroke-width='2' stroke-linejoin='round'/><polygon points='200.0,234.0 155.0,208.0 155.0,263.0 200.0,289.0' fill='#94a3b8' stroke='#0f172a' stroke-width='2' stroke-linejoin='round'/><polygon points='200.0,234.0 245.0,208.0 245.0,263.0 200.0,289.0' fill='#1e293b' stroke='#0f172a' stroke-width='2' stroke-linejoin='round'/><polygon points='200.0,182.0 245.0,208.0 200.0,234.0 155.0,208.0' fill='#e8eef5' stroke='#0f172a' stroke-width='2' stroke-linejoin='round'/><polygon points='110.0,127.0 65.0,101.0 65.0,156.0 110.0,182.0' fill='#94a3b8' stroke='#0f172a' stroke-width='2' stroke-linejoin='round'/><polygon points='110.0,127.0 155.0,101.0 155.0,156.0 110.0,182.0' fill='#1e293b' stroke='#0f172a' stroke-width='2' stroke-linejoin='round'/><polygon points='110.0,75.0 155.0,101.0 110.0,127.0 65.0,101.0' fill='#e8eef5' stroke='#0f172a' stroke-width='2' stroke-linejoin='round'/><polygon points='155.0,153.0 110.0,127.0 110.0,182.0 155.0,208.0' fill='#94a3b8' stroke='#0f172a' stroke-width='2' stroke-linejoin='round'/><polygon points='155.0,153.0 200.0,127.0 200.0,182.0 155.0,208.0' fill='#1e293b' stroke='#0f172a' stroke-width='2' stroke-linejoin='round'/><polygon points='155.0,101.0 200.0,127.0 155.0,153.0 110.0,127.0' fill='#e8eef5' stroke='#0f172a' stroke-width='2' stroke-linejoin='round'/><polygon points='200.0,179.0 155.0,153.0 155.0,208.0 200.0,234.0' fill='#94a3b8' stroke='#0f172a' stroke-width='2' stroke-linejoin='round'/><polygon points='200.0,179.0 245.0,153.0 245.0,208.0 200.0,234.0' fill='#1e293b' stroke='#0f172a' stroke-width='2' stroke-linejoin='round'/><polygon points='200.0,127.0 245.0,153.0 200.0,179.0 155.0,153.0' fill='#e8eef5' stroke='#0f172a' stroke-width='2' stroke-linejoin='round'/><polygon points='110.0,72.0 65.0,46.0 65.0,101.0 110.0,127.0' fill='#94a3b8' stroke='#0f172a' stroke-width='2' stroke-linejoin='round'/><polygon points='110.0,72.0 155.0,46.0 155.0,101.0 110.0,127.0' fill='#1e293b' stroke='#0f172a' stroke-width='2' stroke-linejoin='round'/><polygon points='110.0,20.0 155.0,46.0 110.0,72.0 65.0,46.0' fill='#e8eef5' stroke='#0f172a' stroke-width='2' stroke-linejoin='round'/><polygon points='155.0,98.0 110.0,72.0 110.0,127.0 155.0,153.0' fill='#94a3b8' stroke='#0f172a' stroke-width='2' stroke-linejoin='round'/><polygon points='155.0,98.0 200.0,72.0 200.0,127.0 155.0,153.0' fill='#1e293b' stroke='#0f172a' stroke-width='2' stroke-linejoin='round'/><polygon points='155.0,46.0 200.0,72.0 155.0,98.0 110.0,72.0' fill='#e8eef5' stroke='#0f172a' stroke-width='2' stroke-linejoin='round'/><polygon points='200.0,124.0 155.0,98.0 155.0,153.0 200.0,179.0' fill='#94a3b8' stroke='#0f172a' stroke-width='2' stroke-linejoin='round'/><polygon points='200.0,124.0 245.0,98.0 245.0,153.0 200.0,179.0' fill='#1e293b' stroke='#0f172a' stroke-width='2' stroke-linejoin='round'/><polygon points='200.0,72.0 245.0,98.0 200.0,124.0 155.0,98.0' fill='#e8eef5' stroke='#0f172a' stroke-width='2' stroke-linejoin='round'/><polygon points='65.0,208.0 20.0,182.0 20.0,237.0 65.0,263.0' fill='#94a3b8' stroke='#0f172a' stroke-width='2' stroke-linejoin='round'/><polygon points='65.0,208.0 110.0,182.0 110.0,237.0 65.0,263.0' fill='#1e293b' stroke='#0f172a' stroke-width='2' stroke-linejoin='round'/><polygon points='65.0,156.0 110.0,182.0 65.0,208.0 20.0,182.0' fill='#e8eef5' stroke='#0f172a' stroke-width='2' stroke-linejoin='round'/><polygon points='110.0,234.0 65.0,208.0 65.0,263.0 110.0,289.0' fill='#94a3b8' stroke='#0f172a' stroke-width='2' stroke-linejoin='round'/><polygon points='110.0,234.0 155.0,208.0 155.0,263.0 110.0,289.0' fill='#1e293b' stroke='#0f172a' stroke-width='2' stroke-linejoin='round'/><polygon points='110.0,182.0 155.0,208.0 110.0,234.0 65.0,208.0' fill='#e8eef5' stroke='#0f172a' stroke-width='2' stroke-linejoin='round'/><polygon points='155.0,260.0 110.0,234.0 110.0,289.0 155.0,315.0' fill='#94a3b8' stroke='#0f172a' stroke-width='2' stroke-linejoin='round'/><polygon points='155.0,260.0 200.0,234.0 200.0,289.0 155.0,315.0' fill='#1e293b' stroke='#0f172a' stroke-width='2' stroke-linejoin='round'/><polygon points='155.0,208.0 200.0,234.0 155.0,260.0 110.0,234.0' fill='#e8eef5' stroke='#0f172a' stroke-width='2' stroke-linejoin='round'/></svg>",
@@ -209,8 +179,7 @@ const QUESTION_BANK = [
     options: { kk: ["12", "9", "15", "10", "11", "13"], ru: ["12", "9", "15", "10", "11", "13"] },
     answerIndex: 0
   },
-
-{
+  {
     id: 420, domain: "matrix", difficulty: 5, timeLimit: 60,
     text: { kk: "Қандай белгі үлгіні толықтырады? (екі ереже бір мезгілде өзгереді)", ru: "Какой знак дополняет узор? (два правила меняются одновременно)" },
     tag: { kk: "ПРОГРЕССИЯ", ru: "ПРОГРЕССИЯ" },
@@ -234,8 +203,7 @@ const QUESTION_BANK = [
     options: { kk: ["<svg viewBox='0 0 110 76' xmlns='http://www.w3.org/2000/svg' style='max-width:100px'><rect x='39.0' y='22.0' width='32' height='32' fill='none' stroke='#1e293b' stroke-width='2.5'/><line x1='39.0' y1='22.0' x2='71.0' y2='54.0' stroke='#3b6ff0' stroke-width='2.5'/></svg>", "<svg viewBox='0 0 110 76' xmlns='http://www.w3.org/2000/svg' style='max-width:100px'><circle cx='55.0' cy='38.0' r='16.0' fill='none' stroke='#1e293b' stroke-width='2.5'/><circle cx='55.0' cy='38.0' r='4' fill='#3b6ff0'/></svg>", "<svg viewBox='0 0 110 76' xmlns='http://www.w3.org/2000/svg' style='max-width:100px'><polygon points='55.0,23.6 39.0,52.4 71.0,52.4' fill='none' stroke='#1e293b' stroke-width='2.5'/><line x1='39.0' y1='22.0' x2='71.0' y2='54.0' stroke='#3b6ff0' stroke-width='2.5'/></svg>", "<svg viewBox='0 0 110 76' xmlns='http://www.w3.org/2000/svg' style='max-width:100px'><circle cx='55.0' cy='38.0' r='16.0' fill='none' stroke='#1e293b' stroke-width='2.5'/><line x1='39.0' y1='22.0' x2='71.0' y2='54.0' stroke='#3b6ff0' stroke-width='2.5'/></svg>", "<svg viewBox='0 0 110 76' xmlns='http://www.w3.org/2000/svg' style='max-width:100px'><circle cx='55.0' cy='38.0' r='16.0' fill='none' stroke='#1e293b' stroke-width='2.5'/><line x1='39.0' y1='38.0' x2='71.0' y2='38.0' stroke='#3b6ff0' stroke-width='2.5'/></svg>", "<svg viewBox='0 0 110 76' xmlns='http://www.w3.org/2000/svg' style='max-width:100px'><rect x='39.0' y='22.0' width='32' height='32' fill='none' stroke='#1e293b' stroke-width='2.5'/><circle cx='55.0' cy='38.0' r='4' fill='#3b6ff0'/></svg>"], ru: ["<svg viewBox='0 0 110 76' xmlns='http://www.w3.org/2000/svg' style='max-width:100px'><rect x='39.0' y='22.0' width='32' height='32' fill='none' stroke='#1e293b' stroke-width='2.5'/><line x1='39.0' y1='22.0' x2='71.0' y2='54.0' stroke='#3b6ff0' stroke-width='2.5'/></svg>", "<svg viewBox='0 0 110 76' xmlns='http://www.w3.org/2000/svg' style='max-width:100px'><circle cx='55.0' cy='38.0' r='16.0' fill='none' stroke='#1e293b' stroke-width='2.5'/><circle cx='55.0' cy='38.0' r='4' fill='#3b6ff0'/></svg>", "<svg viewBox='0 0 110 76' xmlns='http://www.w3.org/2000/svg' style='max-width:100px'><polygon points='55.0,23.6 39.0,52.4 71.0,52.4' fill='none' stroke='#1e293b' stroke-width='2.5'/><line x1='39.0' y1='22.0' x2='71.0' y2='54.0' stroke='#3b6ff0' stroke-width='2.5'/></svg>", "<svg viewBox='0 0 110 76' xmlns='http://www.w3.org/2000/svg' style='max-width:100px'><circle cx='55.0' cy='38.0' r='16.0' fill='none' stroke='#1e293b' stroke-width='2.5'/><line x1='39.0' y1='22.0' x2='71.0' y2='54.0' stroke='#3b6ff0' stroke-width='2.5'/></svg>", "<svg viewBox='0 0 110 76' xmlns='http://www.w3.org/2000/svg' style='max-width:100px'><circle cx='55.0' cy='38.0' r='16.0' fill='none' stroke='#1e293b' stroke-width='2.5'/><line x1='39.0' y1='38.0' x2='71.0' y2='38.0' stroke='#3b6ff0' stroke-width='2.5'/></svg>", "<svg viewBox='0 0 110 76' xmlns='http://www.w3.org/2000/svg' style='max-width:100px'><rect x='39.0' y='22.0' width='32' height='32' fill='none' stroke='#1e293b' stroke-width='2.5'/><circle cx='55.0' cy='38.0' r='4' fill='#3b6ff0'/></svg>"] },
     answerIndex: 3
   },
-
-{
+  {
     id: 423, domain: "matrix", difficulty: 5, timeLimit: 55,
     text: { kk: "Түс пен пішін заңдылығын анықтаңыз", ru: "Определите закономерность цвета и формы" },
     tag: { kk: "ПРОГРЕССИЯ", ru: "ПРОГРЕССИЯ" },
@@ -315,8 +283,7 @@ const QUESTION_BANK = [
     options: { kk: ["<svg viewBox='0 0 110 76' xmlns='http://www.w3.org/2000/svg' style='max-width:100px'><polygon points='55.0,21.85 38.0,54.15 72.0,54.15' fill='#3b6ff0' opacity='0.35' /></svg>", "<svg viewBox='0 0 110 76' xmlns='http://www.w3.org/2000/svg' style='max-width:100px'><polygon points='55.0,21.85 38.0,54.15 72.0,54.15' fill='#3b6ff0' opacity='1' /></svg>", "<svg viewBox='0 0 110 76' xmlns='http://www.w3.org/2000/svg' style='max-width:100px'><rect x='38.0' y='21.0' width='34' height='34' rx='3' fill='#3b6ff0' opacity='1' /></svg>", "<svg viewBox='0 0 110 76' xmlns='http://www.w3.org/2000/svg' style='max-width:100px'><polygon points='55.0,21.85 38.0,54.15 72.0,54.15' fill='none' stroke='#1e293b' stroke-width='2.5'/></svg>", "<svg viewBox='0 0 110 76' xmlns='http://www.w3.org/2000/svg' style='max-width:100px'><circle cx='55.0' cy='38.0' r='17.0' fill='#3b6ff0' opacity='1' /></svg>", "<svg viewBox='0 0 110 76' xmlns='http://www.w3.org/2000/svg' style='max-width:100px'><polygon points='55.0,21.85 38.0,54.15 72.0,54.15' fill='#1e293b' opacity='1' /></svg>"], ru: ["<svg viewBox='0 0 110 76' xmlns='http://www.w3.org/2000/svg' style='max-width:100px'><polygon points='55.0,21.85 38.0,54.15 72.0,54.15' fill='#3b6ff0' opacity='0.35' /></svg>", "<svg viewBox='0 0 110 76' xmlns='http://www.w3.org/2000/svg' style='max-width:100px'><polygon points='55.0,21.85 38.0,54.15 72.0,54.15' fill='#3b6ff0' opacity='1' /></svg>", "<svg viewBox='0 0 110 76' xmlns='http://www.w3.org/2000/svg' style='max-width:100px'><rect x='38.0' y='21.0' width='34' height='34' rx='3' fill='#3b6ff0' opacity='1' /></svg>", "<svg viewBox='0 0 110 76' xmlns='http://www.w3.org/2000/svg' style='max-width:100px'><polygon points='55.0,21.85 38.0,54.15 72.0,54.15' fill='none' stroke='#1e293b' stroke-width='2.5'/></svg>", "<svg viewBox='0 0 110 76' xmlns='http://www.w3.org/2000/svg' style='max-width:100px'><circle cx='55.0' cy='38.0' r='17.0' fill='#3b6ff0' opacity='1' /></svg>", "<svg viewBox='0 0 110 76' xmlns='http://www.w3.org/2000/svg' style='max-width:100px'><polygon points='55.0,21.85 38.0,54.15 72.0,54.15' fill='#1e293b' opacity='1' /></svg>"] },
     answerIndex: 1
   },
-
-{
+  {
     id: 801, domain: "series", difficulty: 5, timeLimit: 60,
     text: { kk: "Қатарды жалғастырыңыз: 3, 7, 15, 31, 63, ?", ru: "Продолжите ряд: 3, 7, 15, 31, 63, ?" },
     options: { kk: ["95", "111", "119", "127", "135", "143"], ru: ["95", "111", "119", "127", "135", "143"] },
@@ -452,8 +419,7 @@ const QUESTION_BANK = [
     options: { kk: ["<svg viewBox='0 0 110 76' xmlns='http://www.w3.org/2000/svg' style='max-width:100px'><circle cx='55.0' cy='38.0' r='16.0' fill='#1e293b' /></svg>", "<svg viewBox='0 0 110 76' xmlns='http://www.w3.org/2000/svg' style='max-width:100px'><rect x='39.0' y='22.0' width='32' height='32' rx='3' fill='#818cf8' /></svg>", "<svg viewBox='0 0 110 76' xmlns='http://www.w3.org/2000/svg' style='max-width:100px'><circle cx='55.0' cy='38.0' r='16.0' fill='#818cf8' /></svg>", "<svg viewBox='0 0 110 76' xmlns='http://www.w3.org/2000/svg' style='max-width:100px'><polygon points='55.0,22.8 39.0,53.2 71.0,53.2' fill='#818cf8' /></svg>", "<svg viewBox='0 0 110 76' xmlns='http://www.w3.org/2000/svg' style='max-width:100px'><circle cx='55.0' cy='38.0' r='16.0' fill='#94a3b8' /></svg>", "<svg viewBox='0 0 110 76' xmlns='http://www.w3.org/2000/svg' style='max-width:100px'><rect x='39.0' y='22.0' width='32' height='32' rx='3' fill='#1e293b' /></svg>"], ru: ["<svg viewBox='0 0 110 76' xmlns='http://www.w3.org/2000/svg' style='max-width:100px'><circle cx='55.0' cy='38.0' r='16.0' fill='#1e293b' /></svg>", "<svg viewBox='0 0 110 76' xmlns='http://www.w3.org/2000/svg' style='max-width:100px'><rect x='39.0' y='22.0' width='32' height='32' rx='3' fill='#818cf8' /></svg>", "<svg viewBox='0 0 110 76' xmlns='http://www.w3.org/2000/svg' style='max-width:100px'><circle cx='55.0' cy='38.0' r='16.0' fill='#818cf8' /></svg>", "<svg viewBox='0 0 110 76' xmlns='http://www.w3.org/2000/svg' style='max-width:100px'><polygon points='55.0,22.8 39.0,53.2 71.0,53.2' fill='#818cf8' /></svg>", "<svg viewBox='0 0 110 76' xmlns='http://www.w3.org/2000/svg' style='max-width:100px'><circle cx='55.0' cy='38.0' r='16.0' fill='#94a3b8' /></svg>", "<svg viewBox='0 0 110 76' xmlns='http://www.w3.org/2000/svg' style='max-width:100px'><rect x='39.0' y='22.0' width='32' height='32' rx='3' fill='#1e293b' /></svg>"] },
     answerIndex: 2
   },
-
-{
+  {
     id: 821, domain: "matrix", difficulty: 5, timeLimit: 70,
     text: { kk: "Қандай белгі үлгіні толықтырады? (пішін, түс және толтыру стилі — үш тәуелсіз ереже)", ru: "Какой знак дополняет узор? (форма, цвет и стиль заливки — три независимых правила)" },
     tag: { kk: "ПРОГРЕССИЯ", ru: "ПРОГРЕССИЯ" },
@@ -613,8 +579,7 @@ const QUESTION_BANK = [
     options: { kk: ["<svg viewBox='0 0 110 76' xmlns='http://www.w3.org/2000/svg' style='max-width:100px'><line x1='34.0' y1='38.0' x2='76.0' y2='38.0' stroke='#1e293b' stroke-width='3'/></svg>", "<svg viewBox='0 0 110 76' xmlns='http://www.w3.org/2000/svg' style='max-width:100px'><circle cx='38.0' cy='21.0' r='7' fill='#3b6ff0'/><line x1='34.0' y1='38.0' x2='76.0' y2='38.0' stroke='#1e293b' stroke-width='3'/><rect x='58.0' y='41.0' width='18' height='18' fill='none' stroke='#0f172a' stroke-width='2.5'/></svg>", "<svg viewBox='0 0 110 76' xmlns='http://www.w3.org/2000/svg' style='max-width:100px'><circle cx='38.0' cy='21.0' r='7' fill='#3b6ff0'/></svg>", "<svg viewBox='0 0 110 76' xmlns='http://www.w3.org/2000/svg' style='max-width:100px'></svg>", "<svg viewBox='0 0 110 76' xmlns='http://www.w3.org/2000/svg' style='max-width:100px'><line x1='34.0' y1='38.0' x2='76.0' y2='38.0' stroke='#1e293b' stroke-width='3'/><rect x='58.0' y='41.0' width='18' height='18' fill='none' stroke='#0f172a' stroke-width='2.5'/></svg>", "<svg viewBox='0 0 110 76' xmlns='http://www.w3.org/2000/svg' style='max-width:100px'><rect x='58.0' y='41.0' width='18' height='18' fill='none' stroke='#0f172a' stroke-width='2.5'/></svg>"], ru: ["<svg viewBox='0 0 110 76' xmlns='http://www.w3.org/2000/svg' style='max-width:100px'><line x1='34.0' y1='38.0' x2='76.0' y2='38.0' stroke='#1e293b' stroke-width='3'/></svg>", "<svg viewBox='0 0 110 76' xmlns='http://www.w3.org/2000/svg' style='max-width:100px'><circle cx='38.0' cy='21.0' r='7' fill='#3b6ff0'/><line x1='34.0' y1='38.0' x2='76.0' y2='38.0' stroke='#1e293b' stroke-width='3'/><rect x='58.0' y='41.0' width='18' height='18' fill='none' stroke='#0f172a' stroke-width='2.5'/></svg>", "<svg viewBox='0 0 110 76' xmlns='http://www.w3.org/2000/svg' style='max-width:100px'><circle cx='38.0' cy='21.0' r='7' fill='#3b6ff0'/></svg>", "<svg viewBox='0 0 110 76' xmlns='http://www.w3.org/2000/svg' style='max-width:100px'></svg>", "<svg viewBox='0 0 110 76' xmlns='http://www.w3.org/2000/svg' style='max-width:100px'><line x1='34.0' y1='38.0' x2='76.0' y2='38.0' stroke='#1e293b' stroke-width='3'/><rect x='58.0' y='41.0' width='18' height='18' fill='none' stroke='#0f172a' stroke-width='2.5'/></svg>", "<svg viewBox='0 0 110 76' xmlns='http://www.w3.org/2000/svg' style='max-width:100px'><rect x='58.0' y='41.0' width='18' height='18' fill='none' stroke='#0f172a' stroke-width='2.5'/></svg>"] },
     answerIndex: 2
   },
-
-{
+  {
     id: 841, domain: "matrix", difficulty: 5, timeLimit: 60,
     text: { kk: "Аналогияны толықтырыңыз: A:B неше қатынаста болса, C:? сол қатынаста болады", ru: "Дополните аналогию: A относится к B так же, как C относится к ?" },
     svg: "<svg viewBox='0 0 440 110' width='440' height='110' xmlns='http://www.w3.org/2000/svg' style='max-width:320px;margin:0 auto;display:block'><rect width='440' height='110' fill='#f8fafc'/><rect x='10' y='10' width='90' height='90' rx='10' fill='#eff6ff'/><polygon points='55.0,36.0 35.0,74.0 75.0,74.0' fill='#1e293b'  /><text x='110.0' y='61.0' text-anchor='middle' font-size='18' fill='#94a3b8'>:</text><rect x='120' y='10' width='90' height='90' rx='10' fill='#eff6ff'/><polygon points='165.0,36.0 145.0,74.0 185.0,74.0' fill='#1e293b'  transform='rotate(90 165.0 55.0)'/><text x='220.0' y='61.0' text-anchor='middle' font-size='18' fill='#94a3b8'>::</text><rect x='230' y='10' width='90' height='90' rx='10' fill='#eff6ff'/><polygon points='275.0,37.0 257.9,49.4 264.4,69.6 285.6,69.6 292.1,49.4' fill='#3b6ff0'  /><text x='330.0' y='61.0' text-anchor='middle' font-size='18' fill='#94a3b8'>:</text><rect x='340' y='10' width='90' height='90' rx='10' fill='#eff6ff'/><text x='385.0' y='65.0' text-anchor='middle' font-size='30' font-weight='bold' fill='#3b6ff0'>?</text></svg>",
@@ -747,6 +712,357 @@ const QUESTION_BANK = [
     text: { kk: "Фермада тауықтар мен қояндар бар, барлығы 10 бас және 32 аяқ. Неше тауық бар?", ru: "На ферме куры и кролики, всего 10 голов и 32 ноги. Сколько кур?" },
     options: { kk: ["2", "3", "4", "5", "6", "7"], ru: ["2", "3", "4", "5", "6", "7"] },
     answerIndex: 2
+  },
+
+{
+    id: 701, domain: "memory", difficulty: 3, timeLimit: 15,
+    memorize: { kk: "82, 15, 4, 95, 36", ru: "82, 15, 4, 95, 36" },
+    text: { kk: "Тізімдегі екінші сан қандай еді?", ru: "Какое число было второе в списке?" },
+    options: { kk: ["82", "15", "4", "95", "36", "Жоқ"], ru: ["82", "15", "4", "95", "36", "Жоқ"] },
+    answerIndex: 1
+  },
+  {
+    id: 702, domain: "memory", difficulty: 3, timeLimit: 15,
+    memorize: { kk: "29, 18, 95, 14, 87", ru: "29, 18, 95, 14, 87" },
+    text: { kk: "Тізімдегі бесінші сан қандай еді?", ru: "Какое число было пятое в списке?" },
+    options: { kk: ["29", "18", "95", "14", "87", "Жоқ"], ru: ["29", "18", "95", "14", "87", "Жоқ"] },
+    answerIndex: 4
+  },
+  {
+    id: 703, domain: "memory", difficulty: 3, timeLimit: 15,
+    memorize: { kk: "12, 76, 55, 5, 4", ru: "12, 76, 55, 5, 4" },
+    text: { kk: "Тізімдегі бірінші сан қандай еді?", ru: "Какое число было первое в списке?" },
+    options: { kk: ["12", "76", "55", "5", "4", "Жоқ"], ru: ["12", "76", "55", "5", "4", "Жоқ"] },
+    answerIndex: 0
+  },
+  {
+    id: 704, domain: "memory", difficulty: 3, timeLimit: 15,
+    memorize: { kk: "28, 30, 65, 78, 4", ru: "28, 30, 65, 78, 4" },
+    text: { kk: "Тізімдегі бесінші сан қандай еді?", ru: "Какое число было пятое в списке?" },
+    options: { kk: ["28", "30", "65", "78", "4", "Жоқ"], ru: ["28", "30", "65", "78", "4", "Жоқ"] },
+    answerIndex: 4
+  },
+  {
+    id: 705, domain: "memory", difficulty: 3, timeLimit: 15,
+    memorize: { kk: "26, 92, 84, 90, 70", ru: "26, 92, 84, 90, 70" },
+    text: { kk: "Тізімдегі төртінші сан қандай еді?", ru: "Какое число было четвёртое в списке?" },
+    options: { kk: ["26", "92", "84", "90", "70", "Жоқ"], ru: ["26", "92", "84", "90", "70", "Жоқ"] },
+    answerIndex: 3
+  },
+  {
+    id: 706, domain: "memory", difficulty: 3, timeLimit: 15,
+    memorize: { kk: "29, 58, 76, 36, 1", ru: "29, 58, 76, 36, 1" },
+    text: { kk: "Тізімдегі екінші сан қандай еді?", ru: "Какое число было второе в списке?" },
+    options: { kk: ["29", "58", "76", "36", "1", "Жоқ"], ru: ["29", "58", "76", "36", "1", "Жоқ"] },
+    answerIndex: 1
+  },
+  {
+    id: 707, domain: "memory", difficulty: 3, timeLimit: 15,
+    memorize: { kk: "90, 55, 44, 36, 20", ru: "90, 55, 44, 36, 20" },
+    text: { kk: "Тізімдегі екінші сан қандай еді?", ru: "Какое число было второе в списке?" },
+    options: { kk: ["90", "55", "44", "36", "20", "Жоқ"], ru: ["90", "55", "44", "36", "20", "Жоқ"] },
+    answerIndex: 1
+  },
+  {
+    id: 708, domain: "memory", difficulty: 3, timeLimit: 15,
+    memorize: { kk: "98, 44, 14, 12, 49", ru: "98, 44, 14, 12, 49" },
+    text: { kk: "Тізімдегі бірінші сан қандай еді?", ru: "Какое число было первое в списке?" },
+    options: { kk: ["98", "44", "14", "12", "49", "Жоқ"], ru: ["98", "44", "14", "12", "49", "Жоқ"] },
+    answerIndex: 0
+  },
+  {
+    id: 709, domain: "memory", difficulty: 3, timeLimit: 15,
+    memorize: { kk: "46, 45, 78, 34, 6", ru: "46, 45, 78, 34, 6" },
+    text: { kk: "Тізімдегі төртінші сан қандай еді?", ru: "Какое число было четвёртое в списке?" },
+    options: { kk: ["46", "45", "78", "34", "6", "Жоқ"], ru: ["46", "45", "78", "34", "6", "Жоқ"] },
+    answerIndex: 3
+  },
+  {
+    id: 710, domain: "memory", difficulty: 3, timeLimit: 15,
+    memorize: { kk: "69, 16, 49, 11, 71", ru: "69, 16, 49, 11, 71" },
+    text: { kk: "Тізімдегі үшінші сан қандай еді?", ru: "Какое число было третье в списке?" },
+    options: { kk: ["69", "16", "49", "11", "71", "Жоқ"], ru: ["69", "16", "49", "11", "71", "Жоқ"] },
+    answerIndex: 2
+  },
+  {
+    id: 711, domain: "memory", difficulty: 3, timeLimit: 15,
+    memorize: { kk: "81, 80, 47, 74, 25", ru: "81, 80, 47, 74, 25" },
+    text: { kk: "Тізімдегі бірінші сан қандай еді?", ru: "Какое число было первое в списке?" },
+    options: { kk: ["81", "80", "47", "74", "25", "Жоқ"], ru: ["81", "80", "47", "74", "25", "Жоқ"] },
+    answerIndex: 0
+  },
+  {
+    id: 712, domain: "memory", difficulty: 3, timeLimit: 15,
+    memorize: { kk: "6, 85, 30, 38, 11", ru: "6, 85, 30, 38, 11" },
+    text: { kk: "Тізімдегі екінші сан қандай еді?", ru: "Какое число было второе в списке?" },
+    options: { kk: ["6", "85", "30", "38", "11", "Жоқ"], ru: ["6", "85", "30", "38", "11", "Жоқ"] },
+    answerIndex: 1
+  },
+  {
+    id: 713, domain: "memory", difficulty: 3, timeLimit: 15,
+    memorize: { kk: "бұлт, ат, есік, бөрі, қой", ru: "облако, конь, дверь, волк, овца" },
+    text: { kk: "Тізімдегі екінші сөз қандай еді?", ru: "Какое слово было второе в списке?" },
+    options: { kk: ["бұлт", "ат", "есік", "бөрі", "қой", "Жоқ"], ru: ["облако", "конь", "дверь", "волк", "овца", "Нет такого"] },
+    answerIndex: 1
+  },
+  {
+    id: 714, domain: "memory", difficulty: 3, timeLimit: 15,
+    memorize: { kk: "қой, піл, үстел, есік, көлік", ru: "овца, слон, стол, дверь, машина" },
+    text: { kk: "Тізімдегі бесінші сөз қандай еді?", ru: "Какое слово было пятое в списке?" },
+    options: { kk: ["қой", "піл", "үстел", "есік", "көлік", "Жоқ"], ru: ["овца", "слон", "стол", "дверь", "машина", "Нет такого"] },
+    answerIndex: 4
+  },
+  {
+    id: 715, domain: "memory", difficulty: 3, timeLimit: 15,
+    memorize: { kk: "қалам, аю, орындық, піл, бөрі", ru: "ручка, медведь, стул, слон, волк" },
+    text: { kk: "Тізімдегі төртінші сөз қандай еді?", ru: "Какое слово было четвёртое в списке?" },
+    options: { kk: ["қалам", "аю", "орындық", "піл", "бөрі", "Жоқ"], ru: ["ручка", "медведь", "стул", "слон", "волк", "Нет такого"] },
+    answerIndex: 3
+  },
+  {
+    id: 716, domain: "memory", difficulty: 3, timeLimit: 15,
+    memorize: { kk: "есік, аю, орындық, бақа, терезе", ru: "дверь, медведь, стул, лягушка, окно" },
+    text: { kk: "Тізімдегі екінші сөз қандай еді?", ru: "Какое слово было второе в списке?" },
+    options: { kk: ["есік", "аю", "орындық", "бақа", "терезе", "Жоқ"], ru: ["дверь", "медведь", "стул", "лягушка", "окно", "Нет такого"] },
+    answerIndex: 1
+  },
+  {
+    id: 717, domain: "memory", difficulty: 3, timeLimit: 15,
+    memorize: { kk: "терезе, бақа, ат, есік, көлік", ru: "окно, лягушка, конь, дверь, машина" },
+    text: { kk: "Тізімдегі екінші сөз қандай еді?", ru: "Какое слово было второе в списке?" },
+    options: { kk: ["терезе", "бақа", "ат", "есік", "көлік", "Жоқ"], ru: ["окно", "лягушка", "конь", "дверь", "машина", "Нет такого"] },
+    answerIndex: 1
+  },
+  {
+    id: 718, domain: "memory", difficulty: 3, timeLimit: 15,
+    memorize: { kk: "арыстан, бақа, үстел, қоян, ат", ru: "лев, лягушка, стол, заяц, конь" },
+    text: { kk: "Тізімдегі төртінші сөз қандай еді?", ru: "Какое слово было четвёртое в списке?" },
+    options: { kk: ["арыстан", "бақа", "үстел", "қоян", "ат", "Жоқ"], ru: ["лев", "лягушка", "стол", "заяц", "конь", "Нет такого"] },
+    answerIndex: 3
+  },
+  {
+    id: 719, domain: "memory", difficulty: 3, timeLimit: 15,
+    memorize: { kk: "кітап, есік, піл, орындық, арыстан", ru: "книга, дверь, слон, стул, лев" },
+    text: { kk: "Тізімдегі бесінші сөз қандай еді?", ru: "Какое слово было пятое в списке?" },
+    options: { kk: ["кітап", "есік", "піл", "орындық", "арыстан", "Жоқ"], ru: ["книга", "дверь", "слон", "стул", "лев", "Нет такого"] },
+    answerIndex: 4
+  },
+  {
+    id: 720, domain: "memory", difficulty: 3, timeLimit: 15,
+    memorize: { kk: "түйе, арыстан, ат, қой, орындық", ru: "верблюд, лев, конь, овца, стул" },
+    text: { kk: "Тізімдегі екінші сөз қандай еді?", ru: "Какое слово было второе в списке?" },
+    options: { kk: ["түйе", "арыстан", "ат", "қой", "орындық", "Жоқ"], ru: ["верблюд", "лев", "конь", "овца", "стул", "Нет такого"] },
+    answerIndex: 1
+  },
+  {
+    id: 721, domain: "memory", difficulty: 3, timeLimit: 15,
+    memorize: { kk: "қасқыр, қоян, көлік, терезе, бұлт", ru: "тигр, заяц, машина, окно, облако" },
+    text: { kk: "Тізімдегі екінші сөз қандай еді?", ru: "Какое слово было второе в списке?" },
+    options: { kk: ["қасқыр", "қоян", "көлік", "терезе", "бұлт", "Жоқ"], ru: ["тигр", "заяц", "машина", "окно", "облако", "Нет такого"] },
+    answerIndex: 1
+  },
+  {
+    id: 722, domain: "memory", difficulty: 3, timeLimit: 15,
+    memorize: { kk: "қалам, түйе, көлік, ат, қасқыр", ru: "ручка, верблюд, машина, конь, тигр" },
+    text: { kk: "Тізімдегі бесінші сөз қандай еді?", ru: "Какое слово было пятое в списке?" },
+    options: { kk: ["қалам", "түйе", "көлік", "ат", "қасқыр", "Жоқ"], ru: ["ручка", "верблюд", "машина", "конь", "тигр", "Нет такого"] },
+    answerIndex: 4
+  },
+  {
+    id: 723, domain: "memory", difficulty: 3, timeLimit: 15,
+    memorize: { kk: "бөрі, қасқыр, есік, алма, бұлт", ru: "волк, тигр, дверь, яблоко, облако" },
+    text: { kk: "Тізімдегі бесінші сөз қандай еді?", ru: "Какое слово было пятое в списке?" },
+    options: { kk: ["бөрі", "қасқыр", "есік", "алма", "бұлт", "Жоқ"], ru: ["волк", "тигр", "дверь", "яблоко", "облако", "Нет такого"] },
+    answerIndex: 4
+  },
+  {
+    id: 724, domain: "memory", difficulty: 3, timeLimit: 15,
+    memorize: { kk: "есік, бақа, бұлт, гүл, түйе", ru: "дверь, лягушка, облако, цветок, верблюд" },
+    text: { kk: "Тізімдегі екінші сөз қандай еді?", ru: "Какое слово было второе в списке?" },
+    options: { kk: ["есік", "бақа", "бұлт", "гүл", "түйе", "Жоқ"], ru: ["дверь", "лягушка", "облако", "цветок", "верблюд", "Нет такого"] },
+    answerIndex: 1
+  },
+  {
+    id: 725, domain: "memory", difficulty: 4, timeLimit: 15,
+    memorize: { kk: "30, 1, 47, 17", ru: "30, 1, 47, 17" },
+    text: { kk: "Ең үлкен және ең кіші сандардың қосындысы неше еді?", ru: "Чему была равна сумма наибольшего и наименьшего чисел?" },
+    options: { kk: ["58", "56", "40", "42", "51", "48"], ru: ["58", "56", "40", "42", "51", "48"] },
+    answerIndex: 5
+  },
+  {
+    id: 726, domain: "memory", difficulty: 4, timeLimit: 15,
+    memorize: { kk: "49, 11, 35, 34", ru: "49, 11, 35, 34" },
+    text: { kk: "Ең үлкен және ең кіші сандардың қосындысы неше еді?", ru: "Чему была равна сумма наибольшего и наименьшего чисел?" },
+    options: { kk: ["57", "62", "64", "50", "60", "52"], ru: ["57", "62", "64", "50", "60", "52"] },
+    answerIndex: 4
+  },
+  {
+    id: 727, domain: "memory", difficulty: 4, timeLimit: 15,
+    memorize: { kk: "37, 6, 47, 32", ru: "37, 6, 47, 32" },
+    text: { kk: "Ең үлкен және ең кіші сандардың қосындысы неше еді?", ru: "Чему была равна сумма наибольшего и наименьшего чисел?" },
+    options: { kk: ["45", "56", "63", "53", "61", "47"], ru: ["45", "56", "63", "53", "61", "47"] },
+    answerIndex: 3
+  },
+  {
+    id: 728, domain: "memory", difficulty: 4, timeLimit: 15,
+    memorize: { kk: "14, 35, 49, 47", ru: "14, 35, 49, 47" },
+    text: { kk: "Ең үлкен және ең кіші сандардың қосындысы неше еді?", ru: "Чему была равна сумма наибольшего и наименьшего чисел?" },
+    options: { kk: ["68", "69", "61", "59", "58", "63"], ru: ["68", "69", "61", "59", "58", "63"] },
+    answerIndex: 5
+  },
+  {
+    id: 729, domain: "memory", difficulty: 4, timeLimit: 15,
+    memorize: { kk: "8, 16, 15, 5", ru: "8, 16, 15, 5" },
+    text: { kk: "Ең үлкен және ең кіші сандардың қосындысы неше еді?", ru: "Чему была равна сумма наибольшего и наименьшего чисел?" },
+    options: { kk: ["21", "18", "24", "11", "16", "25"], ru: ["21", "18", "24", "11", "16", "25"] },
+    answerIndex: 0
+  },
+  {
+    id: 730, domain: "memory", difficulty: 4, timeLimit: 15,
+    memorize: { kk: "15, 5, 3, 22", ru: "15, 5, 3, 22" },
+    text: { kk: "Ең үлкен және ең кіші сандардың қосындысы неше еді?", ru: "Чему была равна сумма наибольшего и наименьшего чисел?" },
+    options: { kk: ["17", "25", "21", "30", "20", "28"], ru: ["17", "25", "21", "30", "20", "28"] },
+    answerIndex: 1
+  },
+  {
+    id: 731, domain: "memory", difficulty: 4, timeLimit: 15,
+    memorize: { kk: "16, 31, 27, 13", ru: "16, 31, 27, 13" },
+    text: { kk: "Ең үлкен және ең кіші сандардың қосындысы неше еді?", ru: "Чему была равна сумма наибольшего и наименьшего чисел?" },
+    options: { kk: ["42", "41", "46", "49", "36", "44"], ru: ["42", "41", "46", "49", "36", "44"] },
+    answerIndex: 5
+  },
+  {
+    id: 732, domain: "memory", difficulty: 4, timeLimit: 15,
+    memorize: { kk: "47, 22, 7, 16", ru: "47, 22, 7, 16" },
+    text: { kk: "Ең үлкен және ең кіші сандардың қосындысы неше еді?", ru: "Чему была равна сумма наибольшего и наименьшего чисел?" },
+    options: { kk: ["54", "57", "48", "56", "52", "49"], ru: ["54", "57", "48", "56", "52", "49"] },
+    answerIndex: 0
+  },
+  {
+    id: 733, domain: "memory", difficulty: 4, timeLimit: 15,
+    memorize: { kk: "29, 36, 7, 4", ru: "29, 36, 7, 4" },
+    text: { kk: "Ең үлкен және ең кіші сандардың қосындысы неше еді?", ru: "Чему была равна сумма наибольшего и наименьшего чисел?" },
+    options: { kk: ["32", "45", "30", "50", "40", "43"], ru: ["32", "45", "30", "50", "40", "43"] },
+    answerIndex: 4
+  },
+  {
+    id: 734, domain: "memory", difficulty: 4, timeLimit: 15,
+    memorize: { kk: "14, 26, 4, 11", ru: "14, 26, 4, 11" },
+    text: { kk: "Ең үлкен және ең кіші сандардың қосындысы неше еді?", ru: "Чему была равна сумма наибольшего и наименьшего чисел?" },
+    options: { kk: ["38", "30", "32", "28", "26", "20"], ru: ["38", "30", "32", "28", "26", "20"] },
+    answerIndex: 1
+  },
+  {
+    id: 735, domain: "memory", difficulty: 4, timeLimit: 15,
+    memorize: { kk: "38, 28, 8, 75", ru: "38, 28, 8, 75" },
+    text: { kk: "Осы сандарды кері ретпен айтсаңыз, бірінші саны қандай болар еді?", ru: "Если бы вы назвали эти числа в обратном порядке, какое было бы первым?" },
+    options: { kk: ["75", "28", "8", "38", "0"], ru: ["75", "28", "8", "38", "0"] },
+    answerIndex: 0
+  },
+  {
+    id: 736, domain: "memory", difficulty: 4, timeLimit: 15,
+    memorize: { kk: "8, 7, 75, 62", ru: "8, 7, 75, 62" },
+    text: { kk: "Осы сандарды кері ретпен айтсаңыз, бірінші саны қандай болар еді?", ru: "Если бы вы назвали эти числа в обратном порядке, какое было бы первым?" },
+    options: { kk: ["62", "75", "8", "7", "0"], ru: ["62", "75", "8", "7", "0"] },
+    answerIndex: 0
+  },
+  {
+    id: 737, domain: "memory", difficulty: 4, timeLimit: 15,
+    memorize: { kk: "24, 9, 77, 87", ru: "24, 9, 77, 87" },
+    text: { kk: "Осы сандарды кері ретпен айтсаңыз, бірінші саны қандай болар еді?", ru: "Если бы вы назвали эти числа в обратном порядке, какое было бы первым?" },
+    options: { kk: ["0", "77", "24", "87", "9"], ru: ["0", "77", "24", "87", "9"] },
+    answerIndex: 3
+  },
+  {
+    id: 738, domain: "memory", difficulty: 4, timeLimit: 15,
+    memorize: { kk: "75, 77, 6, 80", ru: "75, 77, 6, 80" },
+    text: { kk: "Осы сандарды кері ретпен айтсаңыз, бірінші саны қандай болар еді?", ru: "Если бы вы назвали эти числа в обратном порядке, какое было бы первым?" },
+    options: { kk: ["0", "77", "6", "80", "75"], ru: ["0", "77", "6", "80", "75"] },
+    answerIndex: 3
+  },
+  {
+    id: 739, domain: "memory", difficulty: 4, timeLimit: 15,
+    memorize: { kk: "34, 27, 86, 92", ru: "34, 27, 86, 92" },
+    text: { kk: "Осы сандарды кері ретпен айтсаңыз, бірінші саны қандай болар еді?", ru: "Если бы вы назвали эти числа в обратном порядке, какое было бы первым?" },
+    options: { kk: ["34", "0", "92", "27", "86"], ru: ["34", "0", "92", "27", "86"] },
+    answerIndex: 2
+  },
+  {
+    id: 740, domain: "memory", difficulty: 4, timeLimit: 15,
+    memorize: { kk: "17, 86, 83, 39", ru: "17, 86, 83, 39" },
+    text: { kk: "Осы сандарды кері ретпен айтсаңыз, бірінші саны қандай болар еді?", ru: "Если бы вы назвали эти числа в обратном порядке, какое было бы первым?" },
+    options: { kk: ["86", "0", "17", "83", "39"], ru: ["86", "0", "17", "83", "39"] },
+    answerIndex: 4
+  },
+  {
+    id: 741, domain: "memory", difficulty: 4, timeLimit: 15,
+    memorize: { kk: "59, 80, 73, 13", ru: "59, 80, 73, 13" },
+    text: { kk: "Осы сандарды кері ретпен айтсаңыз, бірінші саны қандай болар еді?", ru: "Если бы вы назвали эти числа в обратном порядке, какое было бы первым?" },
+    options: { kk: ["0", "13", "73", "80", "59"], ru: ["0", "13", "73", "80", "59"] },
+    answerIndex: 1
+  },
+  {
+    id: 742, domain: "memory", difficulty: 4, timeLimit: 15,
+    memorize: { kk: "17, 45, 9, 32", ru: "17, 45, 9, 32" },
+    text: { kk: "Осы сандарды кері ретпен айтсаңыз, бірінші саны қандай болар еді?", ru: "Если бы вы назвали эти числа в обратном порядке, какое было бы первым?" },
+    options: { kk: ["32", "45", "17", "0", "9"], ru: ["32", "45", "17", "0", "9"] },
+    answerIndex: 0
+  },
+  {
+    id: 743, domain: "memory", difficulty: 3, timeLimit: 15,
+    memorize: { kk: "қызғылт, қара, күлгін, ақ", ru: "розовый, чёрный, фиолетовый, белый" },
+    text: { kk: "2-ші және 4-ші түстер қандай ретпен болды?", ru: "Какой был порядок у 2-го и 4-го цветов?" },
+    options: { kk: ["күлгін, қызғылт", "қара, ақ", "қызғылт, ақ", "ақ, қара", "қара, қызғылт", "қызғылт, күлгін"], ru: ["фиолетовый, розовый", "чёрный, белый", "розовый, белый", "белый, чёрный", "чёрный, розовый", "розовый, фиолетовый"] },
+    answerIndex: 1
+  },
+  {
+    id: 744, domain: "memory", difficulty: 3, timeLimit: 15,
+    memorize: { kk: "жасыл, қара, қызыл, күлгін", ru: "зелёный, чёрный, красный, фиолетовый" },
+    text: { kk: "2-ші және 4-ші түстер қандай ретпен болды?", ru: "Какой был порядок у 2-го и 4-го цветов?" },
+    options: { kk: ["жасыл, қызыл", "күлгін, қара", "жасыл, күлгін", "қызыл, жасыл", "қара, жасыл", "қара, күлгін"], ru: ["зелёный, красный", "фиолетовый, чёрный", "зелёный, фиолетовый", "красный, зелёный", "чёрный, зелёный", "чёрный, фиолетовый"] },
+    answerIndex: 5
+  },
+  {
+    id: 745, domain: "memory", difficulty: 3, timeLimit: 15,
+    memorize: { kk: "сары, күлгін, жасыл, көк", ru: "жёлтый, фиолетовый, зелёный, синий" },
+    text: { kk: "2-ші және 4-ші түстер қандай ретпен болды?", ru: "Какой был порядок у 2-го и 4-го цветов?" },
+    options: { kk: ["күлгін, сары", "сары, жасыл", "жасыл, сары", "сары, көк", "көк, күлгін", "күлгін, көк"], ru: ["фиолетовый, жёлтый", "жёлтый, зелёный", "зелёный, жёлтый", "жёлтый, синий", "синий, фиолетовый", "фиолетовый, синий"] },
+    answerIndex: 5
+  },
+  {
+    id: 746, domain: "memory", difficulty: 3, timeLimit: 15,
+    memorize: { kk: "көк, күлгін, сары, жасыл", ru: "синий, фиолетовый, жёлтый, зелёный" },
+    text: { kk: "2-ші және 4-ші түстер қандай ретпен болды?", ru: "Какой был порядок у 2-го и 4-го цветов?" },
+    options: { kk: ["көк, жасыл", "сары, көк", "күлгін, көк", "жасыл, күлгін", "күлгін, жасыл", "көк, сары"], ru: ["синий, зелёный", "жёлтый, синий", "фиолетовый, синий", "зелёный, фиолетовый", "фиолетовый, зелёный", "синий, жёлтый"] },
+    answerIndex: 4
+  },
+  {
+    id: 747, domain: "memory", difficulty: 3, timeLimit: 15,
+    memorize: { kk: "жасыл, күлгін, сары, қызғылт", ru: "зелёный, фиолетовый, жёлтый, розовый" },
+    text: { kk: "2-ші және 4-ші түстер қандай ретпен болды?", ru: "Какой был порядок у 2-го и 4-го цветов?" },
+    options: { kk: ["сары, жасыл", "қызғылт, күлгін", "күлгін, жасыл", "жасыл, сары", "жасыл, қызғылт", "күлгін, қызғылт"], ru: ["жёлтый, зелёный", "розовый, фиолетовый", "фиолетовый, зелёный", "зелёный, жёлтый", "зелёный, розовый", "фиолетовый, розовый"] },
+    answerIndex: 5
+  },
+  {
+    id: 748, domain: "memory", difficulty: 3, timeLimit: 15,
+    memorize: { kk: "жасыл, қызғылт, қызыл, қара", ru: "зелёный, розовый, красный, чёрный" },
+    text: { kk: "2-ші және 4-ші түстер қандай ретпен болды?", ru: "Какой был порядок у 2-го и 4-го цветов?" },
+    options: { kk: ["қара, қызғылт", "жасыл, қызыл", "жасыл, қара", "қызыл, жасыл", "қызғылт, қара", "қызғылт, жасыл"], ru: ["чёрный, розовый", "зелёный, красный", "зелёный, чёрный", "красный, зелёный", "розовый, чёрный", "розовый, зелёный"] },
+    answerIndex: 4
+  },
+  {
+    id: 749, domain: "memory", difficulty: 3, timeLimit: 15,
+    memorize: { kk: "қызыл, жасыл, ақ, қара", ru: "красный, зелёный, белый, чёрный" },
+    text: { kk: "2-ші және 4-ші түстер қандай ретпен болды?", ru: "Какой был порядок у 2-го и 4-го цветов?" },
+    options: { kk: ["қызыл, қара", "қызыл, ақ", "жасыл, қара", "жасыл, қызыл", "ақ, қызыл", "қара, жасыл"], ru: ["красный, чёрный", "красный, белый", "зелёный, чёрный", "зелёный, красный", "белый, красный", "чёрный, зелёный"] },
+    answerIndex: 2
+  },
+  {
+    id: 750, domain: "memory", difficulty: 3, timeLimit: 15,
+    memorize: { kk: "күлгін, ақ, қызғылт, сары", ru: "фиолетовый, белый, розовый, жёлтый" },
+    text: { kk: "2-ші және 4-ші түстер қандай ретпен болды?", ru: "Какой был порядок у 2-го и 4-го цветов?" },
+    options: { kk: ["күлгін, сары", "сары, ақ", "күлгін, қызғылт", "ақ, сары", "қызғылт, күлгін", "ақ, күлгін"], ru: ["фиолетовый, жёлтый", "жёлтый, белый", "фиолетовый, розовый", "белый, жёлтый", "розовый, фиолетовый", "белый, фиолетовый"] },
+    answerIndex: 3
   }
 ];
 

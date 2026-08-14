@@ -8,7 +8,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800;900&family=Montserrat:wght@700;800&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="css/style.css?v=51">
+<link rel="stylesheet" href="css/style.css?v=53">
 </head>
 <body>
 <div class="device">
@@ -302,13 +302,20 @@
     </div>
     <div class="progress-track"><div class="progress-fill" id="qProgressFill"></div></div>
 
-    <div class="q-body">
+    <div class="q-body" id="qBody">
       <div class="q-card">
         <span class="q-tag" id="qTag">—</span>
         <div class="q-text" id="qText">—</div>
         <div class="q-visual" id="qVisual"></div>
       </div>
       <div class="options" id="qOptions"></div>
+    </div>
+
+    <div class="memorize-overlay" id="memorizeOverlay" style="display:none;">
+      <div class="memorize-label" data-i18n="memorize_label">Есте сақтаңыз</div>
+      <div class="memorize-content" id="memorizeContent">—</div>
+      <div class="memorize-countdown" id="memorizeCountdown">5</div>
+      <div class="memorize-hint" data-i18n="memorize_hint">Дайын болыңыз, бірнеше секундтан кейін жасырылады</div>
     </div>
   </section>
 
@@ -458,7 +465,7 @@
 
 </div>
 <script src="js/qbank2608.js"></script>
-<script src="js/i18n.js?v=51"></script>
-<script src="js/app.js?v=51"></script>
+<script src="js/i18n.js?v=53"></script>
+<script src="js/app.js?v=53"></script>
 </body>
 </html>
