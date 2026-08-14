@@ -879,6 +879,8 @@ function saveTestProgress() {
       index: state.index,
       results: state.results,
       selectedAge: selectedAge,
+      bankLen: QUESTION_BANK.length,
+      testLen: TEST_LENGTH,
     }));
   } catch (e) {}
 }
@@ -910,7 +912,9 @@ function tryResumeOnLoad() {
         .map(id => QUESTION_BANK.find(q => q.id === id))
         .filter(Boolean);
 
-      if (restoredQuestions.length === data.questionIds.length && data.index < restoredQuestions.length) {
+      const bankMatches = data.bankLen === QUESTION_BANK.length && data.testLen === TEST_LENGTH;
+
+      if (bankMatches && restoredQuestions.length === data.questionIds.length && data.index < restoredQuestions.length) {
         state.questions = restoredQuestions;
         state.index = data.index;
         state.results = data.results || [];
