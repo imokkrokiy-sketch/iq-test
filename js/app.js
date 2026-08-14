@@ -139,9 +139,7 @@ function pickStratifiedQuestions(bank, count) {
 }
 
 function startTest() {
-  alert("DEBUG: bank=" + QUESTION_BANK.length + " testlen=" + TEST_LENGTH);
   state.questions = pickStratifiedQuestions(QUESTION_BANK, TEST_LENGTH);
-  alert("DEBUG: picked=" + state.questions.length);
   state.index = 0;
   state.results = [];
 
