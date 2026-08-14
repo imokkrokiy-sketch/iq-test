@@ -85,8 +85,7 @@ const QUESTION_BANK = [
     options: { kk: ["9", "7", "8", "13", "12", "6"], ru: ["9", "7", "8", "13", "12", "6"] },
     answerIndex: 0
   },
-
-{
+  {
     id: 501, domain: "verbal", difficulty: 3, timeLimit: 45,
     text: { kk: "900 санының тоғыздан бір бөлігінің төрттен бір бөлігінің бестен бір бөлігі нешеге тең?", ru: "Чему равна одна пятая от одной четвёртой от одной девятой числа 900?" },
     options: { kk: ["2", "3", "4", "5", "6", "7"], ru: ["2", "3", "4", "5", "6", "7"] },
@@ -110,19 +109,6 @@ const QUESTION_BANK = [
     options: { kk: ["Жұма", "Дүйсенбі", "Сәрсенбі", "Сенбі", "Сейсенбі", "Жексенбі"], ru: ["Пятница", "Понедельник", "Среда", "Суббота", "Вторник", "Воскресенье"] },
     answerIndex: 5
   },
-  {
-    id: 601, domain: "series", difficulty: 4, timeLimit: 40,
-    text: { kk: "Келесі әріптер қатарында қандай әріп жалғасады? I J L O S", ru: "Какая буква продолжает ряд? I J L O S" },
-    options: { kk: ["T", "U", "V", "X", "Y", "Z"], ru: ["T", "U", "V", "X", "Y", "Z"] },
-    answerIndex: 3
-  },
-  {
-    id: 602, domain: "series", difficulty: 5, timeLimit: 45,
-    text: { kk: "Келесі әріптер қатарында қандай әріп жалғасады? Q S N P L", ru: "Какая буква продолжает ряд? Q S N P L" },
-    options: { kk: ["J", "H", "I", "N", "M", "L"], ru: ["J", "H", "I", "N", "M", "L"] },
-    answerIndex: 4
-  },
-
   {
     id: 505, domain: "verbal", difficulty: 2, timeLimit: 35,
     text: { kk: "Балық суға қалай қатысты болса, құс ____ солай қатысты.", ru: "Рыба относится к воде так же, как птица относится к ____." },
@@ -157,12 +143,6 @@ const QUESTION_BANK = [
     id: 604, domain: "series", difficulty: 2, timeLimit: 30,
     text: { kk: "Қатарды жалғастырыңыз: 3, 9, 27, 81, ?", ru: "Продолжите ряд: 3, 9, 27, 81, ?" },
     options: { kk: ["162", "189", "213", "243", "270", "324"], ru: ["162", "189", "213", "243", "270", "324"] },
-    answerIndex: 3
-  },
-  {
-    id: 605, domain: "series", difficulty: 5, timeLimit: 50,
-    text: { kk: "Келесі әріптер қатарында қандай әріп жалғасады? A C F J O ?", ru: "Какая буква продолжает ряд? A C F J O ?" },
-    options: { kk: ["Q", "R", "T", "U", "V", "W"], ru: ["Q", "R", "T", "U", "V", "W"] },
     answerIndex: 3
   },
   {
@@ -201,8 +181,7 @@ const QUESTION_BANK = [
     options: { kk: ["9", "10", "11", "13", "16", "18"], ru: ["9", "10", "11", "13", "16", "18"] },
     answerIndex: 2
   },
-
-{
+  {
     id: 413, domain: "cube", difficulty: 4, timeLimit: 55,
     text: { kk: "Үйіндіде неше текше бар?", ru: "Сколько кубиков в стопке? (некоторые скрыты за другими)" },
     svg: "<svg viewBox='0 0 265 335' xmlns='http://www.w3.org/2000/svg' style='max-width:220px;margin:0 auto;display:block'><rect width='265' height='335' fill='#eff6ff'/><polygon points='110.0,182.0 65.0,156.0 65.0,211.0 110.0,237.0' fill='#94a3b8' stroke='#0f172a' stroke-width='2' stroke-linejoin='round'/><polygon points='110.0,182.0 155.0,156.0 155.0,211.0 110.0,237.0' fill='#1e293b' stroke='#0f172a' stroke-width='2' stroke-linejoin='round'/><polygon points='110.0,130.0 155.0,156.0 110.0,182.0 65.0,156.0' fill='#e8eef5' stroke='#0f172a' stroke-width='2' stroke-linejoin='round'/><polygon points='155.0,208.0 110.0,182.0 110.0,237.0 155.0,263.0' fill='#94a3b8' stroke='#0f172a' stroke-width='2' stroke-linejoin='round'/><polygon points='155.0,208.0 200.0,182.0 200.0,237.0 155.0,263.0' fill='#1e293b' stroke='#0f172a' stroke-width='2' stroke-linejoin='round'/><polygon points='155.0,156.0 200.0,182.0 155.0,208.0 110.0,182.0' fill='#e8eef5' stroke='#0f172a' stroke-width='2' stroke-linejoin='round'/><polygon points='200.0,234.0 155.0,208.0 155.0,263.0 200.0,289.0' fill='#94a3b8' stroke='#0f172a' stroke-width='2' stroke-linejoin='round'/><polygon points='200.0,234.0 245.0,208.0 245.0,263.0 200.0,289.0' fill='#1e293b' stroke='#0f172a' stroke-width='2' stroke-linejoin='round'/><polygon points='200.0,182.0 245.0,208.0 200.0,234.0 155.0,208.0' fill='#e8eef5' stroke='#0f172a' stroke-width='2' stroke-linejoin='round'/><polygon points='110.0,127.0 65.0,101.0 65.0,156.0 110.0,182.0' fill='#94a3b8' stroke='#0f172a' stroke-width='2' stroke-linejoin='round'/><polygon points='110.0,127.0 155.0,101.0 155.0,156.0 110.0,182.0' fill='#1e293b' stroke='#0f172a' stroke-width='2' stroke-linejoin='round'/><polygon points='110.0,75.0 155.0,101.0 110.0,127.0 65.0,101.0' fill='#e8eef5' stroke='#0f172a' stroke-width='2' stroke-linejoin='round'/><polygon points='155.0,153.0 110.0,127.0 110.0,182.0 155.0,208.0' fill='#94a3b8' stroke='#0f172a' stroke-width='2' stroke-linejoin='round'/><polygon points='155.0,153.0 200.0,127.0 200.0,182.0 155.0,208.0' fill='#1e293b' stroke='#0f172a' stroke-width='2' stroke-linejoin='round'/><polygon points='155.0,101.0 200.0,127.0 155.0,153.0 110.0,127.0' fill='#e8eef5' stroke='#0f172a' stroke-width='2' stroke-linejoin='round'/><polygon points='200.0,179.0 155.0,153.0 155.0,208.0 200.0,234.0' fill='#94a3b8' stroke='#0f172a' stroke-width='2' stroke-linejoin='round'/><polygon points='200.0,179.0 245.0,153.0 245.0,208.0 200.0,234.0' fill='#1e293b' stroke='#0f172a' stroke-width='2' stroke-linejoin='round'/><polygon points='200.0,127.0 245.0,153.0 200.0,179.0 155.0,153.0' fill='#e8eef5' stroke='#0f172a' stroke-width='2' stroke-linejoin='round'/><polygon points='110.0,72.0 65.0,46.0 65.0,101.0 110.0,127.0' fill='#94a3b8' stroke='#0f172a' stroke-width='2' stroke-linejoin='round'/><polygon points='110.0,72.0 155.0,46.0 155.0,101.0 110.0,127.0' fill='#1e293b' stroke='#0f172a' stroke-width='2' stroke-linejoin='round'/><polygon points='110.0,20.0 155.0,46.0 110.0,72.0 65.0,46.0' fill='#e8eef5' stroke='#0f172a' stroke-width='2' stroke-linejoin='round'/><polygon points='155.0,98.0 110.0,72.0 110.0,127.0 155.0,153.0' fill='#94a3b8' stroke='#0f172a' stroke-width='2' stroke-linejoin='round'/><polygon points='155.0,98.0 200.0,72.0 200.0,127.0 155.0,153.0' fill='#1e293b' stroke='#0f172a' stroke-width='2' stroke-linejoin='round'/><polygon points='155.0,46.0 200.0,72.0 155.0,98.0 110.0,72.0' fill='#e8eef5' stroke='#0f172a' stroke-width='2' stroke-linejoin='round'/><polygon points='200.0,124.0 155.0,98.0 155.0,153.0 200.0,179.0' fill='#94a3b8' stroke='#0f172a' stroke-width='2' stroke-linejoin='round'/><polygon points='200.0,124.0 245.0,98.0 245.0,153.0 200.0,179.0' fill='#1e293b' stroke='#0f172a' stroke-width='2' stroke-linejoin='round'/><polygon points='200.0,72.0 245.0,98.0 200.0,124.0 155.0,98.0' fill='#e8eef5' stroke='#0f172a' stroke-width='2' stroke-linejoin='round'/><polygon points='65.0,208.0 20.0,182.0 20.0,237.0 65.0,263.0' fill='#94a3b8' stroke='#0f172a' stroke-width='2' stroke-linejoin='round'/><polygon points='65.0,208.0 110.0,182.0 110.0,237.0 65.0,263.0' fill='#1e293b' stroke='#0f172a' stroke-width='2' stroke-linejoin='round'/><polygon points='65.0,156.0 110.0,182.0 65.0,208.0 20.0,182.0' fill='#e8eef5' stroke='#0f172a' stroke-width='2' stroke-linejoin='round'/><polygon points='110.0,234.0 65.0,208.0 65.0,263.0 110.0,289.0' fill='#94a3b8' stroke='#0f172a' stroke-width='2' stroke-linejoin='round'/><polygon points='110.0,234.0 155.0,208.0 155.0,263.0 110.0,289.0' fill='#1e293b' stroke='#0f172a' stroke-width='2' stroke-linejoin='round'/><polygon points='110.0,182.0 155.0,208.0 110.0,234.0 65.0,208.0' fill='#e8eef5' stroke='#0f172a' stroke-width='2' stroke-linejoin='round'/><polygon points='155.0,260.0 110.0,234.0 110.0,289.0 155.0,315.0' fill='#94a3b8' stroke='#0f172a' stroke-width='2' stroke-linejoin='round'/><polygon points='155.0,260.0 200.0,234.0 200.0,289.0 155.0,315.0' fill='#1e293b' stroke='#0f172a' stroke-width='2' stroke-linejoin='round'/><polygon points='155.0,208.0 200.0,234.0 155.0,260.0 110.0,234.0' fill='#e8eef5' stroke='#0f172a' stroke-width='2' stroke-linejoin='round'/></svg>",
