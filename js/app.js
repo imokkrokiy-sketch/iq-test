@@ -37,12 +37,17 @@ function renderCategories() {
   Object.entries(DOMAIN_INFO).forEach(([code, info]) => {
     const card = document.createElement("div");
     card.className = "cat-card";
+    card.style.cursor = "pointer";
     card.innerHTML = `
       <div class="row"><div class="ic"><svg width="18" height="18"><use href="#${info.icon}"/></svg></div></div>
       <div class="body">
         <div class="name">${L(info.name)}</div>
         <div class="meta">${counts[code] || 0} ${currentLang === "kk" ? "сұрақ" : "вопросов"}</div>
       </div>`;
+    card.addEventListener("click", () => {
+      state.selectedDomain = code;
+      openAgeGate();
+    });
     grid.appendChild(card);
   });
 }
@@ -138,11 +143,20 @@ function pickStratifiedQuestions(bank, count) {
   return picked.sort((a, b) => (a.difficulty || 3) - (b.difficulty || 3));
 }
 
+const CATEGORY_TEST_LENGTH = 15;
+const CATEGORY_TEST_TIME = 15 * 60;
+
 function startTest() {
-  state.questions = pickStratifiedQuestions(QUESTION_BANK, TEST_LENGTH);
+  if (state.selectedDomain) {
+    const domainQuestions = shuffle(QUESTION_BANK.filter(q => q.domain === state.selectedDomain));
+    state.questions = domainQuestions.slice(0, Math.min(CATEGORY_TEST_LENGTH, domainQuestions.length)).sort((a,b) => (a.difficulty||3)-(b.difficulty||3));
+    state.overallTimeLeft = CATEGORY_TEST_TIME;
+  } else {
+    state.questions = pickStratifiedQuestions(QUESTION_BANK, TEST_LENGTH);
+    state.overallTimeLeft = TOTAL_TEST_TIME;
+  }
   state.index = 0;
   state.results = [];
-  state.overallTimeLeft = TOTAL_TEST_TIME;
 
   document.getElementById("qTotal").textContent = state.questions.length;
   go("screen-question");
@@ -661,6 +675,7 @@ document.getElementById("navRating")?.addEventListener("click", (e) => {
 });
 
 document.getElementById("btnStartMain")?.addEventListener("click", () => {
+  state.selectedDomain = null;
   openAgeGate();
 });
 document.getElementById("btnLeaderboardTop")?.addEventListener("click", () => {
@@ -673,9 +688,13 @@ document.getElementById("btnLeaderboard")?.addEventListener("click", () => {
 document.getElementById("btnBack").addEventListener("click", () => {
   clearInterval(state.overallTimerInterval);
   clearTestProgress();
+  state.selectedDomain = null;
   go("screen-start");
 });
-document.getElementById("btnAgain").addEventListener("click", () => go("screen-start"));
+document.getElementById("btnAgain").addEventListener("click", () => {
+  state.selectedDomain = null;
+  go("screen-start");
+});
 document.getElementById("btnViewRating")?.addEventListener("click", () => openRatingScreen());
 document.getElementById("btnShare").addEventListener("click", () => {
   if (tg && tg.openTelegramLink) {
@@ -920,6 +939,7 @@ function saveTestProgress() {
       index: state.index,
       results: state.results,
       selectedAge: selectedAge,
+      selectedDomain: state.selectedDomain || null,
       bankLen: QUESTION_BANK.length,
       testLen: TEST_LENGTH,
       overallTimeLeft: state.overallTimeLeft,
@@ -963,6 +983,7 @@ function tryResumeOnLoad() {
         state.index = data.index;
         state.results = data.results || [];
         selectedAge = data.selectedAge;
+        state.selectedDomain = data.selectedDomain || null;
         state.overallTimeLeft = (typeof data.overallTimeLeft === "number" && data.overallTimeLeft > 0) ? data.overallTimeLeft : TOTAL_TEST_TIME;
         document.getElementById("qTotal").textContent = state.questions.length;
         go("screen-question");
