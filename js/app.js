@@ -142,10 +142,12 @@ function startTest() {
   state.questions = pickStratifiedQuestions(QUESTION_BANK, TEST_LENGTH);
   state.index = 0;
   state.results = [];
+  state.overallTimeLeft = TOTAL_TEST_TIME;
 
   document.getElementById("qTotal").textContent = state.questions.length;
   go("screen-question");
   renderQuestion();
+  startOverallTimer();
   saveTestProgress();
 }
 
@@ -215,35 +217,36 @@ function renderQuestionBody(q) {
     optWrap.appendChild(btn);
   });
 
-  state.timeLeft = q.timeLimit;
   state.questionStartTime = Date.now();
-  startTimer();
 }
 
-function startTimer() {
-  clearInterval(state.timerInterval);
-  updateTimerDisplay();
-  state.timerInterval = setInterval(() => {
-    state.timeLeft--;
-    updateTimerDisplay();
-    if (state.timeLeft <= 0) {
-      clearInterval(state.timerInterval);
-      selectOption(-1);
+const TOTAL_TEST_TIME = 30 * 60; // 30 минут на весь тест
+
+function startOverallTimer() {
+  clearInterval(state.overallTimerInterval);
+  updateOverallTimerDisplay();
+  state.overallTimerInterval = setInterval(() => {
+    state.overallTimeLeft--;
+    updateOverallTimerDisplay();
+    saveTestProgress();
+    if (state.overallTimeLeft <= 0) {
+      clearInterval(state.overallTimerInterval);
+      finishTest();
     }
   }, 1000);
 }
 
-function updateTimerDisplay() {
+function updateOverallTimerDisplay() {
   const el = document.querySelector(".timer");
   const span = document.getElementById("qTimer");
-  const m = Math.floor(state.timeLeft / 60).toString().padStart(2, "0");
-  const s = (state.timeLeft % 60).toString().padStart(2, "0");
+  if (!span) return;
+  const m = Math.floor(state.overallTimeLeft / 60).toString().padStart(2, "0");
+  const s = (state.overallTimeLeft % 60).toString().padStart(2, "0");
   span.textContent = `${m}:${s}`;
-  el.classList.toggle("warn", state.timeLeft <= 5);
+  if (el) el.classList.toggle("warn", state.overallTimeLeft <= 60);
 }
 
 function selectOption(selectedIndex) {
-  clearInterval(state.timerInterval);
   const q = state.questions[state.index];
   const opts = document.querySelectorAll(".opt");
   opts.forEach(o => o.disabled = true);
@@ -668,7 +671,7 @@ document.getElementById("btnLeaderboard")?.addEventListener("click", () => {
 });
 
 document.getElementById("btnBack").addEventListener("click", () => {
-  clearInterval(state.timerInterval);
+  clearInterval(state.overallTimerInterval);
   clearTestProgress();
   go("screen-start");
 });
@@ -917,6 +920,7 @@ function saveTestProgress() {
       selectedAge: selectedAge,
       bankLen: QUESTION_BANK.length,
       testLen: TEST_LENGTH,
+      overallTimeLeft: state.overallTimeLeft,
     }));
   } catch (e) {}
 }
@@ -955,9 +959,11 @@ function tryResumeOnLoad() {
         state.index = data.index;
         state.results = data.results || [];
         selectedAge = data.selectedAge;
+        state.overallTimeLeft = (typeof data.overallTimeLeft === "number" && data.overallTimeLeft > 0) ? data.overallTimeLeft : TOTAL_TEST_TIME;
         document.getElementById("qTotal").textContent = state.questions.length;
         go("screen-question");
         renderQuestion();
+        startOverallTimer();
         return;
       }
     } catch (e) {}
