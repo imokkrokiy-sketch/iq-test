@@ -307,21 +307,22 @@ function selectOption(selectedIndex) {
 // ===============================================================
 
 const IRT_A_DEFAULT = 1.0; // provisional discrimination
+const IRT_C_GUESS = 1/6;   // вероятность угадывания (6 вариантов ответа A-F)
 
 function difficultyToB(difficulty) {
   const d = difficulty || 3;
   return (d - 3) * 1.0; // маппинг difficulty(1..5) -> b на логит-шкале (-2..+2)
 }
 
-function prob2PL(theta, a, b) {
-  return 1 / (1 + Math.exp(-a * (theta - b)));
+function prob3PL(theta, a, b, c) {
+  return c + (1 - c) / (1 + Math.exp(-a * (theta - b)));
 }
 
 function normalPdf(x) {
   return Math.exp(-0.5 * x * x) / Math.sqrt(2 * Math.PI);
 }
 
-// EAP (Expected A Posteriori) — байесовская оценка theta через квадратуру
+// EAP (Expected A Posteriori) — байесовская оценка theta через квадратуру, 3PL с учётом угадывания
 function eapTheta(responses, quadPoints = 61, thetaRange = [-4, 4]) {
   if (!responses.length) return { theta: 0, sem: 1.8 };
 
@@ -332,8 +333,8 @@ function eapTheta(responses, quadPoints = 61, thetaRange = [-4, 4]) {
 
   const likelihoods = grid.map(theta => {
     let L = 1.0;
-    for (const { a, b, correct } of responses) {
-      const p = prob2PL(theta, a, b);
+    for (const { a, b, c, correct } of responses) {
+      const p = prob3PL(theta, a, b, c);
       L *= correct ? p : (1 - p);
     }
     return L * normalPdf(theta);
@@ -375,7 +376,7 @@ function calculateIQ(results) {
   }
 
   const overallResponses = results.map(r => ({
-    a: IRT_A_DEFAULT, b: difficultyToB(r.difficulty), correct: !!r.correct,
+    a: IRT_A_DEFAULT, b: difficultyToB(r.difficulty), c: IRT_C_GUESS, correct: !!r.correct,
   }));
 
   const { theta, sem } = eapTheta(overallResponses);
@@ -395,7 +396,7 @@ function calculateIQ(results) {
   const categoryScores = {};
   for (const domain of Object.keys(byDomain)) {
     const domainResponses = byDomain[domain].map(r => ({
-      a: IRT_A_DEFAULT, b: difficultyToB(r.difficulty), correct: !!r.correct,
+      a: IRT_A_DEFAULT, b: difficultyToB(r.difficulty), c: IRT_C_GUESS, correct: !!r.correct,
     }));
     const { theta: dTheta, sem: dSem } = eapTheta(domainResponses);
     categoryScores[domain] = {
