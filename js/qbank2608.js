@@ -84,12 +84,53 @@ const QUESTION_BANK = [
     svg: "<svg viewBox='0 0 265 280' xmlns='http://www.w3.org/2000/svg' style='max-width:220px;margin:0 auto;display:block'><rect width='265' height='280' fill='#eff6ff'/><polygon points='110.0,127.0 65.0,101.0 65.0,156.0 110.0,182.0' fill='#94a3b8' stroke='#0f172a' stroke-width='2' stroke-linejoin='round'/><polygon points='110.0,127.0 155.0,101.0 155.0,156.0 110.0,182.0' fill='#1e293b' stroke='#0f172a' stroke-width='2' stroke-linejoin='round'/><polygon points='110.0,75.0 155.0,101.0 110.0,127.0 65.0,101.0' fill='#e8eef5' stroke='#0f172a' stroke-width='2' stroke-linejoin='round'/><polygon points='155.0,153.0 110.0,127.0 110.0,182.0 155.0,208.0' fill='#94a3b8' stroke='#0f172a' stroke-width='2' stroke-linejoin='round'/><polygon points='155.0,153.0 200.0,127.0 200.0,182.0 155.0,208.0' fill='#1e293b' stroke='#0f172a' stroke-width='2' stroke-linejoin='round'/><polygon points='155.0,101.0 200.0,127.0 155.0,153.0 110.0,127.0' fill='#e8eef5' stroke='#0f172a' stroke-width='2' stroke-linejoin='round'/><polygon points='200.0,179.0 155.0,153.0 155.0,208.0 200.0,234.0' fill='#94a3b8' stroke='#0f172a' stroke-width='2' stroke-linejoin='round'/><polygon points='200.0,179.0 245.0,153.0 245.0,208.0 200.0,234.0' fill='#1e293b' stroke='#0f172a' stroke-width='2' stroke-linejoin='round'/><polygon points='200.0,127.0 245.0,153.0 200.0,179.0 155.0,153.0' fill='#e8eef5' stroke='#0f172a' stroke-width='2' stroke-linejoin='round'/><polygon points='110.0,72.0 65.0,46.0 65.0,101.0 110.0,127.0' fill='#94a3b8' stroke='#0f172a' stroke-width='2' stroke-linejoin='round'/><polygon points='110.0,72.0 155.0,46.0 155.0,101.0 110.0,127.0' fill='#1e293b' stroke='#0f172a' stroke-width='2' stroke-linejoin='round'/><polygon points='110.0,20.0 155.0,46.0 110.0,72.0 65.0,46.0' fill='#e8eef5' stroke='#0f172a' stroke-width='2' stroke-linejoin='round'/><polygon points='155.0,98.0 110.0,72.0 110.0,127.0 155.0,153.0' fill='#94a3b8' stroke='#0f172a' stroke-width='2' stroke-linejoin='round'/><polygon points='155.0,98.0 200.0,72.0 200.0,127.0 155.0,153.0' fill='#1e293b' stroke='#0f172a' stroke-width='2' stroke-linejoin='round'/><polygon points='155.0,46.0 200.0,72.0 155.0,98.0 110.0,72.0' fill='#e8eef5' stroke='#0f172a' stroke-width='2' stroke-linejoin='round'/><polygon points='200.0,124.0 155.0,98.0 155.0,153.0 200.0,179.0' fill='#94a3b8' stroke='#0f172a' stroke-width='2' stroke-linejoin='round'/><polygon points='200.0,124.0 245.0,98.0 245.0,153.0 200.0,179.0' fill='#1e293b' stroke='#0f172a' stroke-width='2' stroke-linejoin='round'/><polygon points='200.0,72.0 245.0,98.0 200.0,124.0 155.0,98.0' fill='#e8eef5' stroke='#0f172a' stroke-width='2' stroke-linejoin='round'/><polygon points='65.0,153.0 20.0,127.0 20.0,182.0 65.0,208.0' fill='#94a3b8' stroke='#0f172a' stroke-width='2' stroke-linejoin='round'/><polygon points='65.0,153.0 110.0,127.0 110.0,182.0 65.0,208.0' fill='#1e293b' stroke='#0f172a' stroke-width='2' stroke-linejoin='round'/><polygon points='65.0,101.0 110.0,127.0 65.0,153.0 20.0,127.0' fill='#e8eef5' stroke='#0f172a' stroke-width='2' stroke-linejoin='round'/><polygon points='110.0,179.0 65.0,153.0 65.0,208.0 110.0,234.0' fill='#94a3b8' stroke='#0f172a' stroke-width='2' stroke-linejoin='round'/><polygon points='110.0,179.0 155.0,153.0 155.0,208.0 110.0,234.0' fill='#1e293b' stroke='#0f172a' stroke-width='2' stroke-linejoin='round'/><polygon points='110.0,127.0 155.0,153.0 110.0,179.0 65.0,153.0' fill='#e8eef5' stroke='#0f172a' stroke-width='2' stroke-linejoin='round'/><polygon points='155.0,205.0 110.0,179.0 110.0,234.0 155.0,260.0' fill='#94a3b8' stroke='#0f172a' stroke-width='2' stroke-linejoin='round'/><polygon points='155.0,205.0 200.0,179.0 200.0,234.0 155.0,260.0' fill='#1e293b' stroke='#0f172a' stroke-width='2' stroke-linejoin='round'/><polygon points='155.0,153.0 200.0,179.0 155.0,205.0 110.0,179.0' fill='#e8eef5' stroke='#0f172a' stroke-width='2' stroke-linejoin='round'/></svg>",
     options: { kk: ["9", "7", "8", "13", "12", "6"], ru: ["9", "7", "8", "13", "12", "6"] },
     answerIndex: 0
+  },
+
+{
+    id: 501, domain: "verbal", difficulty: 3, timeLimit: 45,
+    text: { kk: "900 санының тоғыздан бір бөлігінің төрттен бір бөлігінің бестен бір бөлігі нешеге тең?", ru: "Чему равна одна пятая от одной четвёртой от одной девятой числа 900?" },
+    options: { kk: ["2", "3", "4", "5", "6", "7"], ru: ["2", "3", "4", "5", "6", "7"] },
+    answerIndex: 3
+  },
+  {
+    id: 502, domain: "verbal", difficulty: 4, timeLimit: 50,
+    text: { kk: "Асан Болаттан биік, ал Дархан Асаннан аласа. Дархан мен Болатты салыстырсақ, қай тұжырым дұрыс?", ru: "Асан выше Болата, а Дархан ниже Асана. Какое утверждение о Дархане и Болате верно?" },
+    options: { kk: ["Дархан Болаттан биік", "Дархан Болаттан аласа", "Дархан Болатпен тең", "Анықтау мүмкін емес"], ru: ["Дархан выше Болата", "Дархан ниже Болата", "Дархан равен Болату по росту", "Определить невозможно"] },
+    answerIndex: 3
+  },
+  {
+    id: 503, domain: "verbal", difficulty: 4, timeLimit: 50,
+    text: { kk: "Айдос 12 жаста, ал оның әпкесі одан үш есе үлкен. Айдос 23 жасқа толғанда, әпкесі неше жаста болады?", ru: "Айдосу 12 лет, а его сестра втрое старше. Сколько лет будет сестре, когда Айдосу исполнится 23?" },
+    options: { kk: ["35", "41", "44", "47", "50", "59"], ru: ["35", "41", "44", "47", "50", "59"] },
+    answerIndex: 3
+  },
+  {
+    id: 504, domain: "verbal", difficulty: 3, timeLimit: 40,
+    text: { kk: "Егер ертеңнен кейінгі күн бейсенбіден екі күн бұрын болса, бүгін қай күн?", ru: "Если послезавтра — за два дня до четверга, какой сегодня день?" },
+    options: { kk: ["Жұма", "Дүйсенбі", "Сәрсенбі", "Сенбі", "Сейсенбі", "Жексенбі"], ru: ["Пятница", "Понедельник", "Среда", "Суббота", "Вторник", "Воскресенье"] },
+    answerIndex: 5
+  },
+  {
+    id: 601, domain: "series", difficulty: 4, timeLimit: 40,
+    text: { kk: "Келесі әріптер қатарында қандай әріп жалғасады? I J L O S", ru: "Какая буква продолжает ряд? I J L O S" },
+    options: { kk: ["T", "U", "V", "X", "Y", "Z"], ru: ["T", "U", "V", "X", "Y", "Z"] },
+    answerIndex: 3
+  },
+  {
+    id: 602, domain: "series", difficulty: 5, timeLimit: 45,
+    text: { kk: "Келесі әріптер қатарында қандай әріп жалғасады? Q S N P L", ru: "Какая буква продолжает ряд? Q S N P L" },
+    options: { kk: ["J", "H", "I", "N", "M", "L"], ru: ["J", "H", "I", "N", "M", "L"] },
+    answerIndex: 4
   }
 ];
 
+
 const DOMAIN_INFO = {
   matrix: { icon: "ic-cube", name: { kk: "Кеңістіктік ойлау", ru: "Пространственное мышление" } },
-  cube: { icon: "ic-cube", name: { kk: "Кеңістік", ru: "Пространство" } }
+  cube: { icon: "ic-cube", name: { kk: "Кеңістік", ru: "Пространство" } },
+  verbal: { icon: "ic-chat", name: { kk: "Вербалды пайымдау", ru: "Вербальное мышление" } },
+  series: { icon: "ic-sigma", name: { kk: "Сандар мен әріптер қатары", ru: "Числовые и буквенные ряды" } },
+  memory: { icon: "ic-grid", name: { kk: "Жедел жады", ru: "Оперативная память" } }
 };
 
 // Каналы-спонсоры для гейта подписки
@@ -173,40 +214,4 @@ const SPONSOR_CHANNELS = [
     options: { kk: ["9", "10", "11", "13", "16", "18"], ru: ["9", "10", "11", "13", "16", "18"] },
     answerIndex: 2
   },
-  {
-    id: 501, domain: "verbal", difficulty: 3, timeLimit: 45,
-    text: { kk: "900 санының тоғыздан бір бөлігінің төрттен бір бөлігінің бестен бір бөлігі нешеге тең?", ru: "Чему равна одна пятая от одной четвёртой от одной девятой числа 900?" },
-    options: { kk: ["2", "3", "4", "5", "6", "7"], ru: ["2", "3", "4", "5", "6", "7"] },
-    answerIndex: 3
-  },
-  {
-    id: 502, domain: "verbal", difficulty: 4, timeLimit: 50,
-    text: { kk: "Асан Болаттан биік, ал Дархан Асаннан аласа. Дархан мен Болатты салыстырсақ, қай тұжырым дұрыс?", ru: "Асан выше Болата, а Дархан ниже Асана. Какое утверждение о Дархане и Болате верно?" },
-    options: { kk: ["Дархан Болаттан биік", "Дархан Болаттан аласа", "Дархан Болатпен тең", "Анықтау мүмкін емес"], ru: ["Дархан выше Болата", "Дархан ниже Болата", "Дархан равен Болату по росту", "Определить невозможно"] },
-    answerIndex: 3
-  },
-  {
-    id: 503, domain: "verbal", difficulty: 4, timeLimit: 50,
-    text: { kk: "Айдос 12 жаста, ал оның әпкесі одан үш есе үлкен. Айдос 23 жасқа толғанда, әпкесі неше жаста болады?", ru: "Айдосу 12 лет, а его сестра втрое старше. Сколько лет будет сестре, когда Айдосу исполнится 23?" },
-    options: { kk: ["35", "41", "44", "47", "50", "59"], ru: ["35", "41", "44", "47", "50", "59"] },
-    answerIndex: 3
-  },
-  {
-    id: 504, domain: "verbal", difficulty: 3, timeLimit: 40,
-    text: { kk: "Егер ертеңнен кейінгі күн бейсенбіден екі күн бұрын болса, бүгін қай күн?", ru: "Если послезавтра — за два дня до четверга, какой сегодня день?" },
-    options: { kk: ["Жұма", "Дүйсенбі", "Сәрсенбі", "Сенбі", "Сейсенбі", "Жексенбі"], ru: ["Пятница", "Понедельник", "Среда", "Суббота", "Вторник", "Воскресенье"] },
-    answerIndex: 5
-  },
-  {
-    id: 601, domain: "series", difficulty: 4, timeLimit: 40,
-    text: { kk: "Келесі әріптер қатарында қандай әріп жалғасады? I J L O S", ru: "Какая буква продолжает ряд? I J L O S" },
-    options: { kk: ["T", "U", "V", "X", "Y", "Z"], ru: ["T", "U", "V", "X", "Y", "Z"] },
-    answerIndex: 3
-  },
-  {
-    id: 602, domain: "series", difficulty: 5, timeLimit: 45,
-    text: { kk: "Келесі әріптер қатарында қандай әріп жалғасады? Q S N P L", ru: "Какая буква продолжает ряд? Q S N P L" },
-    options: { kk: ["J", "H", "I", "N", "M", "L"], ru: ["J", "H", "I", "N", "M", "L"] },
-    answerIndex: 4
-  }
 ];
