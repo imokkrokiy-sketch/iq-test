@@ -911,6 +911,8 @@ const PROGRESS_KEY = "iqbot_test_progress";
 const LAST_SCREEN_KEY = "iqbot_last_screen";
 const SIMPLE_RESUMABLE_SCREENS = ["screen-start", "screen-rating", "screen-menu"];
 
+const PROGRESS_EXPIRY_MS = 10 * 60 * 1000; // 10 минут
+
 function saveTestProgress() {
   try {
     localStorage.setItem(PROGRESS_KEY, JSON.stringify({
@@ -921,6 +923,7 @@ function saveTestProgress() {
       bankLen: QUESTION_BANK.length,
       testLen: TEST_LENGTH,
       overallTimeLeft: state.overallTimeLeft,
+      savedAt: Date.now(),
     }));
   } catch (e) {}
 }
@@ -953,8 +956,9 @@ function tryResumeOnLoad() {
         .filter(Boolean);
 
       const bankMatches = data.bankLen === QUESTION_BANK.length && data.testLen === TEST_LENGTH;
+      const notExpired = typeof data.savedAt === "number" && (Date.now() - data.savedAt) < PROGRESS_EXPIRY_MS;
 
-      if (bankMatches && restoredQuestions.length === data.questionIds.length && data.index < restoredQuestions.length) {
+      if (bankMatches && notExpired && restoredQuestions.length === data.questionIds.length && data.index < restoredQuestions.length) {
         state.questions = restoredQuestions;
         state.index = data.index;
         state.results = data.results || [];
