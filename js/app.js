@@ -101,7 +101,7 @@ function shuffle(arr) {
   return a;
 }
 
-const TEST_LENGTH = 18; // сколько вопросов получает один пользователь за попытку
+const TEST_LENGTH = 30; // сколько вопросов получает один пользователь за попытку
 
 function pickStratifiedQuestions(bank, count) {
   // группируем по доменам
