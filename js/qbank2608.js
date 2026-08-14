@@ -121,21 +121,8 @@ const QUESTION_BANK = [
     text: { kk: "Келесі әріптер қатарында қандай әріп жалғасады? Q S N P L", ru: "Какая буква продолжает ряд? Q S N P L" },
     options: { kk: ["J", "H", "I", "N", "M", "L"], ru: ["J", "H", "I", "N", "M", "L"] },
     answerIndex: 4
-  }
-];
+  },
 
-
-const DOMAIN_INFO = {
-  matrix: { icon: "ic-cube", name: { kk: "Кеңістіктік ойлау", ru: "Пространственное мышление" } },
-  cube: { icon: "ic-cube", name: { kk: "Кеңістік", ru: "Пространство" } },
-  verbal: { icon: "ic-chat", name: { kk: "Вербалды пайымдау", ru: "Вербальное мышление" } },
-  series: { icon: "ic-sigma", name: { kk: "Сандар мен әріптер қатары", ru: "Числовые и буквенные ряды" } },
-  memory: { icon: "ic-grid", name: { kk: "Жедел жады", ru: "Оперативная память" } }
-};
-
-// Каналы-спонсоры для гейта подписки
-const SPONSOR_CHANNELS = [
-  { username: "estesakta_mus", name: "ESTE SAKTA", icon: "ic-megaphone", members: "21K" },
   {
     id: 505, domain: "verbal", difficulty: 2, timeLimit: 35,
     text: { kk: "Балық суға қалай қатысты болса, құс ____ солай қатысты.", ru: "Рыба относится к воде так же, как птица относится к ____." },
@@ -213,5 +200,20 @@ const SPONSOR_CHANNELS = [
     text: { kk: "Есте сақтаңыз: 4, 9, 2, 7. Ең үлкен және ең кіші сандардың қосындысы неше?", ru: "Запомните: 4, 9, 2, 7. Чему равна сумма наибольшего и наименьшего чисел?" },
     options: { kk: ["9", "10", "11", "13", "16", "18"], ru: ["9", "10", "11", "13", "16", "18"] },
     answerIndex: 2
-  },
+  }
+];
+
+const DOMAIN_INFO = {
+  matrix: { icon: "ic-cube", name: { kk: "Кеңістіктік ойлау", ru: "Пространственное мышление" } },
+  cube: { icon: "ic-cube", name: { kk: "Кеңістік", ru: "Пространство" } },
+  verbal: { icon: "ic-chat", name: { kk: "Вербалды пайымдау", ru: "Вербальное мышление" } },
+  series: { icon: "ic-sigma", name: { kk: "Сандар мен әріптер қатары", ru: "Числовые и буквенные ряды" } },
+  memory: { icon: "ic-grid", name: { kk: "Жедел жады", ru: "Оперативная память" } }
+};
+
+
+
+// Каналы-спонсоры для гейта подписки
+const SPONSOR_CHANNELS = [
+  { username: "estesakta_mus", name: "ESTE SAKTA", icon: "ic-megaphone", members: "21K" }
 ];
