@@ -541,3 +541,6 @@ body.dark .menu-logout{ background:#2A1418; }
 .stats-donut-dot{ width:14px; height:14px; border-radius:5px; flex-shrink:0; display:flex; align-items:center; justify-content:center; color:#fff; }
 .stats-donut-label{ font-size:12px; font-weight:600; color:var(--text); flex:1; }
 .stats-donut-value{ font-size:12px; font-weight:700; color:var(--navy); font-family:'IBM Plex Mono',monospace; }
+
+/* ===== Текстовый логотип в шапке ===== */
+.logo-brand-text{ font-family:'Manrope', sans-serif; font-weight:800; font-size:22px; color:var(--blue); letter-spacing:-.01em; }
