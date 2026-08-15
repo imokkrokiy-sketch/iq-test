@@ -1495,3 +1495,61 @@ document.getElementById("navHomeStats")?.addEventListener("click", () => go("scr
 document.getElementById("navTestStats")?.addEventListener("click", () => openTestListScreen());
 document.getElementById("navRatingStats")?.addEventListener("click", () => openRatingScreen());
 document.getElementById("navMenuStats")?.addEventListener("click", () => openMenuScreen());
+
+// ===== Инфо-экраны: Құпиялылық / Қосымша туралы =====
+const PRIVACY_TEXT = {
+  kk: `
+    <h4>Қандай деректер жиналады</h4>
+    <p>Telegram ID, пайдаланушы аты, аты-жөні және тест нәтижелері (жауаптар, IQ ұпайы, санаттар бойынша көрсеткіштер).</p>
+    <h4>Деректер қалай пайдаланылады</h4>
+    <p>IQ ұпайын есептеу, рейтингте көрсету, жеке тарихты сақтау және қолданбаны жақсарту үшін пайдаланылады.</p>
+    <h4>Үшінші тұлғалар</h4>
+    <p>Деректеріңіз үшінші тұлғаларға сатылмайды және берілмейді. Деректер тек «Менің IQ» серверінде сақталады.</p>
+    <h4>Байланыс</h4>
+    <p class="info-muted">Сұрақтарыңыз болса, боттағы әкімшіге хабарласыңыз.</p>
+  `,
+  ru: `
+    <h4>Какие данные собираются</h4>
+    <p>Telegram ID, имя пользователя, имя и результаты тестов (ответы, IQ-балл, показатели по категориям).</p>
+    <h4>Как используются данные</h4>
+    <p>Для расчёта IQ-балла, отображения в рейтинге, сохранения личной истории и улучшения приложения.</p>
+    <h4>Третьи лица</h4>
+    <p>Ваши данные не продаются и не передаются третьим лицам. Данные хранятся только на сервере «Менің IQ».</p>
+    <h4>Контакты</h4>
+    <p class="info-muted">По вопросам обращайтесь к администратору бота.</p>
+  `,
+};
+
+const ABOUT_TEXT = {
+  kk: `
+    <h4>🧠 Менің IQ</h4>
+    <p>«Менің IQ» — логика, кеңістіктік ойлау, есте сақтау және вербалды қабілеттерді тексеретін кешенді тест. Есептеу заманауи психометриялық IRT (Item Response Theory) моделіне негізделген.</p>
+    <h4>Санаттар</h4>
+    <p>Абстрактілі ойлау, кеңістіктік ойлау, вербалды пайымдау, сандық пайымдау және жедел жады.</p>
+    <h4>Маңызды ескерту</h4>
+    <p>Бұл тест ойын-сауық және өзіндік бағалау мақсатында жасалған, клиникалық диагностика құралы емес.</p>
+  `,
+  ru: `
+    <h4>🧠 Менің IQ</h4>
+    <p>«Менің IQ» — комплексный тест на логику, пространственное мышление, память и вербальные способности. Расчёт основан на современной психометрической модели IRT (Item Response Theory).</p>
+    <h4>Категории</h4>
+    <p>Абстрактное мышление, пространственное мышление, вербальное мышление, числовое мышление и оперативная память.</p>
+    <h4>Важное примечание</h4>
+    <p>Этот тест создан в развлекательных и ознакомительных целях и не является инструментом клинической диагностики.</p>
+  `,
+};
+
+function openPrivacyScreen() {
+  go("screen-privacy");
+  document.getElementById("privacyText").innerHTML = PRIVACY_TEXT[currentLang] || PRIVACY_TEXT.ru;
+}
+
+function openAboutScreen() {
+  go("screen-about");
+  document.getElementById("aboutText").innerHTML = ABOUT_TEXT[currentLang] || ABOUT_TEXT.ru;
+}
+
+document.getElementById("menuPrivacyRow")?.addEventListener("click", () => openPrivacyScreen());
+document.getElementById("menuAboutRow")?.addEventListener("click", () => openAboutScreen());
+document.getElementById("privacyBack")?.addEventListener("click", () => go("screen-menu"));
+document.getElementById("aboutBack")?.addEventListener("click", () => go("screen-menu"));
