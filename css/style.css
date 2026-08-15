@@ -500,3 +500,12 @@ body.dark .menu-logout{ background:#2A1418; }
 .profile-history-score{ font-family:'IBM Plex Mono',monospace; font-weight:800; font-size:16px; color:var(--blue); }
 .profile-history-date{ font-size:12px; color:var(--text-muted); }
 .profile-history-pct{ font-size:12px; color:var(--text-muted); }
+
+/* ===== Экран статистики ===== */
+.stats-card{ background:var(--card); border-radius:var(--radius); padding:16px 18px 18px; margin-bottom:16px; box-shadow:0 4px 14px rgba(18,32,61,.05); }
+.stats-card-title{ font-size:14px; font-weight:700; color:var(--navy); margin-bottom:12px; }
+.stats-cat-row{ display:flex; align-items:center; gap:10px; padding:8px 0; }
+.stats-cat-label{ font-size:12px; color:var(--text); width:118px; flex-shrink:0; font-weight:600; }
+.stats-cat-track{ flex:1; height:8px; border-radius:999px; background:var(--blue-tint); overflow:hidden; }
+.stats-cat-fill{ height:100%; border-radius:999px; background:linear-gradient(90deg, var(--blue), var(--blue-dark)); }
+.stats-cat-value{ font-size:12px; font-weight:700; color:var(--navy); font-family:'IBM Plex Mono',monospace; width:32px; text-align:right; flex-shrink:0; }

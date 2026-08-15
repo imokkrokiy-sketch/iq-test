@@ -1389,3 +1389,109 @@ document.getElementById("navHomeProfile")?.addEventListener("click", () => go("s
 document.getElementById("navTestProfile")?.addEventListener("click", () => openTestListScreen());
 document.getElementById("navRatingProfile")?.addEventListener("click", () => openRatingScreen());
 document.getElementById("navMenuProfile")?.addEventListener("click", () => openMenuScreen());
+
+// ===== Экран статистики =====
+function drawProgressChart(history) {
+  const svg = document.getElementById("statsProgressChart");
+  const emptyEl = document.getElementById("statsProgressEmpty");
+  if (!history || history.length === 0) {
+    svg.style.display = "none";
+    emptyEl.style.display = "block";
+    return;
+  }
+  svg.style.display = "block";
+  emptyEl.style.display = "none";
+
+  // history приходит от новых к старым — разворачиваем в хронологический порядок
+  const chrono = history.slice().reverse().filter(h => h.iq_score != null);
+  if (chrono.length === 0) {
+    svg.style.display = "none";
+    emptyEl.style.display = "block";
+    return;
+  }
+
+  const W = 320, H = 160, PAD = 14;
+  const scores = chrono.map(h => h.iq_score);
+  const minIq = Math.min(...scores, 85);
+  const maxIq = Math.max(...scores, 115);
+  const range = Math.max(1, maxIq - minIq);
+
+  const points = chrono.map((h, i) => {
+    const x = chrono.length === 1 ? W / 2 : PAD + (i / (chrono.length - 1)) * (W - PAD * 2);
+    const y = H - PAD - ((h.iq_score - minIq) / range) * (H - PAD * 2);
+    return { x, y, iq: h.iq_score };
+  });
+
+  const pathD = points.map((p, i) => (i === 0 ? `M ${p.x} ${p.y}` : `L ${p.x} ${p.y}`)).join(" ");
+  const areaD = `${pathD} L ${points[points.length - 1].x} ${H} L ${points[0].x} ${H} Z`;
+
+  const dots = points.map(p => `<circle cx="${p.x}" cy="${p.y}" r="3.5" fill="#3B6FF0" stroke="#fff" stroke-width="1.5"/>`).join("");
+
+  svg.innerHTML = `
+    <defs>
+      <linearGradient id="progressFillGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+        <stop offset="0%" stop-color="#3B6FF0" stop-opacity="0.25"/>
+        <stop offset="100%" stop-color="#3B6FF0" stop-opacity="0"/>
+      </linearGradient>
+    </defs>
+    <path d="${areaD}" fill="url(#progressFillGrad)"/>
+    <path d="${pathD}" fill="none" stroke="#3B6FF0" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+    ${dots}
+  `;
+}
+
+function drawCategoryBars(latestCategoryScores) {
+  const wrap = document.getElementById("statsCategoryBars");
+  const emptyEl = document.getElementById("statsCategoryEmpty");
+  if (!latestCategoryScores) {
+    wrap.innerHTML = "";
+    emptyEl.style.display = "block";
+    return;
+  }
+  emptyEl.style.display = "none";
+
+  const domains = Object.keys(latestCategoryScores);
+  if (domains.length === 0) {
+    wrap.innerHTML = "";
+    emptyEl.style.display = "block";
+    return;
+  }
+
+  wrap.innerHTML = domains.map(d => {
+    const cat = latestCategoryScores[d];
+    const iq = cat.iq || 100;
+    const pct = Math.max(4, Math.min(100, Math.round((iq / 160) * 100)));
+    const label = cat.label ? L(cat.label) : d;
+    return `
+      <div class="stats-cat-row">
+        <div class="stats-cat-label">${label}</div>
+        <div class="stats-cat-track"><div class="stats-cat-fill" style="width:${pct}%"></div></div>
+        <div class="stats-cat-value">${iq}</div>
+      </div>
+    `;
+  }).join("");
+}
+
+async function loadStatsScreen() {
+  const data = await fetchProfileData();
+  if (!data || !data.history) {
+    drawProgressChart([]);
+    drawCategoryBars(null);
+    return;
+  }
+  drawProgressChart(data.history);
+  const latest = data.history[0];
+  drawCategoryBars(latest ? latest.categoryScores : null);
+}
+
+function openStatsScreen() {
+  go("screen-stats");
+  loadStatsScreen();
+}
+
+document.getElementById("menuStatsRow")?.addEventListener("click", () => openStatsScreen());
+document.getElementById("statsBack")?.addEventListener("click", () => { go("screen-menu"); loadMenuData(); });
+document.getElementById("navHomeStats")?.addEventListener("click", () => go("screen-start"));
+document.getElementById("navTestStats")?.addEventListener("click", () => openTestListScreen());
+document.getElementById("navRatingStats")?.addEventListener("click", () => openRatingScreen());
+document.getElementById("navMenuStats")?.addEventListener("click", () => openMenuScreen());
