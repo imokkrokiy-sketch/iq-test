@@ -78,6 +78,14 @@ async function loadAll() {
       <div class="admin-title">🧠 Admin — Менің IQ</div>
     </div>
 
+    <div class="admin-card" id="totalUsersCard">
+      <h3>Барлық қолданушылар</h3>
+      <div class="funnel-row" style="border-bottom:none;">
+        <div class="funnel-label">Ботты қолданғандар (барлық уақыт)</div>
+        <div class="funnel-value" id="totalUsersValue" style="font-size:20px;">—</div>
+      </div>
+    </div>
+
     <div class="admin-card">
       <h3>Воронка</h3>
       <div class="period-tabs" id="periodTabs">
@@ -138,6 +146,10 @@ async function loadFunnel() {
   try {
     const res = await fetch(`${API_URL}/admin/stats?telegram_id=${TELEGRAM_ID}&period=${currentPeriod}`);
     const data = await res.json();
+
+    const totalUsersEl = document.getElementById("totalUsersValue");
+    if (totalUsersEl) totalUsersEl.textContent = data.total_users != null ? data.total_users : "—";
+
     const base = data.visits || 0;
     body.innerHTML = FUNNEL_STEPS.map(step => {
       const val = data[step.key] || 0;
