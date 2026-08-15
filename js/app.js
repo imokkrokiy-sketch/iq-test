@@ -626,6 +626,99 @@ const TYPE_LABELS = {
   progression: { kk: "Прогрессия", ru: "Прогрессия" },
 };
 
+// Нормальная плотность вероятности (mean=100, sd=15) -> SVG path колокола
+function normalPdfIQ(iq) {
+  const mean = 100, sd = 15;
+  const z = (iq - mean) / sd;
+  return Math.exp(-0.5 * z * z) / (sd * Math.sqrt(2 * Math.PI));
+}
+
+function drawBellCurve(iqScore, percentile) {
+  const pathEl = document.getElementById("bellCurvePath");
+  const fillEl = document.getElementById("bellCurveFill");
+  const dot = document.getElementById("bellCurveDot");
+  const dotLine = document.getElementById("bellCurveDotLine");
+  const dotLabel = document.getElementById("bellCurveDotLabel");
+  const pctText = document.getElementById("bellPercentileText");
+  if (!pathEl) return;
+
+  const W = 320, H = 140, padX = 20, baseY = 115, topY = 15;
+  const iqMin = 55, iqMax = 145;
+  const maxDensity = normalPdfIQ(100);
+
+  const xForIQ = iq => padX + ((iq - iqMin) / (iqMax - iqMin)) * (W - padX * 2);
+  const yForDensity = d => baseY - (d / maxDensity) * (baseY - topY);
+
+  let points = [];
+  for (let iq = iqMin; iq <= iqMax; iq += 2) {
+    points.push([xForIQ(iq), yForDensity(normalPdfIQ(iq))]);
+  }
+
+  let pathD = `M ${points[0][0]},${baseY} `;
+  points.forEach(p => { pathD += `L ${p[0]},${p[1]} `; });
+  pathD += `L ${points[points.length - 1][0]},${baseY} Z`;
+
+  let strokeD = `M ${points[0][0]},${points[0][1]} `;
+  points.slice(1).forEach(p => { strokeD += `L ${p[0]},${p[1]} `; });
+
+  pathEl.setAttribute("d", strokeD);
+  fillEl.setAttribute("d", pathD);
+
+  const clampedIQ = Math.max(iqMin, Math.min(iqMax, iqScore));
+  const dotX = xForIQ(clampedIQ);
+  const dotY = yForDensity(normalPdfIQ(clampedIQ));
+
+  dot.setAttribute("cx", dotX);
+  dot.setAttribute("cy", dotY);
+  dotLine.setAttribute("x1", dotX);
+  dotLine.setAttribute("x2", dotX);
+  dotLine.setAttribute("y1", dotY + 5);
+  dotLabel.setAttribute("x", dotX);
+  dotLabel.textContent = String(iqScore);
+
+  if (pctText) {
+    pctText.textContent = currentLang === "kk"
+      ? `${percentile}-процентиль`
+      : `${percentile}-й процентиль`;
+  }
+}
+
+const IQ_EXPLANATIONS = {
+  kk: [
+    [130, "Бұл нәтиже сіздің абстрактілі заңдылықтарды анықтау, логикалық байланыстарды табу және күрделі тапсырмаларды шешу қабілетіңіз өте жоғары екенін көрсетеді."],
+    [115, "Бұл нәтиже сіздің логикалық ойлау мен күрделі есептерді шешу қабілетіңіз орташадан жоғары екенін көрсетеді."],
+    [85, "Бұл нәтиже сіздің логикалық және аналитикалық қабілетіңіз орташа деңгейде екенін көрсетеді — бұл қатысушылардың басым бөлігіне тән деңгей."],
+    [70, "Бұл нәтиже кейбір тапсырма түрлерінде қиындықтар туындауы мүмкін екенін көрсетеді. Нәтиже бір реттік тестке негізделген, сондықтан оны абсолютты баға ретінде қабылдамаңыз."],
+    [0, "Нәтиже күтілгеннен төмен шықты — бұл шаршау, назардың бөлінуі немесе тест шарттарына байланысты болуы мүмкін. Қайта тапсырып көруге болады."],
+  ],
+  ru: [
+    [130, "Этот результат говорит о высокой способности выявлять абстрактные закономерности, находить логические связи и решать сложные задачи."],
+    [115, "Этот результат говорит о способности к логическому мышлению и решению сложных задач выше среднего уровня."],
+    [85, "Этот результат говорит о среднем уровне логических и аналитических способностей — таком, какой характерен для большинства участников."],
+    [70, "Этот результат говорит о том, что некоторые типы заданий могли вызвать затруднения. Результат основан на одном прохождении теста, не стоит воспринимать его как абсолютную оценку."],
+    [0, "Результат оказался ниже ожидаемого — это может быть связано с усталостью, рассеянным вниманием или условиями прохождения теста. Можно попробовать пройти тест ещё раз."],
+  ],
+};
+
+function renderIQExplanation(iqScore) {
+  const titleEl = document.getElementById("iqExplainTitle");
+  const textEl = document.getElementById("iqExplainText");
+  if (!titleEl || !textEl) return;
+
+  titleEl.textContent = currentLang === "kk"
+    ? `${iqScore} IQ нені білдіреді?`
+    : `Что означает IQ ${iqScore}?`;
+
+  const list = IQ_EXPLANATIONS[currentLang] || IQ_EXPLANATIONS.ru;
+  for (const [min, text] of list) {
+    if (iqScore >= min) {
+      textEl.textContent = text;
+      return;
+    }
+  }
+  textEl.textContent = list[list.length - 1][1];
+}
+
 function renderDomainBars(types) {
   const wrap = document.getElementById("domainBars");
   if (!wrap) return;
@@ -689,27 +782,13 @@ async function showApiResult(payload) {
     ciEl.textContent = "";
   }
 
-  const swWrap = document.getElementById("strengthsWeaknesses");
-  swWrap.innerHTML = "";
-  (payload.strengths || []).forEach(d => {
-    const label = DOMAIN_INFO[d] ? L(DOMAIN_INFO[d].name) : d;
-    const row = document.createElement("div");
-    row.className = "sw-row strength";
-    row.innerHTML = `💪 ${currentLang === "kk" ? "Күшті жағы" : "Сильная сторона"}: ${label}`;
-    swWrap.appendChild(row);
-  });
-  (payload.weaknesses || []).forEach(d => {
-    const label = DOMAIN_INFO[d] ? L(DOMAIN_INFO[d].name) : d;
-    const row = document.createElement("div");
-    row.className = "sw-row weakness";
-    row.innerHTML = `📈 ${currentLang === "kk" ? "Дамыту қажет" : "Стоит развивать"}: ${label}`;
-    swWrap.appendChild(row);
-  });
-
   const percentile = (typeof payload.percentile === "number") ? payload.percentile : iqToPercentile(payload.iq_score);
   document.getElementById("percentileSentence").textContent = currentLang === "kk"
     ? `Сіз қатысушылардың ${percentile}%-ынан жоғары нәтиже көрсеттіңіз.`
     : `Вы показали результат выше, чем ${percentile}% участников.`;
+
+  drawBellCurve(payload.iq_score, percentile);
+  renderIQExplanation(payload.iq_score);
 
   renderDomainBars(payload.types || {});
 
