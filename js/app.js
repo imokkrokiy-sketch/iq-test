@@ -150,8 +150,16 @@ function shuffle(arr) {
 
 const TEST_LENGTH = 30; // сколько вопросов получает один пользователь за попытку
 
-function pickStratifiedQuestions(bank, count) {
-  // группируем по доменам
+// Фиксированные квоты по доменам для основного теста (сумма = TEST_LENGTH = 30)
+const DOMAIN_QUOTAS = {
+  matrix: 10,  // абстрактное мышление
+  cube: 3,     // пространственное
+  verbal: 5,   // вербальное
+  memory: 4,   // память
+  series: 8,   // числовое
+};
+
+function pickStratifiedQuestions(bank, count, quotas) {
   const byDomain = {};
   bank.forEach(q => {
     const d = q.domain || "general";
@@ -159,18 +167,25 @@ function pickStratifiedQuestions(bank, count) {
     byDomain[d].push(q);
   });
 
-  const domains = Object.keys(byDomain);
-  domains.forEach(d => { byDomain[d] = shuffle(byDomain[d]); });
+  Object.keys(byDomain).forEach(d => { byDomain[d] = shuffle(byDomain[d]); });
 
-  // пропорциональное распределение: сколько вопросов брать из каждого домена
-  const perDomain = Math.max(1, Math.floor(count / domains.length));
   let picked = [];
 
-  domains.forEach(d => {
-    picked = picked.concat(byDomain[d].slice(0, perDomain));
-  });
+  if (quotas) {
+    Object.keys(quotas).forEach(d => {
+      const available = byDomain[d] || [];
+      picked = picked.concat(available.slice(0, quotas[d]));
+    });
+  } else {
+    // fallback: равное распределение по доменам (старое поведение)
+    const domains = Object.keys(byDomain);
+    const perDomain = Math.max(1, Math.floor(count / domains.length));
+    domains.forEach(d => {
+      picked = picked.concat(byDomain[d].slice(0, perDomain));
+    });
+  }
 
-  // если не набрали нужное количество (мало доменов/вопросов) — добираем случайно из остатка
+  // если не набрали нужное количество — добираем случайно из остатка
   if (picked.length < count) {
     const pickedIds = new Set(picked.map(q => q.id));
     const remaining = shuffle(bank.filter(q => !pickedIds.has(q.id)));
@@ -178,11 +193,10 @@ function pickStratifiedQuestions(bank, count) {
   }
 
   // если набрали больше — обрезаем
-  picked = shuffle(picked).slice(0, Math.min(count, picked.length));
+  picked = picked.slice(0, Math.min(count, picked.length));
 
-  // сортируем по возрастанию сложности, чтобы тест не был "рандомно скачущим"
-  // но всё же не строго монотонно — лёгкая случайность внутри уровней
-  return picked.sort((a, b) => (a.difficulty || 3) - (b.difficulty || 3));
+  // хорошо перемешиваем вопросы разных доменов между собой
+  return shuffle(picked);
 }
 
 const CATEGORY_TEST_LENGTH = 15;
@@ -195,7 +209,7 @@ function startTest() {
     state.questions = domainQuestions.slice(0, Math.min(CATEGORY_TEST_LENGTH, domainQuestions.length)).sort((a,b) => (a.difficulty||3)-(b.difficulty||3));
     state.overallTimeLeft = CATEGORY_TEST_TIME;
   } else {
-    state.questions = pickStratifiedQuestions(QUESTION_BANK, TEST_LENGTH);
+    state.questions = pickStratifiedQuestions(QUESTION_BANK, TEST_LENGTH, DOMAIN_QUOTAS);
     state.overallTimeLeft = TOTAL_TEST_TIME;
   }
   state.index = 0;
