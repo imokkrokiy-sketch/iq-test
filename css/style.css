@@ -450,3 +450,5 @@ body.dark .menu-logout{ background:#2A1418; }
 .iq-explain-card{ width:100%; max-width:340px; background:var(--blue-tint); border-radius:18px; padding:18px 16px; margin-bottom:22px; text-align:left; }
 .iq-explain-title{ font-family:'Manrope',sans-serif; font-weight:800; font-size:14px; color:var(--navy); margin-bottom:8px; }
 .iq-explain-text{ font-family:'Manrope',sans-serif; font-weight:500; font-size:13px; color:var(--text); line-height:1.6; }
+
+.btn-again-full{ width:100%; margin-bottom:16px; }
