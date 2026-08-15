@@ -1150,6 +1150,21 @@ document.getElementById("navHomeRating")?.addEventListener("click", () => go("sc
 document.getElementById("navTestRating")?.addEventListener("click", () => openTestListScreen());
 
 // ===== Menu screen =====
+function getCurrentTelegramId() {
+  return tg && tg.initDataUnsafe && tg.initDataUnsafe.user ? tg.initDataUnsafe.user.id : null;
+}
+
+async function fetchProfileData() {
+  const telegramId = getCurrentTelegramId();
+  if (!telegramId) return null;
+  try {
+    const res = await fetch(`${API_URL}/profile?telegram_id=${telegramId}`);
+    return await res.json();
+  } catch (e) {
+    return null;
+  }
+}
+
 async function loadMenuData() {
   const menuNameEl = document.getElementById("menuName");
   const menuIqBadgeEl = document.getElementById("menuIqBadge");
@@ -1158,22 +1173,77 @@ async function loadMenuData() {
   const tgUser = tg && tg.initDataUnsafe && tg.initDataUnsafe.user ? tg.initDataUnsafe.user : null;
   menuNameEl.textContent = tgUser && tgUser.first_name ? tgUser.first_name : (currentLang === "kk" ? "Аноним" : "Аноним");
 
-  const telegramId = tgUser ? tgUser.id : null;
-  if (!telegramId) {
+  const data = await fetchProfileData();
+  if (!data) {
     menuIqBadgeEl.textContent = "IQ —";
     menuPointsEl.textContent = "0";
     return;
   }
 
+  menuIqBadgeEl.textContent = data.best_iq ? `IQ ${data.best_iq}` : "IQ —";
+  menuPointsEl.textContent = String(data.points || 0);
+}
+
+function formatHistoryDate(iso) {
+  if (!iso) return "";
   try {
-    const res = await fetch(`${API_URL}/leaderboard?scope=overall&limit=1&telegram_id=${telegramId}`);
-    const data = await res.json();
-    menuIqBadgeEl.textContent = data.your_score ? `IQ ${data.your_score}` : "IQ —";
-    menuPointsEl.textContent = "0"; // очки за баллы — будущая фича
+    const d = new Date(iso);
+    return d.toLocaleDateString(currentLang === "kk" ? "kk-KZ" : "ru-RU", { day: "2-digit", month: "2-digit", year: "numeric" });
   } catch (e) {
-    menuIqBadgeEl.textContent = "IQ —";
-    menuPointsEl.textContent = "0";
+    return "";
   }
+}
+
+async function loadProfileScreen() {
+  const nameEl = document.getElementById("profileName");
+  const usernameEl = document.getElementById("profileUsername");
+  const bestIqEl = document.getElementById("profileBestIq");
+  const testCountEl = document.getElementById("profileTestCount");
+  const pointsEl = document.getElementById("profilePoints");
+  const rankEl = document.getElementById("profileRank");
+  const historyEmptyEl = document.getElementById("profileHistoryEmpty");
+  const historyListEl = document.getElementById("profileHistoryList");
+
+  const tgUser = tg && tg.initDataUnsafe && tg.initDataUnsafe.user ? tg.initDataUnsafe.user : null;
+  nameEl.textContent = tgUser && tgUser.first_name ? tgUser.first_name : "Аноним";
+  usernameEl.textContent = tgUser && tgUser.username ? `@${tgUser.username}` : "";
+
+  const data = await fetchProfileData();
+  if (!data) {
+    bestIqEl.textContent = "—";
+    testCountEl.textContent = "0";
+    pointsEl.textContent = "0";
+    rankEl.textContent = "—";
+    historyEmptyEl.style.display = "block";
+    historyListEl.innerHTML = "";
+    return;
+  }
+
+  bestIqEl.textContent = data.best_iq || "—";
+  testCountEl.textContent = data.test_count || 0;
+  pointsEl.textContent = data.points || 0;
+  rankEl.textContent = data.rank ? `#${data.rank}` : "—";
+
+  if (!data.history || data.history.length === 0) {
+    historyEmptyEl.style.display = "block";
+    historyListEl.innerHTML = "";
+  } else {
+    historyEmptyEl.style.display = "none";
+    historyListEl.innerHTML = data.history.map(h => `
+      <div class="profile-history-row">
+        <div>
+          <div class="profile-history-score">IQ ${h.iq_score ?? "—"}</div>
+          <div class="profile-history-date">${formatHistoryDate(h.completed_at)}</div>
+        </div>
+        <div class="profile-history-pct">${h.percentile != null ? h.percentile + "-процентиль" : ""}</div>
+      </div>
+    `).join("");
+  }
+}
+
+function openProfileScreen() {
+  go("screen-profile");
+  loadProfileScreen();
 }
 
 function openMenuScreen() {
@@ -1310,3 +1380,12 @@ function tryResumeOnLoad() {
 
 logEvent("visit");
 tryResumeOnLoad();
+
+// ===== Экран профиля: навигация =====
+document.getElementById("menuProfileCard")?.addEventListener("click", () => openProfileScreen());
+document.getElementById("menuProfileRow")?.addEventListener("click", () => openProfileScreen());
+document.getElementById("profileBack")?.addEventListener("click", () => { go("screen-menu"); loadMenuData(); });
+document.getElementById("navHomeProfile")?.addEventListener("click", () => go("screen-start"));
+document.getElementById("navTestProfile")?.addEventListener("click", () => openTestListScreen());
+document.getElementById("navRatingProfile")?.addEventListener("click", () => openRatingScreen());
+document.getElementById("navMenuProfile")?.addEventListener("click", () => openMenuScreen());
