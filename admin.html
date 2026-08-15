@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Admin — Менің IQ</title>
+<script src="https://telegram.org/js/telegram-web-app.js"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800;900&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css?v=73">
+<style>
+  .admin-wrap{ width:100%; max-width:520px; margin:0 auto; min-height:100vh; min-height:100dvh; padding:18px 18px 60px; }
+  .admin-topbar{ display:flex; align-items:center; justify-content:space-between; margin-bottom:18px; }
+  .admin-title{ font-weight:800; font-size:18px; color:var(--navy); }
+  .admin-card{ background:var(--card); border-radius:var(--radius); padding:16px 18px; margin-bottom:16px; box-shadow:0 6px 20px rgba(18,32,61,.05); }
+  .admin-card h3{ margin:0 0 12px; font-size:14px; font-weight:700; color:var(--navy); text-transform:uppercase; letter-spacing:.04em; }
+  .period-tabs{ display:flex; gap:6px; background:var(--blue-tint); border-radius:999px; padding:3px; margin-bottom:14px; }
+  .period-tabs button{ flex:1; border:none; background:none; padding:8px 0; border-radius:999px; font-family:'IBM Plex Mono',monospace; font-size:11px; font-weight:700; color:var(--blue); }
+  .period-tabs button.on{ background:var(--blue); color:#fff; }
+  .funnel-row{ display:flex; justify-content:space-between; align-items:center; padding:9px 0; border-bottom:1px solid var(--line); font-size:14px; }
+  .funnel-row:last-child{ border-bottom:none; }
+  .funnel-label{ color:var(--text); font-weight:600; }
+  .funnel-value{ font-family:'IBM Plex Mono',monospace; font-weight:700; color:var(--navy); display:flex; align-items:center; gap:8px; }
+  .funnel-pct{ font-size:11px; color:var(--text-muted); font-weight:600; }
+  .toggle-row{ display:flex; justify-content:space-between; align-items:center; }
+  .toggle-label{ font-size:14px; font-weight:600; color:var(--text); }
+  .switch{ position:relative; width:46px; height:26px; border-radius:999px; background:var(--line); border:none; padding:0; cursor:pointer; transition:background .2s; flex-shrink:0; }
+  .switch.on{ background:var(--blue); }
+  .switch::after{ content:''; position:absolute; top:3px; left:3px; width:20px; height:20px; border-radius:50%; background:#fff; transition:transform .2s; box-shadow:0 1px 3px rgba(0,0,0,.2); }
+  .switch.on::after{ transform:translateX(20px); }
+  .channel-row{ display:flex; justify-content:space-between; align-items:center; padding:10px 0; border-bottom:1px solid var(--line); }
+  .channel-row:last-child{ border-bottom:none; }
+  .channel-name{ font-size:14px; font-weight:700; color:var(--text); }
+  .channel-username{ font-size:12px; color:var(--text-muted); font-family:'IBM Plex Mono',monospace; }
+  .channel-del{ border:none; background:var(--blue-tint); color:var(--error); width:30px; height:30px; border-radius:50%; font-size:16px; font-weight:700; cursor:pointer; }
+  .add-channel-form{ display:flex; flex-direction:column; gap:8px; margin-top:12px; }
+  .add-channel-form input{ border:1px solid var(--line); border-radius:12px; padding:10px 12px; font-family:'Manrope',sans-serif; font-size:14px; background:var(--bg); }
+  .add-channel-form button{ border:none; background:var(--blue); color:#fff; font-weight:700; padding:11px; border-radius:12px; font-size:14px; }
+  .admin-loading, .admin-denied{ text-align:center; padding:60px 20px; color:var(--text-muted); font-size:14px; }
+  .admin-denied{ color:var(--error); font-weight:700; }
+</style>
+</head>
+<body>
+<div class="admin-wrap" id="adminRoot">
+  <div class="admin-loading" id="loadingState">Жүктелуде...</div>
+</div>
+
+<script>
+const API_URL = "https://63.250.59.63.sslip.io";
+const tg = window.Telegram ? window.Telegram.WebApp : null;
+if (tg) { tg.ready(); tg.expand(); }
+
+let TELEGRAM_ID = null;
+let currentPeriod = "all";
+
+function getTelegramId() {
+  if (tg && tg.initDataUnsafe && tg.initDataUnsafe.user) return tg.initDataUnsafe.user.id;
+  return null;
+}
+
+const FUNNEL_STEPS = [
+  { key: "visits", label: "Кіру" },
+  { key: "test_starts", label: "Тест басталды" },
+  { key: "test_completes", label: "Тест аяқталды" },
+  { key: "gate_seen", label: "Gate көрді" },
+  { key: "gate_click_subscribe", label: "Жазылу басты" },
+  { key: "gate_subscribed", label: "Жазылды" },
+  { key: "result_opened", label: "Нәтиже ашылды" },
+];
+
+async function loadAll() {
+  const root = document.getElementById("adminRoot");
+  root.innerHTML = `
+    <div class="admin-topbar">
+      <div class="admin-title">🧠 Admin — Менің IQ</div>
+    </div>
+
+    <div class="admin-card">
+      <h3>Воронка</h3>
+      <div class="period-tabs" id="periodTabs">
+        <button data-period="day">День</button>
+        <button data-period="week">Неделя</button>
+        <button data-period="month">Месяц</button>
+        <button data-period="all">Всё</button>
+      </div>
+      <div id="funnelBody">Загрузка...</div>
+    </div>
+
+    <div class="admin-card">
+      <h3>Gate</h3>
+      <div class="toggle-row">
+        <div class="toggle-label">Требовать подписку</div>
+        <button class="switch" id="gateSwitch"></button>
+      </div>
+    </div>
+
+    <div class="admin-card">
+      <h3>Каналы-спонсоры</h3>
+      <div id="channelsBody">Загрузка...</div>
+      <div class="add-channel-form">
+        <input type="text" id="newChannelUsername" placeholder="username (без @)">
+        <input type="text" id="newChannelDisplay" placeholder="Название для отображения">
+        <button id="addChannelBtn">+ Добавить канал</button>
+      </div>
+    </div>
+  `;
+
+  document.querySelectorAll("#periodTabs button").forEach(btn => {
+    btn.addEventListener("click", () => {
+      currentPeriod = btn.dataset.period;
+      renderPeriodTabs();
+      loadFunnel();
+    });
+  });
+  renderPeriodTabs();
+
+  document.getElementById("addChannelBtn").addEventListener("click", addChannel);
+
+  loadFunnel();
+  loadGate();
+  loadChannels();
+}
+
+function renderPeriodTabs() {
+  document.querySelectorAll("#periodTabs button").forEach(btn => {
+    btn.classList.toggle("on", btn.dataset.period === currentPeriod);
+  });
+}
+
+async function loadFunnel() {
+  const body = document.getElementById("funnelBody");
+  body.innerHTML = "Загрузка...";
+  try {
+    const res = await fetch(`${API_URL}/admin/stats?telegram_id=${TELEGRAM_ID}&period=${currentPeriod}`);
+    const data = await res.json();
+    const base = data.visits || 0;
+    body.innerHTML = FUNNEL_STEPS.map(step => {
+      const val = data[step.key] || 0;
+      const pct = base > 0 ? Math.round((val / base) * 100) : (val > 0 ? 100 : 0);
+      return `
+        <div class="funnel-row">
+          <div class="funnel-label">${step.label}</div>
+          <div class="funnel-value">${val} <span class="funnel-pct">${base > 0 ? pct + "%" : ""}</span></div>
+        </div>
+      `;
+    }).join("");
+  } catch (e) {
+    body.innerHTML = "Ошибка загрузки";
+  }
+}
+
+async function loadGate() {
+  const sw = document.getElementById("gateSwitch");
+  try {
+    const res = await fetch(`${API_URL}/admin/gate?telegram_id=${TELEGRAM_ID}`);
+    const data = await res.json();
+    sw.classList.toggle("on", !!data.enabled);
+    sw.onclick = () => toggleGate(!data.enabled);
+  } catch (e) {}
+}
+
+async function toggleGate(newVal) {
+  const sw = document.getElementById("gateSwitch");
+  sw.disabled = true;
+  try {
+    await fetch(`${API_URL}/admin/gate`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ telegram_id: TELEGRAM_ID, enabled: newVal }),
+    });
+    sw.classList.toggle("on", newVal);
+    sw.onclick = () => toggleGate(!newVal);
+  } catch (e) {}
+  sw.disabled = false;
+}
+
+async function loadChannels() {
+  const body = document.getElementById("channelsBody");
+  body.innerHTML = "Загрузка...";
+  try {
+    const res = await fetch(`${API_URL}/admin/channels?telegram_id=${TELEGRAM_ID}`);
+    const data = await res.json();
+    if (!data.channels.length) {
+      body.innerHTML = `<div style="color:var(--text-muted); font-size:13px;">Каналов пока нет</div>`;
+      return;
+    }
+    body.innerHTML = data.channels.map(ch => `
+      <div class="channel-row">
+        <div>
+          <div class="channel-name">${ch.display_name || ch.username}</div>
+          <div class="channel-username">@${ch.username} ${ch.active ? "" : "(выкл.)"}</div>
+        </div>
+        <button class="channel-del" data-id="${ch.id}">×</button>
+      </div>
+    `).join("");
+    document.querySelectorAll(".channel-del").forEach(btn => {
+      btn.addEventListener("click", () => removeChannel(btn.dataset.id));
+    });
+  } catch (e) {
+    body.innerHTML = "Ошибка загрузки";
+  }
+}
+
+async function addChannel() {
+  const usernameInput = document.getElementById("newChannelUsername");
+  const displayInput = document.getElementById("newChannelDisplay");
+  const username = usernameInput.value.trim().replace(/^@/, "");
+  const display = displayInput.value.trim();
+  if (!username) return;
+  try {
+    await fetch(`${API_URL}/admin/channels`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ telegram_id: TELEGRAM_ID, username: username, display_name: display || null }),
+    });
+    usernameInput.value = "";
+    displayInput.value = "";
+    loadChannels();
+  } catch (e) {}
+}
+
+async function removeChannel(id) {
+  try {
+    await fetch(`${API_URL}/admin/channels/${id}?telegram_id=${TELEGRAM_ID}`, { method: "DELETE" });
+    loadChannels();
+  } catch (e) {}
+}
+
+async function init() {
+  TELEGRAM_ID = getTelegramId();
+  const root = document.getElementById("adminRoot");
+  if (!TELEGRAM_ID) {
+    root.innerHTML = `<div class="admin-denied">Доступ запрещён</div>`;
+    return;
+  }
+  try {
+    const res = await fetch(`${API_URL}/admin/gate?telegram_id=${TELEGRAM_ID}`);
+    if (res.status === 403) {
+      root.innerHTML = `<div class="admin-denied">Доступ запрещён</div>`;
+      return;
+    }
+  } catch (e) {
+    root.innerHTML = `<div class="admin-denied">Ошибка соединения</div>`;
+    return;
+  }
+  loadAll();
+}
+
+init();
+</script>
+</body>
+</html>
