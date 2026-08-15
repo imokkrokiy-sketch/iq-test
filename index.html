@@ -561,16 +561,19 @@
       <div style="width:36px"></div>
     </div>
 
+    <div class="stats-summary-grid" id="statsSummaryGrid"></div>
+
     <div class="stats-card">
       <div class="stats-card-title">IQ прогресі</div>
       <div id="statsProgressEmpty" class="profile-history-empty" style="display:none;">Әзірге деректер жоқ</div>
-      <svg id="statsProgressChart" width="100%" height="160" viewBox="0 0 320 160" preserveAspectRatio="none"></svg>
+      <svg id="statsProgressChart" width="100%" height="200" viewBox="0 0 340 200" preserveAspectRatio="none"></svg>
+      <div id="statsMinAvgMax" class="stats-minmax-row"></div>
     </div>
 
     <div class="stats-card">
       <div class="stats-card-title">Санаттар бойынша (соңғы тест)</div>
       <div id="statsCategoryEmpty" class="profile-history-empty" style="display:none;">Әзірге деректер жоқ</div>
-      <div id="statsCategoryBars"></div>
+      <div class="stats-donut-wrap" id="statsDonutWrap"></div>
     </div>
     </div>
 
@@ -611,6 +614,6 @@
 </div>
 <script src="js/qbank2608.js?v=73"></script>
 <script src="js/i18n.js?v=73"></script>
-<script src="js/app.js?v=80"></script>
+<script src="js/app.js?v=81"></script>
 </body>
 </html>

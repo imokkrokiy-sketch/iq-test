@@ -1390,42 +1390,83 @@ document.getElementById("navTestProfile")?.addEventListener("click", () => openT
 document.getElementById("navRatingProfile")?.addEventListener("click", () => openRatingScreen());
 document.getElementById("navMenuProfile")?.addEventListener("click", () => openMenuScreen());
 
-// ===== Экран статистики =====
+// ===== Экран статистики v2 =====
+const STATS_DOMAIN_META = {
+  matrix: { icon: "ic-bulb", color: "#F5A623" },
+  cube: { icon: "ic-cube", color: "#3B6FF0" },
+  verbal: { icon: "ic-chat", color: "#9B6FF0" },
+  series: { icon: "ic-sigma", color: "#2ECC71" },
+  memory: { icon: "ic-grid", color: "#F5B429" },
+};
+
+function formatShortDate(iso) {
+  if (!iso) return "";
+  try {
+    const d = new Date(iso);
+    return d.toLocaleDateString(currentLang === "kk" ? "kk-KZ" : "ru-RU", { day: "2-digit", month: "2-digit" });
+  } catch (e) {
+    return "";
+  }
+}
+
+function renderStatsSummary(data, chrono) {
+  const grid = document.getElementById("statsSummaryGrid");
+  const testCount = data.test_count || 0;
+  const latestIq = chrono.length ? chrono[chrono.length - 1].iq_score : null;
+  const bestIq = data.best_iq || null;
+  const avgIq = chrono.length ? Math.round(chrono.reduce((s, h) => s + h.iq_score, 0) / chrono.length) : null;
+
+  const cards = [
+    { icon: "ic-doc", label: "Барлық тест", value: testCount },
+    { icon: "ic-chart", label: "Соңғы IQ", value: latestIq ?? "—" },
+    { icon: "ic-trophy", label: "Ең жоғары IQ", value: bestIq ?? "—" },
+    { icon: "ic-sigma", label: "Орташа IQ", value: avgIq ?? "—" },
+  ];
+
+  grid.innerHTML = cards.map(c => `
+    <div class="stats-summary-card">
+      <div class="stats-summary-icon"><svg width="16" height="16"><use href="#${c.icon}"/></svg></div>
+      <div class="stats-summary-label">${c.label}</div>
+      <div class="stats-summary-value">${c.value}</div>
+    </div>
+  `).join("");
+}
+
 function drawProgressChart(history) {
   const svg = document.getElementById("statsProgressChart");
   const emptyEl = document.getElementById("statsProgressEmpty");
-  if (!history || history.length === 0) {
+  const minMaxEl = document.getElementById("statsMinAvgMax");
+
+  const chrono = (history || []).slice().reverse().filter(h => h.iq_score != null);
+
+  if (chrono.length === 0) {
     svg.style.display = "none";
     emptyEl.style.display = "block";
-    return;
+    minMaxEl.innerHTML = "";
+    return chrono;
   }
   svg.style.display = "block";
   emptyEl.style.display = "none";
 
-  // history приходит от новых к старым — разворачиваем в хронологический порядок
-  const chrono = history.slice().reverse().filter(h => h.iq_score != null);
-  if (chrono.length === 0) {
-    svg.style.display = "none";
-    emptyEl.style.display = "block";
-    return;
-  }
-
-  const W = 320, H = 160, PAD = 14;
+  const W = 340, H = 200, PAD_X = 20, PAD_TOP = 26, PAD_BOTTOM = 30;
   const scores = chrono.map(h => h.iq_score);
   const minIq = Math.min(...scores, 85);
   const maxIq = Math.max(...scores, 115);
   const range = Math.max(1, maxIq - minIq);
+  const chartH = H - PAD_TOP - PAD_BOTTOM;
 
   const points = chrono.map((h, i) => {
-    const x = chrono.length === 1 ? W / 2 : PAD + (i / (chrono.length - 1)) * (W - PAD * 2);
-    const y = H - PAD - ((h.iq_score - minIq) / range) * (H - PAD * 2);
-    return { x, y, iq: h.iq_score };
+    const x = chrono.length === 1 ? W / 2 : PAD_X + (i / (chrono.length - 1)) * (W - PAD_X * 2);
+    const y = PAD_TOP + chartH - ((h.iq_score - minIq) / range) * chartH;
+    return { x, y, iq: h.iq_score, date: h.completed_at };
   });
 
   const pathD = points.map((p, i) => (i === 0 ? `M ${p.x} ${p.y}` : `L ${p.x} ${p.y}`)).join(" ");
-  const areaD = `${pathD} L ${points[points.length - 1].x} ${H} L ${points[0].x} ${H} Z`;
+  const areaD = `${pathD} L ${points[points.length - 1].x} ${PAD_TOP + chartH} L ${points[0].x} ${PAD_TOP + chartH} Z`;
 
   const dots = points.map(p => `<circle cx="${p.x}" cy="${p.y}" r="3.5" fill="#3B6FF0" stroke="#fff" stroke-width="1.5"/>`).join("");
+  const valueLabels = points.map(p => `<text x="${p.x}" y="${p.y - 10}" text-anchor="middle" class="stats-point-label">${p.iq}</text>`).join("");
+  const dateLabels = points.map(p => `<text x="${p.x}" y="${H - 8}" text-anchor="middle" class="stats-axis-label">${formatShortDate(p.date)}</text>`).join("");
 
   svg.innerHTML = `
     <defs>
@@ -1437,18 +1478,42 @@ function drawProgressChart(history) {
     <path d="${areaD}" fill="url(#progressFillGrad)"/>
     <path d="${pathD}" fill="none" stroke="#3B6FF0" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
     ${dots}
+    ${valueLabels}
+    ${dateLabels}
   `;
+
+  const minEntry = chrono.reduce((a, b) => (a.iq_score <= b.iq_score ? a : b));
+  const maxEntry = chrono.reduce((a, b) => (a.iq_score >= b.iq_score ? a : b));
+  const avgIq = Math.round(scores.reduce((s, v) => s + v, 0) / scores.length);
+
+  minMaxEl.innerHTML = `
+    <div class="stats-minmax-card">
+      <div class="stats-minmax-label">Ең төменгі IQ</div>
+      <div class="stats-minmax-value">${minEntry.iq_score}</div>
+      <div class="stats-minmax-date">${formatShortDate(minEntry.completed_at)}</div>
+    </div>
+    <div class="stats-minmax-card mid">
+      <div class="stats-minmax-label">Орташа IQ</div>
+      <div class="stats-minmax-value">${avgIq}</div>
+    </div>
+    <div class="stats-minmax-card">
+      <div class="stats-minmax-label">Ең жоғары IQ</div>
+      <div class="stats-minmax-value">${maxEntry.iq_score}</div>
+      <div class="stats-minmax-date">${formatShortDate(maxEntry.completed_at)}</div>
+    </div>
+  `;
+
+  return chrono;
 }
 
-function drawCategoryBars(latestCategoryScores) {
-  const wrap = document.getElementById("statsCategoryBars");
+function drawCategoryDonut(latestCategoryScores) {
+  const wrap = document.getElementById("statsDonutWrap");
   const emptyEl = document.getElementById("statsCategoryEmpty");
   if (!latestCategoryScores) {
     wrap.innerHTML = "";
     emptyEl.style.display = "block";
     return;
   }
-  emptyEl.style.display = "none";
 
   const domains = Object.keys(latestCategoryScores);
   if (domains.length === 0) {
@@ -1456,32 +1521,64 @@ function drawCategoryBars(latestCategoryScores) {
     emptyEl.style.display = "block";
     return;
   }
+  emptyEl.style.display = "none";
 
-  wrap.innerHTML = domains.map(d => {
+  const total = domains.reduce((s, d) => s + (latestCategoryScores[d].iq || 0), 0) || 1;
+  const R = 45, CX = 60, CY = 60, STROKE = 18;
+  const circumference = 2 * Math.PI * R;
+
+  let offsetAcc = 0;
+  const segments = domains.map(d => {
     const cat = latestCategoryScores[d];
-    const iq = cat.iq || 100;
-    const pct = Math.max(4, Math.min(100, Math.round((iq / 160) * 100)));
+    const iq = cat.iq || 0;
+    const frac = iq / total;
+    const segLen = frac * circumference;
+    const meta = STATS_DOMAIN_META[d] || { color: "#3B6FF0" };
+    const seg = `<circle cx="${CX}" cy="${CY}" r="${R}" fill="none" stroke="${meta.color}" stroke-width="${STROKE}"
+      stroke-dasharray="${segLen} ${circumference - segLen}" stroke-dashoffset="${-offsetAcc}"
+      transform="rotate(-90 ${CX} ${CY})" stroke-linecap="butt"/>`;
+    offsetAcc += segLen;
+    return seg;
+  }).join("");
+
+  const donutSvg = `
+    <svg class="stats-donut-svg" width="120" height="120" viewBox="0 0 120 120">
+      ${segments}
+      <text x="${CX}" y="${CY - 3}" text-anchor="middle" font-size="10" fill="var(--text-muted)" font-family="IBM Plex Mono, monospace">барлығы</text>
+      <text x="${CX}" y="${CY + 14}" text-anchor="middle" font-size="16" font-weight="800" fill="var(--navy)" font-family="IBM Plex Mono, monospace">${total}</text>
+    </svg>
+  `;
+
+  const legend = domains.map(d => {
+    const cat = latestCategoryScores[d];
+    const iq = cat.iq || 0;
+    const pct = Math.round((iq / total) * 100);
+    const meta = STATS_DOMAIN_META[d] || { icon: "ic-star", color: "#3B6FF0" };
     const label = cat.label ? L(cat.label) : d;
     return `
-      <div class="stats-cat-row">
-        <div class="stats-cat-label">${label}</div>
-        <div class="stats-cat-track"><div class="stats-cat-fill" style="width:${pct}%"></div></div>
-        <div class="stats-cat-value">${iq}</div>
+      <div class="stats-donut-row">
+        <div class="stats-donut-dot" style="background:${meta.color}"><svg width="9" height="9"><use href="#${meta.icon}"/></svg></div>
+        <div class="stats-donut-label">${label}</div>
+        <div class="stats-donut-value">${pct}% · ${iq}</div>
       </div>
     `;
   }).join("");
+
+  wrap.innerHTML = `${donutSvg}<div class="stats-donut-legend">${legend}</div>`;
 }
 
 async function loadStatsScreen() {
   const data = await fetchProfileData();
   if (!data || !data.history) {
+    renderStatsSummary({ test_count: 0, best_iq: null }, []);
     drawProgressChart([]);
-    drawCategoryBars(null);
+    drawCategoryDonut(null);
     return;
   }
-  drawProgressChart(data.history);
+  const chrono = drawProgressChart(data.history);
+  renderStatsSummary(data, chrono);
   const latest = data.history[0];
-  drawCategoryBars(latest ? latest.categoryScores : null);
+  drawCategoryDonut(latest ? latest.categoryScores : null);
 }
 
 function openStatsScreen() {
