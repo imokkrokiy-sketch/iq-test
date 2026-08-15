@@ -48,7 +48,49 @@ function go(id) {
   const scrollArea = document.getElementById(id).querySelector(".scroll-area");
   if (scrollArea) scrollArea.scrollTop = 0;
   window.scrollTo(0, 0);
+  setTimeout(updateScrollHint, 80);
 }
+
+// ===== Плавающая кнопка "прокрутить вниз" =====
+function getActiveScrollEl() {
+  const active = document.querySelector(".screen.active");
+  if (!active) return null;
+  const candidates = [active, ...active.querySelectorAll("*")];
+  for (const el of candidates) {
+    const style = window.getComputedStyle(el);
+    if ((style.overflowY === "auto" || style.overflowY === "scroll") && el.scrollHeight - el.clientHeight > 30) {
+      return el;
+    }
+  }
+  return null;
+}
+
+function updateScrollHint() {
+  const btn = document.getElementById("scrollHintBtn");
+  if (!btn) return;
+  const el = getActiveScrollEl();
+  if (!el) {
+    btn.classList.remove("visible");
+    return;
+  }
+  const distanceToBottom = el.scrollHeight - el.scrollTop - el.clientHeight;
+  if (distanceToBottom > 40) {
+    btn.classList.add("visible");
+  } else {
+    btn.classList.remove("visible");
+  }
+}
+
+document.addEventListener("scroll", updateScrollHint, true);
+window.addEventListener("resize", updateScrollHint);
+setInterval(updateScrollHint, 700);
+
+document.getElementById("scrollHintBtn").addEventListener("click", () => {
+  const el = getActiveScrollEl();
+  if (el) {
+    el.scrollBy({ top: el.clientHeight * 0.7, behavior: "smooth" });
+  }
+});
 
 function L(field) {
   if (typeof field === "string") return field;

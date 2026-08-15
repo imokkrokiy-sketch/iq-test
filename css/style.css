@@ -451,3 +451,35 @@ body.dark .menu-logout{ background:#2A1418; }
 .iq-explain-text{ font-family:'Manrope',sans-serif; font-weight:500; font-size:13px; color:var(--text); line-height:1.6; }
 
 .btn-again-full{ width:100%; margin-bottom:16px; }
+
+/* ===== Плавающая кнопка "прокрутить вниз" ===== */
+.scroll-hint-btn{
+  position: fixed;
+  right: 20px;
+  bottom: 96px;
+  width: 46px;
+  height: 46px;
+  border-radius: 50%;
+  border: none;
+  background: linear-gradient(135deg, var(--blue), var(--blue-dark));
+  color: #fff;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 6px 18px rgba(59,111,240,.4);
+  z-index: 40;
+  cursor: pointer;
+  animation: scrollHintBounce 1.8s ease-in-out infinite;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity .25s ease;
+}
+.scroll-hint-btn.visible{
+  display: flex;
+  opacity: 1;
+  pointer-events: auto;
+}
+@keyframes scrollHintBounce{
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(6px); }
+}
