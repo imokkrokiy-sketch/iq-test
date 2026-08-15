@@ -7,6 +7,22 @@ if (tg) {
   try { tg.setHeaderColor("#F4F7FE"); } catch (e) {}
 }
 
+function getTelegramId() {
+  return (tg && tg.initDataUnsafe && tg.initDataUnsafe.user) ? tg.initDataUnsafe.user.id : null;
+}
+
+// На некоторых устройствах/версиях Telegram initDataUnsafe.user заполняется
+// с небольшой задержкой после tg.ready(). Пробуем несколько раз перед тем,
+// как считать telegramId недоступным.
+async function getTelegramIdWithRetry(maxAttempts = 5, delayMs = 300) {
+  for (let i = 0; i < maxAttempts; i++) {
+    const id = getTelegramId();
+    if (id) return id;
+    await new Promise(r => setTimeout(r, delayMs));
+  }
+  return null;
+}
+
 // ===== State =====
 let state = {
   questions: [],
@@ -514,7 +530,7 @@ async function finishTest() {
   clearTestProgress();
 
   runAnalyzingAnimation(async () => {
-    const telegramId = tg && tg.initDataUnsafe && tg.initDataUnsafe.user ? tg.initDataUnsafe.user.id : null;
+    const telegramId = await getTelegramIdWithRetry();
 
     if (!telegramId) {
       renderGateChannels();
@@ -597,7 +613,7 @@ document.getElementById("btnCheckSub").addEventListener("click", async () => {
   btn.textContent = t("checking");
   errBox.style.display = "none";
 
-  const telegramId = tg && tg.initDataUnsafe && tg.initDataUnsafe.user ? tg.initDataUnsafe.user.id : null;
+  const telegramId = await getTelegramIdWithRetry();
 
   if (!telegramId) {
     const demoScoring = calculateIQ(state.results.length ? state.results : [{type:"pattern",difficulty:3,correct:true,timeTaken:10,timeLimit:40}]);
