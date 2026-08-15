@@ -31,6 +31,8 @@
   .switch.on::after{ transform:translateX(20px); }
   .channel-row{ display:flex; justify-content:space-between; align-items:center; padding:10px 0; border-bottom:1px solid var(--line); }
   .channel-row:last-child{ border-bottom:none; }
+  @keyframes flashNew{ 0%{ background:var(--blue-tint); } 100%{ background:transparent; } }
+  .channel-row.flash-new{ animation:flashNew 1.4s ease; border-radius:10px; }
   .channel-name{ font-size:14px; font-weight:700; color:var(--text); }
   .channel-username{ font-size:12px; color:var(--text-muted); font-family:'IBM Plex Mono',monospace; }
   .channel-del{ border:none; background:var(--blue-tint); color:var(--error); width:30px; height:30px; border-radius:50%; font-size:16px; font-weight:700; cursor:pointer; }
@@ -212,6 +214,7 @@ async function addChannel() {
   const displayInput = document.getElementById("newChannelDisplay");
   const chatIdInput = document.getElementById("newChannelChatId");
   const inviteInput = document.getElementById("newChannelInvite");
+  const btn = document.getElementById("addChannelBtn");
 
   const username = usernameInput.value.trim().replace(/^@/, "");
   const display = displayInput.value.trim();
@@ -228,18 +231,38 @@ async function addChannel() {
     invite_link: invite || null,
   };
 
+  const originalText = btn.textContent;
+  btn.disabled = true;
+  btn.textContent = "Добавление...";
+
   try {
-    await fetch(`${API_URL}/admin/channels`, {
+    const res = await fetch(`${API_URL}/admin/channels`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(payload),
     });
+    if (!res.ok) throw new Error("request failed");
     usernameInput.value = "";
     displayInput.value = "";
     chatIdInput.value = "";
     inviteInput.value = "";
-    loadChannels();
-  } catch (e) {}
+    await loadChannels();
+  } catch (e) {
+    btn.textContent = "Ошибка, попробуйте снова";
+    setTimeout(() => { btn.textContent = originalText; }, 2000);
+    btn.disabled = false;
+    return;
+  }
+
+  btn.textContent = originalText;
+  btn.disabled = false;
+
+  const rows = document.querySelectorAll(".channel-row");
+  if (rows.length) {
+    const lastRow = rows[rows.length - 1];
+    lastRow.classList.add("flash-new");
+    lastRow.scrollIntoView({ behavior: "smooth", block: "center" });
+  }
 }
 
 async function removeChannel(id) {
