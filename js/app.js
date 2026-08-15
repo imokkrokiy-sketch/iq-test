@@ -80,30 +80,44 @@ function renderCategories() {
   });
 }
 
-function renderGateChannels() {
+async function renderGateChannels() {
   const wrap = document.getElementById("gateChannels");
+  wrap.innerHTML = `<div style="text-align:center;color:var(--text-muted);font-size:13px;padding:14px 0;">...</div>`;
+
+  let channels = [];
+  try {
+    const res = await fetch(`${API_URL}/channels`);
+    const data = await res.json();
+    channels = data.channels || [];
+  } catch (e) {
+    channels = [];
+  }
+
   wrap.innerHTML = "";
-  SPONSOR_CHANNELS.forEach(ch => {
+  channels.forEach(ch => {
+    const link = ch.invite_link || (ch.username ? `https://t.me/${ch.username}` : null);
+    if (!link) return;
     const row = document.createElement("div");
     row.className = "gate-channel";
-    row.dataset.username = ch.username;
+    row.dataset.link = link;
+    const metaText = ch.username ? `@${ch.username}` : "";
     row.innerHTML = `
-      <div class="ch-icon"><svg width="17" height="17"><use href="#${ch.icon}"/></svg></div>
+      <div class="ch-icon"><svg width="17" height="17"><use href="#ic-megaphone"/></svg></div>
       <div class="ch-info">
-        <div class="ch-name">${ch.name}</div>
-        <div class="ch-meta">@${ch.username} · ${ch.members}</div>
+        <div class="ch-name">${ch.display_name || ch.username || ""}</div>
+        <div class="ch-meta">${metaText}</div>
       </div>
-      <button class="ch-join" data-username="${ch.username}">${t("btn_join")}</button>`;
+      <button class="ch-join" data-link="${link}">${t("btn_join")}</button>`;
     wrap.appendChild(row);
   });
 
   wrap.querySelectorAll(".ch-join").forEach(btn => {
     btn.addEventListener("click", () => {
-      const username = btn.dataset.username;
+      const link = btn.dataset.link;
       if (tg && tg.openTelegramLink) {
-        tg.openTelegramLink(`https://t.me/${username}`);
+        tg.openTelegramLink(link);
       } else {
-        window.open(`https://t.me/${username}`, "_blank");
+        window.open(link, "_blank");
       }
       btn.textContent = t("joined");
       btn.classList.add("done");
