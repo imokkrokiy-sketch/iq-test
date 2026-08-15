@@ -1,6 +1,15 @@
 // ===== Telegram WebApp init =====
 const tg = window.Telegram ? window.Telegram.WebApp : null;
 const API_URL = "https://63.250.59.63.sslip.io";
+
+function logEvent(eventType) {
+  const telegramId = getTelegramId();
+  fetch(`${API_URL}/log-event`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ telegram_id: telegramId, event_type: eventType }),
+  }).catch(() => {});
+}
 if (tg) {
   tg.ready();
   tg.expand();
@@ -166,6 +175,7 @@ const CATEGORY_TEST_LENGTH = 15;
 const CATEGORY_TEST_TIME = 15 * 60;
 
 function startTest() {
+  logEvent("test_start");
   if (state.selectedDomain) {
     const domainQuestions = shuffle(QUESTION_BANK.filter(q => q.domain === state.selectedDomain));
     state.questions = domainQuestions.slice(0, Math.min(CATEGORY_TEST_LENGTH, domainQuestions.length)).sort((a,b) => (a.difficulty||3)-(b.difficulty||3));
@@ -536,6 +546,7 @@ async function finishTest() {
     const telegramId = await getTelegramIdWithRetry();
 
     if (!telegramId) {
+      logEvent("gate_seen");
       renderGateChannels();
       go("screen-gate");
       document.getElementById("gateError").style.display = "none";
@@ -556,6 +567,7 @@ async function finishTest() {
       }
     } catch (e) {}
 
+    logEvent("gate_seen");
     renderGateChannels();
     go("screen-gate");
     document.getElementById("gateError").style.display = "none";
@@ -598,6 +610,7 @@ async function submitAndShowResult(telegramId) {
     });
     const data = await res.json();
     if (data.success) {
+      logEvent("gate_subscribed");
       showApiResult(payload);
     } else {
       renderGateChannels();
@@ -610,6 +623,7 @@ async function submitAndShowResult(telegramId) {
 }
 
 document.getElementById("btnCheckSub").addEventListener("click", async () => {
+  logEvent("gate_click_subscribe");
   const btn = document.getElementById("btnCheckSub");
   const errBox = document.getElementById("gateError");
   btn.disabled = true;
@@ -784,6 +798,7 @@ function iqTierLabel(iq) {
 }
 
 async function showApiResult(payload) {
+  logEvent("result_opened");
   document.getElementById("resultCategory").textContent = currentLang === "kk" ? "🧠 Сіздің IQ нәтижеңіз" : "🧠 Ваш результат IQ";
   document.getElementById("resultScore").textContent = payload.iq_score;
   document.getElementById("resultBadgeText").textContent = iqTierLabel(payload.iq_score);
@@ -1223,4 +1238,5 @@ function tryResumeOnLoad() {
   }
 }
 
+logEvent("visit");
 tryResumeOnLoad();
