@@ -99,8 +99,10 @@ async function loadAll() {
       <h3>Каналы-спонсоры</h3>
       <div id="channelsBody">Загрузка...</div>
       <div class="add-channel-form">
-        <input type="text" id="newChannelUsername" placeholder="username (без @)">
         <input type="text" id="newChannelDisplay" placeholder="Название для отображения">
+        <input type="text" id="newChannelUsername" placeholder="username публичного канала (без @, необязательно)">
+        <input type="text" id="newChannelChatId" placeholder="chat_id закрытого канала (напр. -1004360762124)">
+        <input type="text" id="newChannelInvite" placeholder="Инвайт-ссылка (https://t.me/+...)">
         <button id="addChannelBtn">+ Добавить канал</button>
       </div>
     </div>
@@ -185,15 +187,18 @@ async function loadChannels() {
       body.innerHTML = `<div style="color:var(--text-muted); font-size:13px;">Каналов пока нет</div>`;
       return;
     }
-    body.innerHTML = data.channels.map(ch => `
+    body.innerHTML = data.channels.map(ch => {
+      const meta = ch.username ? `@${ch.username}` : (ch.chat_id ? `закрытый · ${ch.chat_id}` : "");
+      return `
       <div class="channel-row">
         <div>
-          <div class="channel-name">${ch.display_name || ch.username}</div>
-          <div class="channel-username">@${ch.username} ${ch.active ? "" : "(выкл.)"}</div>
+          <div class="channel-name">${ch.display_name || ch.username || "Без названия"}</div>
+          <div class="channel-username">${meta} ${ch.active ? "" : "(выкл.)"}</div>
         </div>
         <button class="channel-del" data-id="${ch.id}">×</button>
       </div>
-    `).join("");
+    `;
+    }).join("");
     document.querySelectorAll(".channel-del").forEach(btn => {
       btn.addEventListener("click", () => removeChannel(btn.dataset.id));
     });
@@ -205,17 +210,34 @@ async function loadChannels() {
 async function addChannel() {
   const usernameInput = document.getElementById("newChannelUsername");
   const displayInput = document.getElementById("newChannelDisplay");
+  const chatIdInput = document.getElementById("newChannelChatId");
+  const inviteInput = document.getElementById("newChannelInvite");
+
   const username = usernameInput.value.trim().replace(/^@/, "");
   const display = displayInput.value.trim();
-  if (!username) return;
+  const chatIdRaw = chatIdInput.value.trim();
+  const invite = inviteInput.value.trim();
+
+  if (!username && !chatIdRaw) return;
+
+  const payload = {
+    telegram_id: TELEGRAM_ID,
+    username: username || null,
+    display_name: display || null,
+    chat_id: chatIdRaw ? parseInt(chatIdRaw, 10) : null,
+    invite_link: invite || null,
+  };
+
   try {
     await fetch(`${API_URL}/admin/channels`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ telegram_id: TELEGRAM_ID, username: username, display_name: display || null }),
+      body: JSON.stringify(payload),
     });
     usernameInput.value = "";
     displayInput.value = "";
+    chatIdInput.value = "";
+    inviteInput.value = "";
     loadChannels();
   } catch (e) {}
 }
