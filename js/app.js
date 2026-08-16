@@ -98,6 +98,34 @@ function L(field) {
   return "";
 }
 
+async function loadHomePodium() {
+  const el = document.getElementById("homePodium");
+  if (!el) return;
+  try {
+    const res = await fetch(`${API_URL}/leaderboard?scope=overall&limit=3`);
+    const data = await res.json();
+    const entries = (data.entries || []).slice(0, 3);
+    if (entries.length < 3) return; // недостаточно данных — оставляем пусто, не ломаем вёрстку
+    const order = [1, 0, 2]; // 2 место слева, 1 в центре, 3 справа
+    el.innerHTML = order.map(idx => {
+      const person = entries[idx];
+      const place = idx + 1;
+      const isFirst = place === 1;
+      const rankHtml = isFirst
+        ? `<svg width="11" height="11"><use href="#ic-crown"/></svg>`
+        : place;
+      return `
+        <div class="p${isFirst ? " first" : ""}">
+          <div class="avatar"><span>${personInitial(person.first_name)}</span><span class="rank">${rankHtml}</span></div>
+          <span class="pname">${person.first_name || "Аноним"}</span>
+          <span class="piq">IQ ${person.iq_score}</span>
+        </div>`;
+    }).join("");
+  } catch (e) {
+    // тихо оставляем блок пустым при ошибке сети
+  }
+}
+
 function renderCategories() {
   const grid = document.getElementById("catGrid");
   grid.innerHTML = "";
@@ -190,7 +218,7 @@ function shuffle(arr) {
   return a;
 }
 
-const TEST_LENGTH = 2; // сколько вопросов получает один пользователь за попытку
+const TEST_LENGTH = 30; // сколько вопросов получает один пользователь за попытку
 
 // Фиксированные квоты по доменам для основного теста (сумма = TEST_LENGTH = 30)
 const DOMAIN_QUOTAS = {
@@ -1021,6 +1049,7 @@ document.querySelectorAll(".lang-toggle button").forEach(btn => {
 
 applyI18n();
 renderCategories();
+loadHomePodium();
 
 // ===== Rating screen =====
 let currentRatingScope = "overall";
