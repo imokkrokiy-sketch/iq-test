@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="kk">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Менің IQ — Telegram-ға өту</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    background: linear-gradient(180deg, #eef2ff 0%, #ffffff 100%);
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 24px;
+  }
+  .card {
+    max-width: 420px;
+    width: 100%;
+    text-align: center;
+  }
+  .brain {
+    font-size: 64px;
+    margin-bottom: 16px;
+  }
+  h1 {
+    font-size: 22px;
+    color: #1a1a2e;
+    margin-bottom: 10px;
+  }
+  p {
+    font-size: 15px;
+    color: #6b7280;
+    margin-bottom: 28px;
+    line-height: 1.5;
+  }
+  .btn {
+    display: block;
+    width: 100%;
+    padding: 16px;
+    background: #2563eb;
+    color: #fff;
+    text-decoration: none;
+    font-size: 17px;
+    font-weight: 600;
+    border-radius: 14px;
+    margin-bottom: 12px;
+  }
+  .btn-secondary {
+    background: #f3f4f6;
+    color: #374151;
+  }
+</style>
+</head>
+<body>
+  <div class="card">
+    <div class="brain">🧠</div>
+    <h1>Менің IQ тестін бастау үшін Telegram-ды ашыңыз</h1>
+    <p>Төмендегі батырманы басыңыз — Telegram қолданбасы автоматты түрде ашылады.</p>
+    <a class="btn" id="openTg" href="tg://resolve?domain=meninIQbot&start=tiktok">Telegram-да ашу</a>
+    <a class="btn btn-secondary" href="https://t.me/meninIQbot?start=tiktok">Telegram орнатылмаған ба?</a>
+  </div>
+  <script>
+    // Автоматическая попытка открыть приложение по явному действию пользователя не требуется —
+    // но на некоторых Android-устройствах ранний авто-редирект всё же срабатывает.
+    setTimeout(function() {
+      window.location.href = "tg://resolve?domain=meninIQbot&start=tiktok";
+    }, 300);
+  </script>
+</body>
+</html>
