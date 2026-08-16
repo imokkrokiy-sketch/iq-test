@@ -1039,6 +1039,7 @@ document.querySelectorAll(".lang-toggle button").forEach(btn => {
     document.querySelectorAll(".lang-toggle button").forEach(b => b.classList.remove("on"));
     btn.classList.add("on");
     currentLang = btn.dataset.lang;
+    try { localStorage.setItem("iqbot_lang", currentLang); } catch (e) {}
     applyI18n();
     renderCategories();
     if (document.getElementById("screen-gate").classList.contains("active")) {
@@ -1046,6 +1047,10 @@ document.querySelectorAll(".lang-toggle button").forEach(btn => {
     }
   });
 });
+
+document.querySelectorAll(".lang-toggle button").forEach(b => b.classList.toggle("on", b.dataset.lang === currentLang));
+const menuLangValueEl = document.getElementById("menuLangValue");
+if (menuLangValueEl) menuLangValueEl.textContent = currentLang === "kk" ? "Қазақша" : "Русский";
 
 applyI18n();
 renderCategories();
@@ -1300,6 +1305,7 @@ document.querySelectorAll('.menu-row[data-stub="1"]').forEach(row => {
 
 document.getElementById("menuLangRow")?.addEventListener("click", () => {
   currentLang = currentLang === "kk" ? "ru" : "kk";
+  try { localStorage.setItem("iqbot_lang", currentLang); } catch (e) {}
   document.getElementById("menuLangValue").textContent = currentLang === "kk" ? "Қазақша" : "Русский";
   document.querySelectorAll('[data-lang]').forEach(b => b.classList.toggle("on", b.dataset.lang === currentLang));
   applyI18n();

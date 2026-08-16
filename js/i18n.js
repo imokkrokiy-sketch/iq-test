@@ -118,6 +118,10 @@ const I18N = {
 };
 
 let currentLang = "kk";
+try {
+  const savedLang = localStorage.getItem("iqbot_lang");
+  if (savedLang === "kk" || savedLang === "ru") currentLang = savedLang;
+} catch (e) {}
 
 function t(key) {
   return I18N[currentLang][key] || key;
