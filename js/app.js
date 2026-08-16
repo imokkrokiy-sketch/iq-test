@@ -1302,7 +1302,14 @@ document.getElementById("menuLangRow")?.addEventListener("click", () => {
   currentLang = currentLang === "kk" ? "ru" : "kk";
   document.getElementById("menuLangValue").textContent = currentLang === "kk" ? "Қазақша" : "Русский";
   document.querySelectorAll('[data-lang]').forEach(b => b.classList.toggle("on", b.dataset.lang === currentLang));
-  if (typeof applyTranslations === "function") applyTranslations();
+  applyI18n();
+  renderCategories();
+  if (document.getElementById("screen-gate")?.classList.contains("active")) {
+    renderGateChannels();
+  }
+  if (document.getElementById("screen-rating")?.classList.contains("active") && typeof currentRatingScope !== "undefined") {
+    loadLeaderboard(currentRatingScope);
+  }
 });
 
 document.getElementById("menuLogoutBtn")?.addEventListener("click", () => {
