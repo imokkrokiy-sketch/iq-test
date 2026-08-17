@@ -713,10 +713,20 @@ async function submitAndShowResult(telegramId) {
     } else {
       renderGateChannels();
       go("screen-gate");
+      const errBox = document.getElementById("gateError");
+      if (errBox) {
+        errBox.textContent = t("gate_error_text");
+        errBox.style.display = "block";
+      }
     }
   } catch (e) {
     renderGateChannels();
     go("screen-gate");
+    const errBox = document.getElementById("gateError");
+    if (errBox) {
+      errBox.textContent = t("network_error");
+      errBox.style.display = "block";
+    }
   }
 }
 
