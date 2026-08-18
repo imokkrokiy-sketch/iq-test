@@ -1,0 +1,137 @@
+const I18N = {
+  kk: {
+    hero_title: "Ақыл-ойыңды<br><span class=\"accent\">дәл өлше</span>",
+    hero_lede: "Логика, сан, кеңістік, есте сақтау және вербалды қабілеттерді тексеретін кешенді IQ тесті.",
+    stat_passed: "Тапсырды", stat_cats: "Санат", stat_rating: "Баға",
+    cats_label: "Тест санаттары",
+    btn_start_sub: "10–15 минут · Нәтиже бірден",
+    trust_line: "100% құпиялылық және қауіпсіздік",
+    nav_home: "Басты бет", nav_test: "Тест", nav_rating: "Рейтинг", nav_menu: "Мәзір",
+    age_step: "Дайындық", age_title: "Жасыңыз нешеде?", age_sub: "Нәтижені дәлірек есептеу үшін қажет",
+    dark_title: "Нәтижеңді біл — <span>достарыңмен жарыс!</span>",
+    dark_sub: "Нәтижеңді лидерлер рейтингінде көріп, достарыңды шақырып, кімнің ақылы мықты екенін дәлелде.",
+    btn_leaderboard: "Рейтингті қарау →",
+    btn_start: "Тесті бастау →",
+    q_label: "СҰРАҚ",
+    memorize_label: "Есте сақтаңыз",
+    memorize_hint: "Дайын болыңыз, бірнеше секундтан кейін жасырылады",
+    bell_title: "Басқа қатысушылармен салыстыру",
+    bell_note: "Салыстыру Менің IQ қолданбасының пайдаланушылар базасы бойынша жасалды, ұлттық норма емес.",
+    gate_title: "Нәтиже дайын!<br>Оны алу үшін төмендегі каналға тіркеліңіз",
+    gate_sub: "Серіктес арналарға жазылып, нәтижеңді бірден көр",
+    gate_hint: "💡 Жазылғаннан кейін «Тексеру» батырмасын бас — нәтиже бірден ашылады",
+    btn_check: "Тексеру",
+    btn_join: "Жазылу",
+    joined: "Жазылды",
+    score_label: "IQ ұпайы",
+    avg_label: "Орташа: 100",
+    btn_share: "📤 Бөлісу",
+    btn_again: "Тағы тест",
+    gate_error_text: "Барлық арналарға жазылмадың. Тексеріп, қайта көр.",
+    checking: "Тексерілуде...",
+    network_error: "Байланыс қатесі. Қайталап көріңіз.",
+    locked_soon: "Жақында",
+    btn_share_friends: "Достармен бөлісу",
+    btn_view_rating: "Рейтингті көру",
+    full_test_sub: "30 сұрақ · барлық санаттардан",
+    menu_about: "Қосымша туралы",
+    menu_dark: "Қараңғы режим",
+    menu_general: "Жалпы",
+    menu_lang: "Тіл",
+    menu_logout: "Шығу",
+    menu_notifications: "Хабарландырулар",
+    menu_premium_btn: "👑 Жаңарту",
+    menu_premium_sub: "Барлық мүмкіндіктерге қол жеткізіңіз",
+    menu_premium_title: "Премиум нұсқа",
+    menu_privacy: "Құпиялылық",
+    menu_profile: "Профиль",
+    menu_settings: "Параметрлер",
+    menu_stats: "Статистика",
+    rank_label: "Рейтингтегі орныңыз:",
+    rating_country: "Ел бойынша",
+    rating_empty: "Бұл санатта нәтижелер әлі жоқ",
+    rating_filter: "Фильтр",
+    rating_friends: "Достарым",
+    rating_overall: "Жалпы рейтинг",
+    rating_title: "Рейтинг",
+    rating_weekly: "Апталық",
+    test_list_title: "Тест таңдау"
+  },
+  ru: {
+    hero_title: "Измерь свой<br><span class=\"accent\">интеллект точно</span>",
+    hero_lede: "Комплексный IQ-тест на логику, числа, пространство, память и вербальные способности.",
+    stat_passed: "Прошли", stat_cats: "Категорий", stat_rating: "Оценка",
+    cats_label: "Категории теста",
+    btn_start_sub: "10–15 минут · Результат сразу",
+    trust_line: "100% конфиденциально и безопасно",
+    nav_home: "Главная", nav_test: "Тест", nav_rating: "Рейтинг", nav_menu: "Меню",
+    age_step: "Подготовка", age_title: "Сколько тебе лет?", age_sub: "Нужно для точного расчёта результата",
+    dark_title: "Узнай результат — <span>соревнуйся с друзьями!</span>",
+    dark_sub: "Смотри свой результат в рейтинге лидеров, приглашай друзей и докажи, чей интеллект сильнее.",
+    btn_leaderboard: "Смотреть рейтинг →",
+    btn_start: "Начать тест →",
+    q_label: "ВОПРОС",
+    memorize_label: "Запомните",
+    memorize_hint: "Приготовьтесь, через несколько секунд скроется",
+    bell_title: "Сравнение с другими участниками",
+    bell_note: "Сравнение построено на базе пользователей приложения «Менің IQ», это не национальная норма.",
+    gate_title: "Результат готов!<br>Подпишись на канал ниже, чтобы получить",
+    gate_sub: "Подпишись на каналы-партнёры и сразу увидь результат",
+    gate_hint: "💡 После подписки нажми «Проверить» — результат откроется сразу",
+    btn_check: "Проверить",
+    btn_join: "Подписаться",
+    joined: "Подписан",
+    score_label: "IQ балл",
+    avg_label: "Среднее: 100",
+    btn_share: "📤 Поделиться",
+    btn_again: "Ещё тест",
+    gate_error_text: "Ты подписался не на все каналы. Проверь и попробуй снова.",
+    checking: "Проверяем...",
+    network_error: "Ошибка сети. Попробуй ещё раз.",
+    locked_soon: "Скоро",
+    btn_share_friends: "Поделиться с друзьями",
+    btn_view_rating: "Смотреть рейтинг",
+    full_test_sub: "30 вопросов · из всех категорий",
+    menu_about: "О приложении",
+    menu_dark: "Тёмный режим",
+    menu_general: "Общее",
+    menu_lang: "Язык",
+    menu_logout: "Выйти",
+    menu_notifications: "Уведомления",
+    menu_premium_btn: "👑 Улучшить",
+    menu_premium_sub: "Получите доступ ко всем возможностям",
+    menu_premium_title: "Премиум версия",
+    menu_privacy: "Конфиденциальность",
+    menu_profile: "Профиль",
+    menu_settings: "Настройки",
+    menu_stats: "Статистика",
+    rank_label: "Ваше место в рейтинге:",
+    rating_country: "По стране",
+    rating_empty: "В этой категории пока нет результатов",
+    rating_filter: "Фильтр",
+    rating_friends: "Друзья",
+    rating_overall: "Общий рейтинг",
+    rating_title: "Рейтинг",
+    rating_weekly: "За неделю",
+    test_list_title: "Выбор теста"
+  }
+};
+
+let currentLang = "kk";
+try {
+  const savedLang = localStorage.getItem("iqbot_lang");
+  if (savedLang === "kk" || savedLang === "ru") currentLang = savedLang;
+} catch (e) {}
+
+function t(key) {
+  return I18N[currentLang][key] || key;
+}
+
+function applyI18n() {
+  document.querySelectorAll("[data-i18n]").forEach(el => {
+    const key = el.getAttribute("data-i18n");
+    if (I18N[currentLang][key] !== undefined) {
+      el.innerHTML = I18N[currentLang][key];
+    }
+  });
+}
