@@ -434,11 +434,12 @@ function selectOption(selectedIndex) {
 // ===============================================================
 
 const IRT_A_DEFAULT = 1.0; // provisional discrimination
-const IRT_C_GUESS = 1/6;   // вероятность угадывания (6 вариантов ответа A-F)
+const IRT_C_GUESS = 0.12;  // v1.1: снижено с 1/6 — модель меньше "прощает" случайные угадывания
+const SCORING_MODEL_VERSION = "1.1";
 
 function difficultyToB(difficulty) {
   const d = difficulty || 3;
-  return (d - 3) * 1.0; // маппинг difficulty(1..5) -> b на логит-шкале (-2..+2)
+  return (d - 3) * 1.2; // v1.1: увеличен множитель с 1.0 — сильнее разносит лёгкие/сложные вопросы
 }
 
 function prob3PL(theta, a, b, c) {
@@ -697,6 +698,7 @@ async function submitAndShowResult(telegramId) {
     strengths: scoring.strengths,
     weaknesses: scoring.weaknesses,
     age: selectedAge,
+    modelVersion: SCORING_MODEL_VERSION,
   };
   window.__lastResultPayload = payload;
 
