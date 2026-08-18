@@ -450,12 +450,12 @@ function selectOption(selectedIndex) {
 // ===============================================================
 
 const IRT_A_DEFAULT = 1.0; // provisional discrimination
-const IRT_C_GUESS = 0.12;  // v1.1: возврат к более консервативным параметрам
-const SCORING_MODEL_VERSION = "1.1";
+const IRT_C_GUESS = 1/6;   // v1.0: оригинальные параметры
+const SCORING_MODEL_VERSION = "1.0";
 
 function difficultyToB(difficulty) {
   const d = difficulty || 3;
-  return (d - 3) * 1.2; // v1.1: возврат к более консервативному множителю
+  return (d - 3) * 1.0; // v1.0: оригинальный множитель
 }
 
 function prob3PL(theta, a, b, c) {
