@@ -1,3 +1,19 @@
+// ===== Принудительная проверка версии (защита от устаревшего кэша Telegram WebView) =====
+(function checkBuildVersion() {
+  const CURRENT_BUILD_VERSION = "90";
+  const metaTag = document.querySelector('meta[name="build-version"]');
+  const htmlVersion = metaTag ? metaTag.getAttribute("content") : null;
+
+  if (htmlVersion && htmlVersion !== CURRENT_BUILD_VERSION) {
+    // HTML новее, чем этот JS — значит JS закэширован устаревшим. Форсируем reload.
+    const alreadyReloaded = sessionStorage.getItem("forcedReloadFor");
+    if (alreadyReloaded !== htmlVersion) {
+      sessionStorage.setItem("forcedReloadFor", htmlVersion);
+      window.location.reload(true);
+    }
+  }
+})();
+
 // ===== Telegram WebApp init =====
 const tg = window.Telegram ? window.Telegram.WebApp : null;
 const API_URL = "https://63.250.59.63.sslip.io";
