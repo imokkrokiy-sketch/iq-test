@@ -361,7 +361,7 @@ function renderQuestionBody(q) {
   state.questionStartTime = Date.now();
 }
 
-const TOTAL_TEST_TIME = 30 * 60; // 30 минут на весь тест
+const TOTAL_TEST_TIME = 15 * 60; // 15 минут на весь тест
 
 function startOverallTimer() {
   clearInterval(state.overallTimerInterval);
