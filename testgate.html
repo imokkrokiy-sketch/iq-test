@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Gate Diagnostics</title>
+<script src="https://telegram.org/js/telegram-web-app.js"></script>
+<style>
+  body { font-family: monospace; padding: 16px; background: #111; color: #0f0; font-size: 14px; }
+  .line { margin-bottom: 6px; word-break: break-all; }
+  .ok { color: #0f0; }
+  .fail { color: #f55; }
+</style>
+</head>
+<body>
+  <div id="log"></div>
+  <script>
+    const tg = window.Telegram ? window.Telegram.WebApp : null;
+    const logEl = document.getElementById("log");
+    function log(msg, cls) {
+      const div = document.createElement("div");
+      div.className = "line " + (cls || "");
+      div.textContent = msg;
+      logEl.appendChild(div);
+    }
+
+    log("=== Gate Diagnostics Start ===");
+    log("tg exists: " + (!!tg));
+
+    if (tg) {
+      tg.ready();
+      log("tg.ready() called");
+      log("tg.initData length: " + (tg.initData ? tg.initData.length : "null"));
+      log("tg.initDataUnsafe exists: " + (!!tg.initDataUnsafe));
+      log("tg.initDataUnsafe.user exists (immediate): " + (!!(tg.initDataUnsafe && tg.initDataUnsafe.user)));
+    }
+
+    function getTelegramId() {
+      return (tg && tg.initDataUnsafe && tg.initDataUnsafe.user) ? tg.initDataUnsafe.user.id : null;
+    }
+
+    async function testRetry(maxAttempts, delayMs) {
+      const startTime = performance.now();
+      for (let i = 0; i < maxAttempts; i++) {
+        const id = getTelegramId();
+        const elapsed = Math.round(performance.now() - startTime);
+        if (id) {
+          log(`Attempt ${i + 1}/${maxAttempts} (${elapsed}ms): SUCCESS, id=${id}`, "ok");
+          return { success: true, attempts: i + 1, elapsedMs: elapsed, id };
+        } else {
+          log(`Attempt ${i + 1}/${maxAttempts} (${elapsed}ms): no id yet`);
+        }
+        await new Promise(r => setTimeout(r, delayMs));
+      }
+      const elapsed = Math.round(performance.now() - startTime);
+      log(`FAILED after ${maxAttempts} attempts (${elapsed}ms)`, "fail");
+      return { success: false, attempts: maxAttempts, elapsedMs: elapsed };
+    }
+
+    (async () => {
+      log("--- Running extended retry test (20 attempts x 300ms = up to 6s) ---");
+      const result = await testRetry(20, 300);
+      log("=== FINAL RESULT ===");
+      log(JSON.stringify(result), result.success ? "ok" : "fail");
+
+      // Доп. диагностика окружения
+      log("--- Environment info ---");
+      log("User-Agent: " + navigator.userAgent);
+      log("Platform (tg.platform): " + (tg ? tg.platform : "n/a"));
+      log("Version (tg.version): " + (tg ? tg.version : "n/a"));
+    })();
+  </script>
+</body>
+</html>
