@@ -1119,6 +1119,7 @@ async function loadLeaderboard(scope) {
     const url = `${API_URL}/leaderboard?scope=${scope}&limit=50${telegramId ? `&telegram_id=${telegramId}` : ""}`;
     const res = await fetch(url);
     data = await res.json();
+    data.entries = [];
   } catch (e) {
     emptyEl.style.display = "block";
     return;
