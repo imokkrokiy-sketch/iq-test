@@ -524,7 +524,7 @@ function calculateIQ(results) {
   }));
 
   const { theta, sem } = eapTheta(overallResponses);
-  const iq = Math.round(100 + 15 * theta);
+  const iq = Math.round(100 + 15 * theta) - 10; // v1.4: сдвиг -10 для соответствия реальному среднему ~100
   const clampedIQ = Math.max(55, Math.min(160, iq));
   const semIQ = Math.round(15 * sem * 10) / 10;
   const ci = [Math.round(clampedIQ - 1.96 * semIQ), Math.round(clampedIQ + 1.96 * semIQ)];
