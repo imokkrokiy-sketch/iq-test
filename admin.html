@@ -113,6 +113,10 @@ async function loadAll() {
         <input type="text" id="newChannelUsername" placeholder="username публичного канала (без @, необязательно)">
         <input type="text" id="newChannelChatId" placeholder="chat_id закрытого канала (напр. -1004360762124)">
         <input type="text" id="newChannelInvite" placeholder="Инвайт-ссылка (https://t.me/+...)">
+        <label style="display:flex;align-items:center;gap:6px;">
+          <input type="checkbox" id="newChannelSkipVerify">
+          Не проверять подписку (бот не админ канала)
+        </label>
         <button id="addChannelBtn">+ Добавить канал</button>
       </div>
     </div>
@@ -226,12 +230,14 @@ async function addChannel() {
   const displayInput = document.getElementById("newChannelDisplay");
   const chatIdInput = document.getElementById("newChannelChatId");
   const inviteInput = document.getElementById("newChannelInvite");
+  const skipVerifyInput = document.getElementById("newChannelSkipVerify");
   const btn = document.getElementById("addChannelBtn");
 
   const username = usernameInput.value.trim().replace(/^@/, "");
   const display = displayInput.value.trim();
   const chatIdRaw = chatIdInput.value.trim();
   const invite = inviteInput.value.trim();
+  const skipVerification = skipVerifyInput.checked;
 
   if (!username && !chatIdRaw) return;
 
@@ -241,6 +247,7 @@ async function addChannel() {
     display_name: display || null,
     chat_id: chatIdRaw ? parseInt(chatIdRaw, 10) : null,
     invite_link: invite || null,
+    skip_verification: skipVerification,
   };
 
   const originalText = btn.textContent;
@@ -258,6 +265,7 @@ async function addChannel() {
     displayInput.value = "";
     chatIdInput.value = "";
     inviteInput.value = "";
+    skipVerifyInput.checked = false;
     await loadChannels();
   } catch (e) {
     btn.textContent = "Ошибка, попробуйте снова";
